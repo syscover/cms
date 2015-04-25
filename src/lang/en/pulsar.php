@@ -12,5 +12,5 @@ return [
     | If you come up with something more exciting, let us know.
     |
     */
-    'package_name'                          => 'Package name',
+    'package_name'                          => 'CMS',
 ];

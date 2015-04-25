@@ -1,16 +1,14 @@
-        <li{!! Miscellaneous::setCurrentOpenPage(['my-resource']) !!}>
-            <a href="javascript:void(0);"><i class="icomoon-icon-images"></i>My Package</a>
+        <li{!! Miscellaneous::setCurrentOpenPage(['cms-article','cms-family','cms-section']) !!}>
+            <a href="javascript:void(0);"><i class="icomoon-icon-images"></i>CMS</a>
             <ul class="sub-menu">
-                @if(Session::get('userAcl')->isAllowed(Auth::user()->profile_010, 'mifinan', 'access'))
-                    <li{{ Miscellaneous::setCurrentPage('mifinan') }}><a href="{{ URL::to(Config::get('pulsar::pulsar.rootUri') . '/soportespublicitarios/entregados') }}"><i class="icomoon-icon-truck"></i>Fichas inversor</a></li>
+                @if(Session::get('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-article', 'access'))
+                    <li{{ Miscellaneous::setCurrentPage('cms-article') }}><a href="#"><i class="icomoon-icon-truck"></i>{{ trans_choice('pulsar::pulsar.article', 2) }}</a></li>
                 @endif
-                <li{!! Miscellaneous::setCurrentOpenPage(['my-submenu-resource']) !!}>
-                    <a href="javascript:void(0);"><i class="icomoon-icon-grid"></i>Tablas maestras</a>
-                    <ul class="sub-menu" >
-                        @if(Session::get('userAcl')->isAllowed(Auth::user()->profile_010, 'my-submenu-resourcet', 'access'))
-                            <li{!! Miscellaneous::setCurrentPage('my-submenu-resource') !!}><a href="{{ route('Myroute') }}"><i class="icomoon-icon-factory"></i>Categorías</a></li>
-                        @endif
-                    </ul>
-                </li>
+                @if(Session::get('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-family', 'access'))
+                    <li{{ Miscellaneous::setCurrentPage('cms-family') }}><a href="#"><i class="icomoon-icon-truck"></i>{{ trans_choice('pulsar::pulsar.family', 2) }}</a></li>
+                @endif
+                @if(Session::get('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-section', 'access'))
+                    <li{{ Miscellaneous::setCurrentPage('cms-section') }}><a href="#"><i class="icomoon-icon-truck"></i>{{ trans_choice('pulsar::pulsar.section', 2) }}</a></li>
+                @endif
             </ul>
         </li>
