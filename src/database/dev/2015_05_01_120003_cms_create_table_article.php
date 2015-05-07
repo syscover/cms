@@ -35,7 +35,7 @@ class CmsCreateTableArticle extends Migration {
             $table->string('title_353', 100);
             $table->string('slug_353', 255);
 
-
+            $table->integer('sorting_353')->unsigned();
 
             $table->string('tags_353', 255); // ???
 
