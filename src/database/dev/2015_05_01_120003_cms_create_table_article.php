@@ -24,6 +24,7 @@ class CmsCreateTableArticle extends Migration {
             $table->tinyInteger('status_353')->unsigned();
 
             $table->integer('publish_353')->unsigned();
+            $table->integer('date_353')->unsigned();
 
             $table->integer('section_353')->unsigned();
 
