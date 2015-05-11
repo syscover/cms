@@ -19,6 +19,8 @@ class CmsCreateTableFamily extends Migration {
             $table->string('name_351', 100);
             // ancho imágenes
             // alto imágenes
+            // wysiwyg
+
 
         });
     }

@@ -3,7 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Syscover\Pulsar\Libraries\CustomValidator;
 
-class DefaultServiceProvider extends ServiceProvider
+class CmsServiceProvider extends ServiceProvider
 {
 	/**
 	 * Bootstrap the application services.
@@ -16,10 +16,10 @@ class DefaultServiceProvider extends ServiceProvider
 		include realpath(__DIR__ . '/../../routes.php');
 
 		// register views
-		$this->loadViewsFrom(realpath(__DIR__ . '/../../views'), 'default');
+		$this->loadViewsFrom(realpath(__DIR__ . '/../../views'), 'cms');
 
         // register translations
-        $this->loadTranslationsFrom(realpath(__DIR__ . '/../../lang'), 'default');
+        $this->loadTranslationsFrom(realpath(__DIR__ . '/../../lang'), 'cms');
 
         // register migrations
         $this->publishes([

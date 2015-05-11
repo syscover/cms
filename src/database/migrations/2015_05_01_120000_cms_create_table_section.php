@@ -15,7 +15,7 @@ class CmsCreateTableSection extends Migration {
         Schema::create('013_350_section', function(Blueprint $table)
         {
             $table->engine = 'InnoDB';
-            $table->increments('id_350')->unsigned();
+            $table->string('id_350', 30)->primary();
             $table->string('name_350', 100);
         });
     }

@@ -1,4 +1,4 @@
-<?php namespace Syscover\Plantilla\Models;
+<?php namespace Syscover\Cms\Models;
 
 /**
  * @package	    Pulsar
@@ -14,20 +14,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Syscover\Pulsar\Traits\ModelTrait;
 
-class Family extends Model {
+class Section extends Model {
 
     use ModelTrait;
 
-	protected $table        = '008_070_family';
-    protected $primaryKey   = 'id_070';
+	protected $table        = '013_350_section';
+    protected $primaryKey   = 'id_350';
     public $timestamps      = false;
-    protected $fillable     = ['id_070', 'name_070'];
+    protected $fillable     = ['id_350', 'name_350'];
     private static $rules   = [
+        'id'    => 'required|between:2,30|unique:013_350_section,id_350',
         'name'  => 'required|between:2,50'
     ];
 
-    public static function validate($data)
+    public static function validate($data, $specialRules = [])
     {
+        if(isset($specialRules['idRule']) && $specialRules['idRule']) static::$rules['id'] = 'required|between:2,30';
+
         return Validator::make($data, static::$rules);
 	}
 }
