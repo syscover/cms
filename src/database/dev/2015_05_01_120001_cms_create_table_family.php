@@ -17,11 +17,9 @@ class CmsCreateTableFamily extends Migration {
             $table->engine = 'InnoDB';
             $table->increments('id_351')->unsigned();
             $table->string('name_351', 100);
-            // ancho imágenes
-            // alto imágenes
-            // wysiwyg
-
-
+            $table->tinyInteger('image_width_351')->unsigned();
+            $table->tinyInteger('image_height_351')->unsigned();
+            $table->tinyInteger('editor_type_351')->unsigned(); //text = 0, wysiwyg = 1 or contentbuilder = 0
         });
     }
 
