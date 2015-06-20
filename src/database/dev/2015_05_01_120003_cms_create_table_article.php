@@ -17,31 +17,26 @@ class CmsCreateTableArticle extends Migration {
             $table->engine = 'InnoDB';
             $table->integer('id_353')->unsigned();
             $table->string('lang_353',2);
-            $table->integer('publish_353')->unsigned();
-
-            $table->integer('author_353')->unsigned();
-
-            $table->tinyInteger('status_353')->unsigned();
-
-            $table->integer('publish_353')->unsigned();
-            $table->integer('date_353')->unsigned();
 
             $table->integer('section_353')->unsigned();
+            $table->integer('family_353')->unsigned()->nullable();  // element to set default article configuration
+            // category multiselect
 
-            //SEO???
+            $table->integer('publish_353')->unsigned(); // date when will be publish
+            $table->tinyInteger('status_353')->unsigned();  // 1 = draft 2 = publish
+            $table->integer('author_353')->unsigned();
+            $table->integer('date_353')->unsigned(); // date of article
+            
+            //SEO??
 
-            // element to set default article configuration
-            $table->integer('family_353', 255)->unsigned();
-            // categorias multiselect
-            $table->string('title_353', 100);
-            $table->string('slug_353', 255);
-
-            $table->integer('sorting_353')->unsigned();
-
-            $table->string('tags_353', 255); // ???
+            $table->string('title_353', 510);
+            $table->string('slug_353', 510);
+            $table->integer('sorting_353')->unsigned(); // article sort
+            $table->string('tags_353', 255); // article tags
 
             $table->text('extract_353');
             $table->longText('article_353');
+
             $table->text('data_353')->nullable();
 
             $table->primary(['id_353', 'lang_353']);
