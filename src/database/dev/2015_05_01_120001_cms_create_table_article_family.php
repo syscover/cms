@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CmsCreateTableFamily extends Migration {
+class CmsCreateTableArticleFamily extends Migration {
 
     /**
      * Run the migrations.
@@ -12,18 +12,15 @@ class CmsCreateTableFamily extends Migration {
      */
     public function up()
     {
-        Schema::create('013_351_family', function(Blueprint $table)
+        Schema::create('013_351_article_family', function(Blueprint $table)
         {
             $table->engine = 'InnoDB';
             $table->increments('id_351')->unsigned();
             $table->string('name_351', 100);
             $table->integer('image_width_351')->unsigned();
             $table->integer('image_height_351')->unsigned();
-
-            $table->integer('image_width_gallery_351')->unsigned();
-            $table->integer('image_height_gallery_351')->unsigned();
-
-            $table->tinyInteger('editor_type_351')->unsigned(); //text = 0, wysiwyg = 1 or contentbuilder = 0
+            $table->tinyInteger('editor_type_351')->unsigned(); //text = 1, wysiwyg = 2 or contentbuilder = 3
+            $table->text('data_351')->nullable();
         });
     }
 
@@ -34,7 +31,7 @@ class CmsCreateTableFamily extends Migration {
      */
     public function down()
     {
-        Schema::drop('013_351_family');
+        Schema::drop('013_351_article_family');
     }
 
 }
