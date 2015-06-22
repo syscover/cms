@@ -17,8 +17,8 @@ class CmsCreateTableArticleFamily extends Migration {
             $table->engine = 'InnoDB';
             $table->increments('id_351')->unsigned();
             $table->string('name_351', 100);
-            $table->integer('image_width_351')->unsigned();
-            $table->integer('image_height_351')->unsigned();
+            $table->integer('image_width_351')->unsigned()->nullable();
+            $table->integer('image_height_351')->unsigned()->nullable();
             $table->tinyInteger('editor_type_351')->unsigned(); //text = 1, wysiwyg = 2 or contentbuilder = 3
             $table->text('data_351')->nullable();
         });
@@ -33,5 +33,4 @@ class CmsCreateTableArticleFamily extends Migration {
     {
         Schema::drop('013_351_article_family');
     }
-
 }

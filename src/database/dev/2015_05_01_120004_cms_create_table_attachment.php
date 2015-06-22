@@ -24,7 +24,7 @@ class CmsCreateTableAttachment extends Migration {
 
             //$table->string('lang_354',2); //?? to data
             $table->boolean('multi_lang_354')->default(false); // check if this attachment is multi language
-            $table->string('file_354', 510); //?? name file to reference attachment
+            $table->string('name_354', 510); //?? attachment name to get a reference
 
             //$table->string('attachment_uri_354', 510); // attachment uri
             //$table->string('attachment_url_354', 1020); // attachment url
@@ -56,5 +56,4 @@ class CmsCreateTableAttachment extends Migration {
     {
         Schema::drop('013_354_attachment');
     }
-
 }

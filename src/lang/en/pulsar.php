@@ -13,4 +13,5 @@ return [
     |
     */
     'package_name'                          => 'CMS',
+    'article_family'                        => 'Article family|Article Families',
 ];
