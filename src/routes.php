@@ -12,19 +12,21 @@
 
 Route::group(['middleware' => ['auth.pulsar','permission.pulsar','locale.pulsar']], function() {
 
+
     /*
     |--------------------------------------------------------------------------
     | CATEGORIES
     |--------------------------------------------------------------------------
     */
-    Route::any(config('pulsar.appName') . '/cms/categories/{offset?}',                          ['as'=>'CmsCategories',                   'uses'=>'Syscover\Cms\Controllers\Categories@index',                      'resource' => 'cms-categories',        'action' => 'access']);
-    Route::any(config('pulsar.appName') . '/cms/categories/json/data',                          ['as'=>'jsonDataCmsCategories',           'uses'=>'Syscover\Cms\Controllers\Categories@jsonData',                   'resource' => 'cms-categories',        'action' => 'access']);
-    Route::get(config('pulsar.appName') . '/cms/categories/create/{offset}',                    ['as'=>'createCmsCategories',             'uses'=>'Syscover\Cms\Controllers\Categories@createRecord',               'resource' => 'cms-categories',        'action' => 'create']);
-    Route::post(config('pulsar.appName') . '/cms/categories/store/{offset}',                    ['as'=>'storeCmsCategories',              'uses'=>'Syscover\Cms\Controllers\Categories@storeRecord',                'resource' => 'cms-categories',        'action' => 'create']);
-    Route::get(config('pulsar.appName') . '/cms/categories/{id}/edit/{offset}',                 ['as'=>'editCmsCategories',               'uses'=>'Syscover\Cms\Controllers\Categories@editRecord',                 'resource' => 'cms-categories',        'action' => 'access']);
-    Route::put(config('pulsar.appName') . '/cms/categories/update/{id}/{offset}',               ['as'=>'updateCmsCategories',             'uses'=>'Syscover\Cms\Controllers\Categories@updateRecord',               'resource' => 'cms-categories',        'action' => 'edit']);
-    Route::get(config('pulsar.appName') . '/cms/categories/delete/{id}/{offset}',               ['as'=>'deleteCmsCategories',             'uses'=>'Syscover\Cms\Controllers\Categories@deleteRecord',               'resource' => 'cms-categories',        'action' => 'delete']);
-    Route::delete(config('pulsar.appName') . '/cms/categories/delete/select/records',           ['as'=>'deleteSelectCmsCategories',       'uses'=>'Syscover\Cms\Controllers\Categories@deleteRecordsSelect',        'resource' => 'cms-categories',        'action' => 'delete']);
+    Route::any(config('pulsar.appName') . '/cms/categories/{lang}/{offset?}',                              ['as'=>'CmsCategories',                     'uses'=>'Syscover\Cms\Controllers\Categories@index',                      'resource' => 'cms-category',        'action' => 'access']);
+    Route::any(config('pulsar.appName') . '/cms/categories/json/data/{lang}',                              ['as'=>'jsonDataCmsCategories',             'uses'=>'Syscover\Cms\Controllers\Categories@jsonData',                   'resource' => 'cms-category',        'action' => 'access']);
+    Route::get(config('pulsar.appName') . '/cms/categories/create/{lang}/{offset}/{id?}',                  ['as'=>'createCmsCategories',               'uses'=>'Syscover\Cms\Controllers\Categories@createRecord',               'resource' => 'cms-category',        'action' => 'create']);
+    Route::post(config('pulsar.appName') . '/cms/categories/store/{lang}/{offset}/{id?}',                  ['as'=>'storeCmsCategories',                'uses'=>'Syscover\Cms\Controllers\Categories@storeRecord',                'resource' => 'cms-category',        'action' => 'create']);
+    Route::get(config('pulsar.appName') . '/cms/categories/{id}/edit/{lang}/{offset}',                     ['as'=>'editCmsCategories',                 'uses'=>'Syscover\Cms\Controllers\Categories@editRecord',                 'resource' => 'cms-category',        'action' => 'access']);
+    Route::put(config('pulsar.appName') . '/cms/categories/update/{lang}/{id}/{offset}',                   ['as'=>'updateCmsCategories',               'uses'=>'Syscover\Cms\Controllers\Categories@updateRecord',               'resource' => 'cms-category',        'action' => 'edit']);
+    Route::get(config('pulsar.appName') . '/cms/categories/delete/{lang}/{id}/{offset}',                   ['as'=>'deleteCmsCategories',               'uses'=>'Syscover\Cms\Controllers\Categories@deleteRecord',               'resource' => 'cms-category',        'action' => 'delete']);
+    Route::get(config('pulsar.appName') . '/cms/categories/delete/translation/{lang}/{id}/{offset}',       ['as'=>'deleteTranslationCmsCategories',    'uses'=>'Syscover\Cms\Controllers\Categories@deleteTranslationRecord',    'resource' => 'cms-category',        'action' => 'delete']);
+    Route::delete(config('pulsar.appName') . '/cms/categories/delete/select/records/{lang}',               ['as'=>'deleteSelectCmsCategories',         'uses'=>'Syscover\Cms\Controllers\Categories@deleteRecordsSelect',        'resource' => 'cms-category',        'action' => 'delete']);
 
     /*
     |--------------------------------------------------------------------------
@@ -53,5 +55,4 @@ Route::group(['middleware' => ['auth.pulsar','permission.pulsar','locale.pulsar'
     Route::put(config('pulsar.appName') . '/cms/section/update/{id}/{offset}',               ['as'=>'updateCmsSection',             'uses'=>'Syscover\Cms\Controllers\Sections@updateRecord',               'resource' => 'cms-section',        'action' => 'edit']);
     Route::get(config('pulsar.appName') . '/cms/section/delete/{id}/{offset}',               ['as'=>'deleteCmsSection',             'uses'=>'Syscover\Cms\Controllers\Sections@deleteRecord',               'resource' => 'cms-section',        'action' => 'delete']);
     Route::delete(config('pulsar.appName') . '/cms/section/delete/select/records',           ['as'=>'deleteSelectCmsSection',       'uses'=>'Syscover\Cms\Controllers\Sections@deleteRecordsSelect',        'resource' => 'cms-section',        'action' => 'delete']);
-
 });

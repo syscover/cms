@@ -18,6 +18,7 @@ class CmsCreateTableCategory extends Migration {
             $table->integer('id_352')->unsigned();
             $table->string('lang_352',2);
             $table->string('name_352', 100);
+            $table->integer('sorting_352')->unsigned()->nullable();
             $table->text('data_352')->nullable();
 
             $table->primary(['id_352', 'lang_352']);
