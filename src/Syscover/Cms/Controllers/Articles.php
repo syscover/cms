@@ -10,28 +10,28 @@
  * @filesource
  */
 
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Request;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\ControllerTrait;
-use Syscover\Cms\Models\Category;
+use Syscover\Cms\Models\Article;
 
 class Articles extends Controller {
 
     use ControllerTrait;
 
-    protected $routeSuffix  = 'CmsCategories';
-    protected $folder       = 'categories';
+    protected $routeSuffix  = 'CmsArticles';
+    protected $folder       = 'articles';
     protected $package      = 'cms';
-    protected $aColumns     = ['id_352', 'name_001', 'name_352'];
-    protected $nameM        = 'name_352';
-    protected $model        = '\Syscover\Cms\Models\Category';
-    protected $icon         = 'icon-list-ol';
-    protected $objectTrans  = 'category';
+    protected $aColumns     = ['id_355', 'name_001', 'title_355'];
+    protected $nameM        = 'name_355';
+    protected $model        = '\Syscover\Cms\Models\Article';
+    protected $icon         = 'icon-file-text-alt';
+    protected $objectTrans  = 'article';
 
     public function indexCustom($parameters)
     {
-        $parameters['urlParameters']['lang']    = Session::get('baseLang');
+        $parameters['urlParameters']['lang']    = session('baseLang');
+
 
         return $parameters;
     }
@@ -49,7 +49,7 @@ class Articles extends Controller {
             $id++;
         }
 
-        Category::create([
+        Article::create([
             'id_352'        => $id,
             'lang_352'      => Request::input('lang'),
             'name_352'      => Request::input('name'),
@@ -60,7 +60,7 @@ class Articles extends Controller {
 
     public function updateCustomRecord($parameters)
     {
-        Category::where('id_352', $parameters['id'])->where('lang_352', Request::input('lang'))->update([
+        Article::where('id_352', $parameters['id'])->where('lang_352', Request::input('lang'))->update([
             'name_352'      => Request::input('name'),
             'sorting_352'   => Request::input('sorting', null)
         ]);

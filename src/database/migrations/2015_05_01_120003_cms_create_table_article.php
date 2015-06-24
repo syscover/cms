@@ -28,7 +28,7 @@ class CmsCreateTableArticle extends Migration {
             $table->string('title_355', 510);
             $table->string('slug_355', 255);
             $table->integer('sorting_355')->unsigned(); // article sort
-            $table->string('tags_355', 255); // article tags
+            $table->string('tags_355', 1020); // article tags
             $table->longText('article_355');
 
             // extract property inside data_355
