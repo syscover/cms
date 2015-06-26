@@ -14,6 +14,16 @@ Route::group(['middleware' => ['auth.pulsar','permission.pulsar','locale.pulsar'
 
     /*
     |--------------------------------------------------------------------------
+    | IMAGES
+    |--------------------------------------------------------------------------
+    */
+    Route::get(config('pulsar.appName') . '/cms/archives/images',                                       ['as'=>'loadCmsImages',                 'uses'=>'Syscover\Cms\Controllers\FilesManager@loadImages',                 'resource' => 'cms-article',        'action' => 'create']);
+    Route::post(config('pulsar.appName') . '/cms/archives/images/delete',                               ['as'=>'deleteCmsImages',               'uses'=>'Syscover\Cms\Controllers\FilesManager@deleteImages',               'resource' => 'cms-article',        'action' => 'create']);
+    Route::post(config('pulsar.appName') . '/cms/archives/images/uploads',                              ['as'=>'uploadCmsImages',               'uses'=>'Syscover\Cms\Controllers\FilesManager@uploadImages',               'resource' => 'cms-article',        'action' => 'create']);
+    Route::post(config('pulsar.appName') . '/cms/archives/files/uploads',                               ['as'=>'uploadCmsFiles',                'uses'=>'Syscover\Cms\Controllers\FilesManager@uploadFiles',                'resource' => 'cms-article',        'action' => 'create']);
+
+    /*
+    |--------------------------------------------------------------------------
     | ARTICLES
     |--------------------------------------------------------------------------
     */

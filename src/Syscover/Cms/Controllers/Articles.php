@@ -11,6 +11,7 @@
  */
 
 use Illuminate\Support\Facades\Request;
+use Syscover\Cms\Models\Section;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\ControllerTrait;
 use Syscover\Cms\Models\Article;
@@ -32,6 +33,12 @@ class Articles extends Controller {
     {
         $parameters['urlParameters']['lang']    = session('baseLang');
 
+        return $parameters;
+    }
+
+    public function createCustomRecord($parameters)
+    {
+        $parameters['sections'] = Section::all();
 
         return $parameters;
     }
