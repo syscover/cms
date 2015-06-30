@@ -13,7 +13,13 @@ return [
     |
     */
     'package_name'                          => 'CMS',
+    'content'                               => 'Content',
     'article_family'                        => 'Article family|Article Families',
     'slug'                                  => 'Slug',
-    'tags'                                  => 'Tags'
+    'tags'                                  => 'Tags',
+    'publish'                               => 'Publish',
+    'author'                                => 'Author',
+    'status'                                => 'Status',
+    'draft'                                 => 'Draft',
+    'publish'                               => 'Publish'
 ];

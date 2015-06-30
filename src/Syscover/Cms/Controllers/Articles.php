@@ -11,9 +11,10 @@
  */
 
 use Illuminate\Support\Facades\Request;
-use Syscover\Cms\Models\Section;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\ControllerTrait;
+use Syscover\Cms\Models\Section;
+use Syscover\Cms\Models\ArticleFamily;
 use Syscover\Cms\Models\Article;
 
 class Articles extends Controller {
@@ -39,6 +40,11 @@ class Articles extends Controller {
     public function createCustomRecord($parameters)
     {
         $parameters['sections'] = Section::all();
+        $parameters['families'] = ArticleFamily::all();
+        $parameters['statuses'] = [
+            (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
+            (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
+        ];
 
         return $parameters;
     }

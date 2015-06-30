@@ -21,10 +21,10 @@ class CmsCreateTableArticle extends Migration {
             $table->string('section_355', 30);
             $table->integer('family_355')->unsigned()->nullable(); // element to set default article configuration
             $table->integer('author_355')->unsigned();
-            $table->integer('date_355')->unsigned(); // date of article
-
+            $table->tinyInteger('status_355')->unsigned();  // 0 = draft 1 = publish
             $table->integer('publish_355')->unsigned();     // date when will be publish
-            $table->tinyInteger('status_355')->unsigned();  // 1 = draft 2 = publish
+
+            $table->integer('date_355')->unsigned(); // date of article
             $table->string('title_355', 510);
             $table->string('slug_355', 255);
             $table->integer('sorting_355')->unsigned(); // article sort

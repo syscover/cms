@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth.pulsar','permission.pulsar','locale.pulsar'
     Route::put(config('pulsar.appName') . '/cms/article/families/update/{id}/{offset}',               ['as'=>'updateCmsArticleFamilies',             'uses'=>'Syscover\Cms\Controllers\ArticleFamilies@updateRecord',               'resource' => 'cms-article-families',        'action' => 'edit']);
     Route::get(config('pulsar.appName') . '/cms/article/families/delete/{id}/{offset}',               ['as'=>'deleteCmsArticleFamilies',             'uses'=>'Syscover\Cms\Controllers\ArticleFamilies@deleteRecord',               'resource' => 'cms-article-families',        'action' => 'delete']);
     Route::delete(config('pulsar.appName') . '/cms/article/families/delete/select/records',           ['as'=>'deleteSelectCmsArticleFamilies',       'uses'=>'Syscover\Cms\Controllers\ArticleFamilies@deleteRecordsSelect',        'resource' => 'cms-article-families',        'action' => 'delete']);
+    Route::any(config('pulsar.appName') . '/cms/article/families/{id}/show/{api}',                    ['as'=>'apiShowCmsArticleFamilies',            'uses'=>'Syscover\Cms\Controllers\ArticleFamilies@showRecord',                 'resource' => 'cms-article-families',        'action' => 'access']);
 
     /*
     |--------------------------------------------------------------------------
