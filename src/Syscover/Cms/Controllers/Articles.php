@@ -33,6 +33,8 @@ class Articles extends Controller {
     public function indexCustom($parameters)
     {
         $parameters['urlParameters']['lang']    = session('baseLang');
+        // init record on tap 1
+        $parameters['urlParameters']['tab']     = 1;
 
         return $parameters;
     }
