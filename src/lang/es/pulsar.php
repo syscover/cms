@@ -21,5 +21,6 @@ return [
     'author'                                => 'Autor',
     'status'                                => 'Estado',
     'draft'                                 => 'Borrador',
-    'publish'                               => 'Publicado'
+    'publish'                               => 'Publicado',
+    'select_category'                       => 'Seleccione una categoría'
 ];

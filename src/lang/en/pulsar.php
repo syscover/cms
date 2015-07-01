@@ -21,5 +21,6 @@ return [
     'author'                                => 'Author',
     'status'                                => 'Status',
     'draft'                                 => 'Draft',
-    'publish'                               => 'Publish'
+    'publish'                               => 'Publish',
+    'select_category'                       => 'Select a category'
 ];

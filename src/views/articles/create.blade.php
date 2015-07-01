@@ -3,13 +3,13 @@
 @section('script')
     @parent
     <!-- cms::articles.index -->
-    <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/jquery.select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/jquery.select2/css/select2.css') }}">
+    <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/jquery.select2.custom/css/select2.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/wysiwyg.froala/css/froala_editor.min.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/wysiwyg.froala/css/froala_style.min.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
 
-    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/js/custom/jquery.select2/js/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.select2.custom/js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.select2/js/i18n/' . config('app.locale') . '.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/tagsinput/jquery.tagsinput.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/datetimepicker/js/moment.min.js') }}"></script>
@@ -113,6 +113,7 @@
                 @include('pulsar::includes.html.form_datetimepicker_group', ['label' => trans('cms::pulsar.publish'), 'name' => 'publish', 'id' => 'idPublish', 'value' => Input::old('publish', isset($object->publish_355)? $object->publish_355 : null), 'labelSize' => 4, 'fieldSize' => 8, 'data' => ['format' => 'DD/MM/YYYY HH:mm', 'locale' => config('app.locale')]])
             </div>
         </div>
+        @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.category', 1), 'name' => 'categories[]', 'value' => Input::old('categories'), 'objects' => $categories, 'idSelect' => 'id_352', 'nameSelect' => 'name_352', 'multiple' => true, 'class' => 'col-md-12 select2', 'fieldSize' => 10, 'data' => ['placeholder' => trans('cms::pulsar.select_category'), 'width' => '100%']])
         @include('pulsar::includes.html.form_section_header', ['label' => trans('cms::pulsar.content'), 'icon' => 'icon-inbox'])
         @include('pulsar::includes.html.form_datetimepicker_group', ['label' => trans('pulsar::pulsar.date'), 'name' => 'date', 'id' => 'idDate', 'value' => Input::old('date', isset($object->date_355)? $object->date_355 : null), 'required' => true, 'fieldSize' => 4, 'data' => ['format' => 'DD/MM/YYYY', 'locale' => config('app.locale')]])
         @include('pulsar::includes.html.form_text_group', ['label' => trans('pulsar::pulsar.title'), 'name' => 'title', 'value' => Input::old('title', isset($object->name_355)? $object->name_355 : null), 'maxLength' => '355', 'rangeLength' => '2,510', 'required' => true])
