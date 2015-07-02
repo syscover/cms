@@ -22,7 +22,7 @@ class ArticleFamilies extends Controller {
     protected $routeSuffix  = 'CmsArticleFamilies';
     protected $folder       = 'article_families';
     protected $package      = 'cms';
-    protected $aColumns     = ['id_351', 'name_351', 'image_width_351', 'image_height_351'];
+    protected $aColumns     = ['id_351', 'name_351'];
     protected $nameM        = 'name_351';
     protected $model        = '\Syscover\Cms\Models\ArticleFamily';
     protected $icon         = 'icon-align-justify';
@@ -31,9 +31,8 @@ class ArticleFamilies extends Controller {
     public function createCustomRecord($parameters)
     {
         $parameters['editors'] = [
-            (object)['id' => 1, 'name' => 'Text'],
-            (object)['id' => 2, 'name' => 'Wysiwyg'],
-            (object)['id' => 3, 'name' => 'Contentbuilder']
+            (object)['id' => 1, 'name' => 'Wysiwyg'],
+            (object)['id' => 2, 'name' => 'Contentbuilder']
         ];
 
         return $parameters;
@@ -43,8 +42,6 @@ class ArticleFamilies extends Controller {
     {
         ArticleFamily::create([
             'name_351'          => Request::input('name'),
-            'image_width_351'   => Request::input('width'),
-            'image_height_351'  => Request::input('height'),
             'editor_type_351'   => Request::input('editor')
         ]);
     }
@@ -52,9 +49,8 @@ class ArticleFamilies extends Controller {
     public function editCustomRecord($parameters)
     {
         $parameters['editors'] = [
-            (object)['id' => 1, 'name' => 'Text'],
-            (object)['id' => 2, 'name' => 'Wysiwyg'],
-            (object)['id' => 3, 'name' => 'Contentbuilder']
+            (object)['id' => 1, 'name' => 'Wysiwyg'],
+            (object)['id' => 2, 'name' => 'Contentbuilder']
         ];
 
         return $parameters;
@@ -64,8 +60,6 @@ class ArticleFamilies extends Controller {
     {
         ArticleFamily::where('id_351', $parameters['id'])->update([
             'name_351'          => Request::input('name'),
-            'image_width_351'   => Request::input('width'),
-            'image_height_351'  => Request::input('height'),
             'editor_type_351'   => Request::input('editor')
         ]);
     }
