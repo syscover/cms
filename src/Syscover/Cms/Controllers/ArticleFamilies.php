@@ -32,7 +32,7 @@ class ArticleFamilies extends Controller {
     {
         $parameters['editors'] = [
             (object)['id' => 1, 'name' => 'Wysiwyg'],
-            (object)['id' => 2, 'name' => 'Contentbuilder']
+            (object)['id' => 2, 'name' => 'Contentbuilder'],
         ];
 
         return $parameters;
@@ -42,7 +42,14 @@ class ArticleFamilies extends Controller {
     {
         ArticleFamily::create([
             'name_351'          => Request::input('name'),
-            'editor_type_351'   => Request::input('editor')
+            'editor_type_351'   => Request::input('editor', false),
+            'data_351'          => json_encode([
+                'date'      => Request::input('date', false),
+                'title'     => Request::input('title', false),
+                'slug'      => Request::input('slug', false),
+                'sorting'   => Request::input('sorting', false),
+                'tags'      => Request::input('tags', false)
+            ])
         ]);
     }
 
@@ -53,6 +60,8 @@ class ArticleFamilies extends Controller {
             (object)['id' => 2, 'name' => 'Contentbuilder']
         ];
 
+        $parameters['data'] = json_decode($parameters['object']->data_351);
+
         return $parameters;
     }
     
@@ -60,7 +69,14 @@ class ArticleFamilies extends Controller {
     {
         ArticleFamily::where('id_351', $parameters['id'])->update([
             'name_351'          => Request::input('name'),
-            'editor_type_351'   => Request::input('editor')
+            'editor_type_351'   => Request::input('editor'),
+            'data_351'          => json_encode([
+                'date'      => Request::input('date', false),
+                'title'     => Request::input('title', false),
+                'slug'      => Request::input('slug', false),
+                'sorting'   => Request::input('sorting', false),
+                'tags'      => Request::input('tags', false)
+            ])
         ]);
     }
 }
