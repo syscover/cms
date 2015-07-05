@@ -61,16 +61,42 @@
                 paragraphy: false
             });
 
+
+            $("[name=section]").on('change', function(){
+                if($("[name=section]").val())
+                {
+                    var url = '{{ route('apiShowCmsSection', ['id' => 'id', 'api' => 1]) }}';
+
+                    $.ajax({
+                        dataType:   'json',
+                        type:       'POST',
+                        url:        url.replace('id', $("[name=section]").val()),
+                        headers:    { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                        success:  function(data)
+                        {
+                            if(data.article_family_350 != null)
+                            {
+                                $("[name=family]").select2('val', data.article_family_350);
+                            }
+                            else
+                            {
+                                $("[name=family]").select2('val', '');
+                            }
+                        }
+                    });
+                }
+            });
+
             $("[name=family]").on('change', function(){
                 if($("[name=family]").val())
                 {
-                    var url = '{{ route('apiShowCmsArticleFamilies', ['id' => 'id', 'api' => 1]) }}'
+                    var url = '{{ route('apiShowCmsArticleFamily', ['id' => 'id', 'api' => 1]) }}';
 
                     $.ajax({
                         dataType:   'json',
                         type:       'POST',
                         url:        url.replace('id', $("[name=family]").val()),
-                        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                        headers:    { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                         success:  function(data)
                         {
                             if(data.editor_type_351 == 1)
@@ -94,6 +120,17 @@
                             if(hasProperty){ $('#headerContent').fadeIn();hasProperty=true;}
                         }
                     });
+                }
+                else
+                {
+                    $('.wysiwyg-container').fadeOut();
+                    $('.contentbuilder-container').fadeOut();
+                    $('#headerContent').fadeOut();
+                    $('#dateContent').fadeOut();
+                    $('#titleContent').fadeOut();
+                    $('#slugContent').fadeOut();
+                    $('#sortingContent').fadeOut();
+                    $('#tagsContent').fadeOut();
                 }
             });
 
@@ -150,11 +187,11 @@
                 @include('pulsar::includes.html.form_datetimepicker_group', ['label' => trans('cms::pulsar.publish'), 'name' => 'publish', 'id' => 'idPublish', 'value' => Input::old('publish', isset($object->publish_355)? $object->publish_355 : null), 'labelSize' => 4, 'fieldSize' => 8, 'data' => ['format' => 'DD/MM/YYYY HH:mm', 'locale' => config('app.locale')]])
             </div>
         </div>
-        @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.category', 1), 'name' => 'categories[]', 'value' => Input::old('categories'), 'objects' => $categories, 'idSelect' => 'id_352', 'nameSelect' => 'name_352', 'multiple' => true, 'class' => 'col-md-12 select2', 'fieldSize' => 10, 'data' => ['placeholder' => trans('cms::pulsar.select_category'), 'width' => '100%']])
         @include('pulsar::includes.html.form_section_header', ['label' => trans('cms::pulsar.content'), 'icon' => 'icon-inbox', 'idContainer' => 'headerContent'])
         @include('pulsar::includes.html.form_datetimepicker_group', ['label' => trans('pulsar::pulsar.date'), 'idContainer' => 'dateContent', 'name' => 'date', 'id' => 'idDate', 'value' => Input::old('date', isset($object->date_355)? $object->date_355 : null), 'required' => true, 'fieldSize' => 4, 'data' => ['format' => 'DD/MM/YYYY', 'locale' => config('app.locale')]])
         @include('pulsar::includes.html.form_text_group', ['label' => trans('pulsar::pulsar.title'), 'idContainer' => 'titleContent', 'name' => 'title', 'value' => Input::old('title', isset($object->name_355)? $object->name_355 : null), 'maxLength' => '355', 'rangeLength' => '2,510', 'required' => true])
         @include('pulsar::includes.html.form_text_group', ['label' => trans('cms::pulsar.slug'), 'idContainer' => 'slugContent', 'name' => 'title', 'value' => Input::old('title', isset($object->name_355)? $object->name_355 : null), 'maxLength' => '355', 'rangeLength' => '2,510', 'required' => true])
+        @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.category', 1), 'name' => 'categories[]', 'value' => Input::old('categories'), 'objects' => $categories, 'idSelect' => 'id_352', 'nameSelect' => 'name_352', 'multiple' => true, 'class' => 'col-md-12 select2', 'fieldSize' => 10, 'data' => ['placeholder' => trans('cms::pulsar.select_category'), 'width' => '100%']])
         @include('pulsar::includes.html.form_text_group', ['label' => trans('pulsar::pulsar.sorting'), 'idContainer' => 'sortingContent', 'name' => 'sorting', 'type' => 'number', 'value' => Input::old('sorting', isset($object->sorting_355)? $object->sorting_355 : null), 'maxLength' => '3', 'rangeLength' => '1,3', 'min' => '0', 'fieldSize' => 2])
         @include('pulsar::includes.html.form_text_group', ['label' => trans('cms::pulsar.tags'), 'idContainer' => 'tagsContent', 'name' => 'tags', 'value' => Input::old('tags', isset($object->tags_355)? $object->tags_355 : null), 'class' => 'tags-autocomplete'])
         @include('pulsar::includes.html.form_wysiwyg_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'wysiwyg', 'value' => Input::old('article', isset($object->article_355)? $object->article_355 : null), 'labelSize' => 2, 'fieldSize' => 10])

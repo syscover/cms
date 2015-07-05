@@ -19,7 +19,7 @@ class Categories extends Controller {
 
     use ControllerTrait;
 
-    protected $routeSuffix  = 'CmsCategories';
+    protected $routeSuffix  = 'CmsCategory';
     protected $folder       = 'categories';
     protected $package      = 'cms';
     protected $aColumns     = ['id_352', 'name_001', 'name_352'];
@@ -52,7 +52,7 @@ class Categories extends Controller {
             'id_352'        => $id,
             'lang_352'      => Request::input('lang'),
             'name_352'      => Request::input('name'),
-            'sorting_352'   => Request::input('sorting', null),
+            'sorting_352'   => Request::has('sorting')? Request::input('sorting') : null,
             'data_352'      => Category::addLangDataRecord($id, Request::input('lang'))
         ]);
     }
@@ -61,7 +61,7 @@ class Categories extends Controller {
     {
         Category::where('id_352', $parameters['id'])->where('lang_352', Request::input('lang'))->update([
             'name_352'      => Request::input('name'),
-            'sorting_352'   => Request::input('sorting', null)
+            'sorting_352'   => Request::has('sorting')? Request::input('sorting') : null,
         ]);
     }
 }

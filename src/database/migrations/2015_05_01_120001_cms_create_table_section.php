@@ -17,6 +17,10 @@ class CmsCreateTableSection extends Migration {
             $table->engine = 'InnoDB';
             $table->string('id_350', 30)->primary();
             $table->string('name_350', 100);
+            $table->integer('article_family_350')->unsigned()->nullable();
+
+            $table->foreign('article_family_350')->references('id_351')->on('013_351_article_family')
+                ->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

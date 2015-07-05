@@ -22,7 +22,7 @@ class Articles extends Controller {
 
     use ControllerTrait;
 
-    protected $routeSuffix  = 'CmsArticles';
+    protected $routeSuffix  = 'CmsArticle';
     protected $folder       = 'articles';
     protected $package      = 'cms';
     protected $aColumns     = ['id_355', 'name_001', 'title_355'];

@@ -19,7 +19,7 @@ class ArticleFamilies extends Controller {
 
     use ControllerTrait;
 
-    protected $routeSuffix  = 'CmsArticleFamilies';
+    protected $routeSuffix  = 'CmsArticleFamily';
     protected $folder       = 'article_families';
     protected $package      = 'cms';
     protected $aColumns     = ['id_351', 'name_351'];
@@ -47,6 +47,7 @@ class ArticleFamilies extends Controller {
                 'date'      => Request::input('date', false),
                 'title'     => Request::input('title', false),
                 'slug'      => Request::input('slug', false),
+                'category'  => Request::input('category', false),
                 'sorting'   => Request::input('sorting', false),
                 'tags'      => Request::input('tags', false)
             ])
@@ -74,6 +75,7 @@ class ArticleFamilies extends Controller {
                 'date'      => Request::input('date', false),
                 'title'     => Request::input('title', false),
                 'slug'      => Request::input('slug', false),
+                'category'  => Request::input('category', false),
                 'sorting'   => Request::input('sorting', false),
                 'tags'      => Request::input('tags', false)
             ])

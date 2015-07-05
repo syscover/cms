@@ -21,7 +21,7 @@ class Section extends Model {
 	protected $table        = '013_350_section';
     protected $primaryKey   = 'id_350';
     public $timestamps      = false;
-    protected $fillable     = ['id_350', 'name_350'];
+    protected $fillable     = ['id_350', 'name_350', 'article_family_350'];
     private static $rules   = [
         'id'    => 'required|between:2,30|unique:013_350_section,id_350',
         'name'  => 'required|between:2,50'
@@ -33,4 +33,11 @@ class Section extends Model {
 
         return Validator::make($data, static::$rules);
 	}
+
+    public static function getCustomRecordsLimit($parameters)
+    {
+        $query =  Section::leftJoin('013_351_article_family', '013_350_section.article_family_350', '=', '013_351_article_family.id_351')->newQuery();
+
+        return $query;
+    }
 }
