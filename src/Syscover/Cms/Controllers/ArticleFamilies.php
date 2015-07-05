@@ -44,12 +44,12 @@ class ArticleFamilies extends Controller {
             'name_351'          => Request::input('name'),
             'editor_type_351'   => Request::input('editor', false),
             'data_351'          => json_encode([
-                'date'      => Request::input('date', false),
-                'title'     => Request::input('title', false),
-                'slug'      => Request::input('slug', false),
-                'category'  => Request::input('category', false),
-                'sorting'   => Request::input('sorting', false),
-                'tags'      => Request::input('tags', false)
+                'date'          => Request::has('date'),
+                'title'         => Request::has('title'),
+                'slug'          => Request::has('slug'),
+                'categories'    => Request::has('categories'),
+                'sorting'       => Request::has('sorting'),
+                'tags'          => Request::has('tags')
             ])
         ]);
     }
@@ -72,12 +72,12 @@ class ArticleFamilies extends Controller {
             'name_351'          => Request::input('name'),
             'editor_type_351'   => Request::input('editor'),
             'data_351'          => json_encode([
-                'date'      => Request::input('date', false),
-                'title'     => Request::input('title', false),
-                'slug'      => Request::input('slug', false),
-                'category'  => Request::input('category', false),
-                'sorting'   => Request::input('sorting', false),
-                'tags'      => Request::input('tags', false)
+                'date'          => Request::has('date'),
+                'title'         => Request::has('title'),
+                'slug'          => Request::has('slug'),
+                'categories'    => Request::has('categories'),
+                'sorting'       => Request::has('sorting'),
+                'tags'          => Request::has('tags')
             ])
         ]);
     }
