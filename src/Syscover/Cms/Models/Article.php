@@ -24,7 +24,9 @@ class Article extends Model {
     public $timestamps      = false;
     protected $fillable     = ['id_355', 'lang_355', 'section_355', 'family_355', 'author_355', 'date_355', 'publish_355', 'status_355', 'title_355', 'slug_355', 'sorting_355', 'tags_355', 'article_355', 'data_355'];
     private static $rules   = [
-        'title'  => 'required|between:2,510'
+        'title'     => 'between:2,510',
+        'section'   => 'required',
+        'status'    => 'required'
     ];
 
     public static function validate($data)

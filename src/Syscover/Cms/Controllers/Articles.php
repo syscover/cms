@@ -40,6 +40,13 @@ class Articles extends Controller {
         return $parameters;
     }
 
+    public function customActionUrlParameters($actionUrlParameters, $parameters)
+    {
+        $actionUrlParameters['tab'] = 1;
+
+        return $actionUrlParameters;
+    }
+
     public function createCustomRecord($parameters)
     {
         $parameters['sections']     = Section::all();
@@ -66,23 +73,6 @@ class Articles extends Controller {
             $id++;
         }
 
-        dd([
-            'id_355'        => $id,
-            'lang_355'      => Request::input('lang'),
-            'author_355'    => Request::input('author'),
-            'section_355'   => Request::input('section'),
-            'family_355'    => Request::input('family'),
-            'status_355'    => Request::input('status'),
-            'publish_355'   => \DateTime::createFromFormat('d/m/Y H:i', Request::input('publish'))->getTimestamp(),
-            'date_355'      => \DateTime::createFromFormat('d/m/Y', Request::input('date'))->getTimestamp(),
-            'title_355'     => Request::input('title'),
-            'slug_355'      => Request::input('slug'),
-            'sorting_355'   => Request::input('sorting'),
-            'tags_355'      => Request::input('tags'),
-            'article_355'   => Request::input('article'),
-            'data_355'      => Article::addLangDataRecord($id, Request::input('lang'))
-        ]);
-
         Article::create([
             'id_355'        => $id,
             'lang_355'      => Request::input('lang'),
@@ -90,8 +80,8 @@ class Articles extends Controller {
             'section_355'   => Request::input('section'),
             'family_355'    => Request::input('family'),
             'status_355'    => Request::input('status'),
-            'publish_355'   => Request::input('publish'),
-            'date_355'      => Request::input('date'),
+            'publish_355'   => Request::has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', Request::input('publish'))->getTimestamp() : (integer)date('U'),
+            'date_355'      => \DateTime::createFromFormat(config('pulsar.datePattern'), Request::input('date'))->getTimestamp(),
             'title_355'     => Request::input('title'),
             'slug_355'      => Request::input('slug'),
             'sorting_355'   => Request::input('sorting'),
