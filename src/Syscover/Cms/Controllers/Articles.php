@@ -62,24 +62,50 @@ class Articles extends Controller {
         }
         else
         {
-            $id = Category::max('id_352');
+            $id = Article::max('id_355');
             $id++;
         }
 
+        dd([
+            'id_355'        => $id,
+            'lang_355'      => Request::input('lang'),
+            'author_355'    => Request::input('author'),
+            'section_355'   => Request::input('section'),
+            'family_355'    => Request::input('family'),
+            'status_355'    => Request::input('status'),
+            'publish_355'   => \DateTime::createFromFormat('d/m/Y H:i', Request::input('publish'))->getTimestamp(),
+            'date_355'      => \DateTime::createFromFormat('d/m/Y', Request::input('date'))->getTimestamp(),
+            'title_355'     => Request::input('title'),
+            'slug_355'      => Request::input('slug'),
+            'sorting_355'   => Request::input('sorting'),
+            'tags_355'      => Request::input('tags'),
+            'article_355'   => Request::input('article'),
+            'data_355'      => Article::addLangDataRecord($id, Request::input('lang'))
+        ]);
+
         Article::create([
-            'id_352'        => $id,
-            'lang_352'      => Request::input('lang'),
-            'name_352'      => Request::input('name'),
-            'sorting_352'   => Request::input('sorting', null),
-            'data_352'      => Category::addLangDataRecord($id, Request::input('lang'))
+            'id_355'        => $id,
+            'lang_355'      => Request::input('lang'),
+            'author_355'    => Request::input('author'),
+            'section_355'   => Request::input('section'),
+            'family_355'    => Request::input('family'),
+            'status_355'    => Request::input('status'),
+            'publish_355'   => Request::input('publish'),
+            'date_355'      => Request::input('date'),
+            'title_355'     => Request::input('title'),
+            'slug_355'      => Request::input('slug'),
+            'sorting_355'   => Request::input('sorting'),
+            'tags_355'      => Request::input('tags'),
+            'article_355'   => Request::input('article'),
+            'data_355'      => Article::addLangDataRecord($id, Request::input('lang'))
         ]);
     }
 
     public function updateCustomRecord($parameters)
     {
-        Article::where('id_352', $parameters['id'])->where('lang_352', Request::input('lang'))->update([
-            'name_352'      => Request::input('name'),
-            'sorting_352'   => Request::input('sorting', null)
+        Article::where('id_355', $parameters['id'])->where('lang_355', Request::input('lang'))->update([
+            'name_355'      => Request::input('name'),
+            'sorting_355'   => Request::input('sorting', null)
         ]);
     }
 }

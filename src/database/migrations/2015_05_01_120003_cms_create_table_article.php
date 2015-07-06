@@ -16,15 +16,17 @@ class CmsCreateTableArticle extends Migration {
         {
             $table->engine = 'InnoDB';
             $table->integer('id_355')->unsigned();
-            $table->string('lang_355',2);
+            $table->string('lang_355', 2);
+            $table->integer('author_355')->unsigned();
 
             $table->string('section_355', 30);
             $table->integer('family_355')->unsigned()->nullable(); // element to set default article configuration
-            $table->integer('author_355')->unsigned();
             $table->tinyInteger('status_355')->unsigned();  // 0 = draft 1 = publish
+
             $table->integer('publish_355')->unsigned();     // date when will be publish
 
             $table->integer('date_355')->unsigned(); // date of article
+
             $table->string('title_355', 510);
             $table->string('slug_355', 255);
             $table->integer('sorting_355')->unsigned(); // article sort
