@@ -47,4 +47,14 @@ class Article extends Model {
 
         return $query;
     }
+
+    public static function getCustomTranslationRecord($parameters)
+    {
+        return Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')
+            ->join('001_010_user', '013_355_article.author_355', '=', '001_010_user.id_010')
+            ->leftJoin('013_351_article_family', '013_355_article.family_355', '=', '013_351_article_family.id_351')
+            ->where('id_355', $parameters['id'])
+            ->where('lang_355', session('baseLang')->id_001)
+            ->first();
+    }
 }

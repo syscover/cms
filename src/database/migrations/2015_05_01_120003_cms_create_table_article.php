@@ -38,15 +38,15 @@ class CmsCreateTableArticle extends Migration {
             $table->text('data_355')->nullable();
 
             $table->primary(['id_355', 'lang_355']);
+
             $table->foreign('lang_355')->references('id_001')->on('001_001_lang')
                 ->onDelete('restrict')->onUpdate('cascade');
-
+            $table->foreign('author_355')->references('id_010')->on('001_010_user')
+                ->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('section_355')->references('id_350')->on('013_350_section')
                 ->onDelete('restrict')->onUpdate('cascade');
-
             $table->foreign('family_355')->references('id_351')->on('013_351_article_family')
                 ->onDelete('restrict')->onUpdate('cascade');
-
             $table->unique('slug_355');
         });
     }

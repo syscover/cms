@@ -10,6 +10,7 @@
  * @filesource
  */
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Syscover\Cms\Models\Category;
 use Syscover\Pulsar\Controllers\Controller;
@@ -51,7 +52,7 @@ class Articles extends Controller {
     {
         $parameters['sections']     = Section::all();
         $parameters['families']     = ArticleFamily::all();
-        $parameters['categories']   = Category::all();
+        $parameters['categories']   = Category::getTranslationsRecords(Auth::user()->lang_010);
         $parameters['statuses']     = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
@@ -89,6 +90,19 @@ class Articles extends Controller {
             'article_355'   => Request::input('article'),
             'data_355'      => Article::addLangDataRecord($id, Request::input('lang'))
         ]);
+    }
+
+    public function editCustomRecord($parameters)
+    {
+        $parameters['sections']     = Section::all();
+        $parameters['families']     = ArticleFamily::all();
+        $parameters['categories']   = Category::getTranslationsRecords(Auth::user()->lang_010);
+        $parameters['statuses']     = [
+            (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
+            (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
+        ];
+
+        return $parameters;
     }
 
     public function updateCustomRecord($parameters)
