@@ -91,11 +91,6 @@ class ArticleController extends Controller {
             'data_355'      => Article::addLangDataRecord($id, Request::input('lang'))
         ]);
 
-        // ERROR NO DEVUELVE EL ID!!!!!
-
-        //$article = Article::getRecordsById()
-        dd($article);
-
         $article->categories()->attach(Request::input('categories'));
     }
 
@@ -147,7 +142,7 @@ class ArticleController extends Controller {
 
     public function deleteCustomRecords($ids)
     {
-        $articles = Article::getRecordsById($ids)->get();
+        $articles = Article::getRecordsById($ids);
 
         foreach($articles as $article)
         {

@@ -22,6 +22,7 @@ class Article extends Model {
     protected $primaryKey   = 'id_355';
     protected $sufix        = '355';
     public $timestamps      = false;
+    public $incrementing    = false;
     protected $fillable     = ['id_355', 'lang_355', 'section_355', 'family_355', 'author_355', 'date_355', 'publish_355', 'status_355', 'title_355', 'slug_355', 'sorting_355', 'tags_355', 'article_355', 'data_355'];
     private static $rules   = [
         'title'     => 'between:2,510',
