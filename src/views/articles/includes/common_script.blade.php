@@ -185,8 +185,9 @@
             type:       'POST',
             url:        '{{ route('apiCheckSlugCmsArticle') }}',
             data:       {
-                lang: '{{ $lang->id_001 }}',
-                slug: $('[name=slug]').val()
+                lang:   '{{ $lang->id_001 }}',
+                slug:   $('[name=slug]').val(),
+                id:     $('[name=id]').val()
             },
             headers:  {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'

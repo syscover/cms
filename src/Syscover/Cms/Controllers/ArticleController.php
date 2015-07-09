@@ -61,6 +61,15 @@ class ArticleController extends Controller {
         return $parameters;
     }
 
+    public function checkSpecialRulesToStore($parameters)
+    {
+        $nArticle = Article::where('lang_355', Request::input('lang'))->where('slug_355', Request::input('slug'))->count();
+
+        if($nArticle > 0) $parameters['specialRules']['slugRule'] = true;
+
+        return $parameters;
+    }
+
     public function storeCustomRecord()
     {
         // check if there is id
@@ -91,7 +100,10 @@ class ArticleController extends Controller {
             'data_355'      => Article::addLangDataRecord($id, Request::input('lang'))
         ]);
 
-        $article->categories()->sync(Request::input('categories'));
+        if(is_array(Request::input('categories')))
+        {
+            $article->categories()->sync(Request::input('categories'));
+        }
     }
 
     public function editCustomRecord($parameters)
@@ -103,6 +115,15 @@ class ArticleController extends Controller {
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
+
+        return $parameters;
+    }
+
+    public function checkSpecialRulesToUpdate($parameters)
+    {
+        $nArticle = Article::where('lang_355', Request::input('lang'))->where('slug_355', Request::input('slug'))->whereNotIn('id_355', [$parameters['id']])->count();
+
+        if($nArticle > 0) $parameters['specialRules']['slugRule'] = true;
 
         return $parameters;
     }
@@ -125,7 +146,14 @@ class ArticleController extends Controller {
 
         $article = Article::getCustomTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
 
-        $article->categories()->sync(Request::input('categories'));
+        if(is_array(Request::input('categories')))
+        {
+            $article->categories()->sync(Request::input('categories'));
+        }
+        else
+        {
+            $article->categories()->detach();
+        }
     }
 
     public function deleteCustomRecord($object)
@@ -146,9 +174,15 @@ class ArticleController extends Controller {
     public function apiCheckSlug(HttpRequest $request)
     {
         $slug = $request->input('slug');
-        $nArticles = Article::where('lang_355', $request->input('lang'))->where('slug_355', $slug)->count();
+        $query = Article::where('lang_355', $request->input('lang'))->where('slug_355', $slug)->newQuery();
 
+        if($request->input('id'))
+        {
+            $query->whereNotIn('id_355', [$request->input('id')]);
+        }
 
+        $nArticles = $query->count();
+        
         if($nArticles > 0)
         {
             $sufix = 0;

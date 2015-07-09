@@ -30,8 +30,10 @@ class Article extends Model {
         'status'    => 'required'
     ];
 
-    public static function validate($data)
+    public static function validate($data, $specialRules = [])
     {
+        if(isset($specialRules['slugRule']) && $specialRules['slugRule']) static::$rules['slug'] = 'unique:013_355_article,slug_355,NULL,013_355_article,lang_355,' . $data['lang'];
+
         return Validator::make($data, static::$rules);
 	}
 
