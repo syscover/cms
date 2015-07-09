@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\File;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Libraries\Miscellaneous;
 
-class FilesManager extends Controller {
+class FileManagerController extends Controller {
 
     public function loadImages()
     {

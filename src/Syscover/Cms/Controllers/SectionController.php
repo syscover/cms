@@ -16,7 +16,7 @@ use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\ArticleFamily;
 use Syscover\Cms\Models\Section;
 
-class Sections extends Controller {
+class SectionController extends Controller {
 
     use TraitController;
 

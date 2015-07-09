@@ -15,7 +15,7 @@ use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\ArticleFamily;
 
-class ArticleFamilies extends Controller {
+class ArticleFamilyController extends Controller {
 
     use TraitController;
 

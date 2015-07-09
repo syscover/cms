@@ -15,7 +15,7 @@ use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\Category;
 
-class Categories extends Controller {
+class CategoryController extends Controller {
 
     use TraitController;
 

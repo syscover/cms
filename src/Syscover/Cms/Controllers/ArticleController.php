@@ -10,7 +10,6 @@
  * @filesource
  */
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request as HttpRequest;
 use Syscover\Cms\Models\Category;
@@ -20,7 +19,7 @@ use Syscover\Cms\Models\Section;
 use Syscover\Cms\Models\ArticleFamily;
 use Syscover\Cms\Models\Article;
 
-class Articles extends Controller {
+class ArticleController extends Controller {
 
     use TraitController;
 
