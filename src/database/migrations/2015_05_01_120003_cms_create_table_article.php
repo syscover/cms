@@ -18,15 +18,11 @@ class CmsCreateTableArticle extends Migration {
             $table->integer('id_355')->unsigned();
             $table->string('lang_355', 2);
             $table->integer('author_355')->unsigned();
-
             $table->string('section_355', 30);
             $table->integer('family_355')->unsigned()->nullable(); // element to set default article configuration
             $table->tinyInteger('status_355')->unsigned();  // 0 = draft 1 = publish
-
             $table->integer('publish_355')->unsigned();     // date when will be publish
-
             $table->integer('date_355')->unsigned(); // date of article
-
             $table->string('title_355', 510);
             $table->string('slug_355', 255);
             $table->integer('sorting_355')->unsigned(); // article sort
@@ -37,8 +33,6 @@ class CmsCreateTableArticle extends Migration {
             // SEO properties inside data_355
             $table->text('data_355')->nullable();
 
-            $table->primary(['id_355', 'lang_355']);
-
             $table->foreign('lang_355')->references('id_001')->on('001_001_lang')
                 ->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('author_355')->references('id_010')->on('001_010_user')
@@ -47,7 +41,9 @@ class CmsCreateTableArticle extends Migration {
                 ->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('family_355')->references('id_351')->on('013_351_article_family')
                 ->onDelete('restrict')->onUpdate('cascade');
-            $table->unique('slug_355');
+
+            $table->primary(['id_355', 'lang_355']);
+            $table->unique(['lang_355','slug_355']);
         });
     }
 

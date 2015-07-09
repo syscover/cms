@@ -12,12 +12,12 @@
 
 use Illuminate\Support\Facades\Request;
 use Syscover\Pulsar\Controllers\Controller;
-use Syscover\Pulsar\Traits\ControllerTrait;
+use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\ArticleFamily;
 
 class ArticleFamilies extends Controller {
 
-    use ControllerTrait;
+    use TraitController;
 
     protected $routeSuffix  = 'CmsArticleFamily';
     protected $folder       = 'article_families';

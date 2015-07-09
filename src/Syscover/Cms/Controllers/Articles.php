@@ -12,16 +12,17 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request as HttpRequest;
 use Syscover\Cms\Models\Category;
 use Syscover\Pulsar\Controllers\Controller;
-use Syscover\Pulsar\Traits\ControllerTrait;
+use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\Section;
 use Syscover\Cms\Models\ArticleFamily;
 use Syscover\Cms\Models\Article;
 
 class Articles extends Controller {
 
-    use ControllerTrait;
+    use TraitController;
 
     protected $routeSuffix  = 'CmsArticle';
     protected $folder       = 'articles';
@@ -52,7 +53,7 @@ class Articles extends Controller {
     {
         $parameters['sections']     = Section::all();
         $parameters['families']     = ArticleFamily::all();
-        $parameters['categories']   = Category::getTranslationsRecords(Auth::user()->lang_010);
+        $parameters['categories']   = Category::getTranslationsRecords($parameters['lang']);
         $parameters['statuses']     = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
@@ -74,7 +75,7 @@ class Articles extends Controller {
             $id++;
         }
 
-        Article::create([
+        $article = Article::create([
             'id_355'        => $id,
             'lang_355'      => Request::input('lang'),
             'author_355'    => Request::input('author'),
@@ -90,13 +91,20 @@ class Articles extends Controller {
             'article_355'   => Request::input('article'),
             'data_355'      => Article::addLangDataRecord($id, Request::input('lang'))
         ]);
+
+        // ERROR NO DEVUELVE EL ID!!!!!
+
+        //$article = Article::getRecordsById()
+        dd($article);
+
+        $article->categories()->attach(Request::input('categories'));
     }
 
     public function editCustomRecord($parameters)
     {
         $parameters['sections']     = Section::all();
         $parameters['families']     = ArticleFamily::all();
-        $parameters['categories']   = Category::getTranslationsRecords(Auth::user()->lang_010);
+        $parameters['categories']   = Category::getTranslationsRecords($parameters['lang']->id_001);
         $parameters['statuses']     = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
@@ -108,8 +116,66 @@ class Articles extends Controller {
     public function updateCustomRecord($parameters)
     {
         Article::where('id_355', $parameters['id'])->where('lang_355', Request::input('lang'))->update([
-            'name_355'      => Request::input('name'),
-            'sorting_355'   => Request::input('sorting', null)
+            'section_355'   => Request::input('section'),
+            'family_355'    => Request::input('family'),
+            'status_355'    => Request::input('status'),
+            'publish_355'   => Request::has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', Request::input('publish'))->getTimestamp() : (integer)date('U'),
+            'date_355'      => \DateTime::createFromFormat(config('pulsar.datePattern'), Request::input('date'))->getTimestamp(),
+            'title_355'     => Request::input('title'),
+            'slug_355'      => Request::input('slug'),
+            'sorting_355'   => Request::input('sorting'),
+            'tags_355'      => Request::input('tags'),
+            'article_355'   => Request::input('article'),
+            'data_355'      => Article::addLangDataRecord($parameters['id'], Request::input('lang'))
+        ]);
+
+        $article = Article::getCustomTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
+
+        if(count(Request::input('categories')) > 0)
+        {
+            $article->categories()->sync(Request::input('categories'));
+        }
+        else
+        {
+            $article->categories()->detach();
+        }
+    }
+
+    public function deleteCustomRecord($object)
+    {
+        $object->categories()->detach();
+    }
+
+    public function deleteCustomRecords($ids)
+    {
+        $articles = Article::getRecordsById($ids)->get();
+
+        foreach($articles as $article)
+        {
+            $article->categories()->detach();
+        }
+    }
+
+    public function apiCheckSlug(HttpRequest $request)
+    {
+        $slug = $request->input('slug');
+        $nArticles = Article::where('lang_355', $request->input('lang'))->where('slug_355', $slug)->count();
+
+
+        if($nArticles > 0)
+        {
+            $sufix = 0;
+            while($nArticles > 0)
+            {
+                $sufix++;
+                $slug = $request->input('slug') . '-' . $sufix;
+                $nArticles = Article::where('lang_355', $request->input('lang'))->where('slug_355', $slug)->count();
+            }
+        }
+
+        return response()->json([
+            'status'    => 'success',
+            'slug'      => $slug
         ]);
     }
 }
