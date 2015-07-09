@@ -91,7 +91,7 @@ class ArticleController extends Controller {
             'data_355'      => Article::addLangDataRecord($id, Request::input('lang'))
         ]);
 
-        $article->categories()->attach(Request::input('categories'));
+        $article->categories()->sync(Request::input('categories'));
     }
 
     public function editCustomRecord($parameters)
@@ -125,14 +125,7 @@ class ArticleController extends Controller {
 
         $article = Article::getCustomTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
 
-        if(count(Request::input('categories')) > 0)
-        {
-            $article->categories()->sync(Request::input('categories'));
-        }
-        else
-        {
-            $article->categories()->detach();
-        }
+        $article->categories()->sync(Request::input('categories'));
     }
 
     public function deleteCustomRecord($object)
