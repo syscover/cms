@@ -49,7 +49,9 @@ class Article extends Model {
 
     public static function getCustomRecordsLimit($parameters)
     {
-        $query =  Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')->newQuery();
+        $query =  Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')
+            ->join('013_350_section', '013_355_article.section_355', '=', '013_350_section.id_350')
+            ->newQuery();
 
         if(isset($parameters['lang'])) $query->where('lang_355', $parameters['lang']);
 
@@ -60,6 +62,7 @@ class Article extends Model {
     {
         return Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')
             ->join('001_010_user', '013_355_article.author_355', '=', '001_010_user.id_010')
+            ->join('013_350_section', '013_355_article.section_355', '=', '013_350_section.id_350')
             ->leftJoin('013_351_article_family', '013_355_article.family_355', '=', '013_351_article_family.id_351')
             ->where('id_355', $parameters['id'])
             ->where('lang_355', $parameters['lang'])
