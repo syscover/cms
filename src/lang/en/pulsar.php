@@ -22,5 +22,6 @@ return [
     'status'                                => 'Status',
     'draft'                                 => 'Draft',
     'publish'                               => 'Publish',
-    'select_category'                       => 'Select a category'
+    'select_category'                       => 'Select a category',
+    'attachment-family'                     => 'Attachment family|Attachment families'
 ];

@@ -13,72 +13,38 @@
 use Illuminate\Support\Facades\Request;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
-use Syscover\Cms\Models\ArticleFamily;
+use Syscover\Cms\Models\ArticleAttachmentFamily;
 
 class ArticleAttachmentFamilyController extends Controller {
 
     use TraitController;
 
     protected $routeSuffix  = 'CmsArticleAttachmentFamily';
-    protected $folder       = 'article_families';
+    protected $folder       = 'article_attachment_family';
     protected $package      = 'cms';
-    protected $aColumns     = ['id_351', 'name_351'];
-    protected $nameM        = 'name_351';
-    protected $model        = '\Syscover\Cms\Models\ArticleFamily';
-    protected $icon         = 'icon-align-justify';
-    protected $objectTrans  = 'article_family';
-
-    public function createCustomRecord($parameters)
-    {
-        $parameters['editors'] = [
-            (object)['id' => 1, 'name' => 'Wysiwyg'],
-            (object)['id' => 2, 'name' => 'Contentbuilder'],
-        ];
-
-        return $parameters;
-    }
+    protected $aColumns     = ['id_353', 'name_353'];
+    protected $nameM        = 'name_353';
+    protected $model        = '\Syscover\Cms\Models\ArticleAttachmentFamily';
+    protected $icon         = 'icon-picture';
+    protected $objectTrans  = 'attachment-family';
 
     public function storeCustomRecord()
     {
-        ArticleFamily::create([
-            'name_351'          => Request::input('name'),
-            'editor_type_351'   => Request::input('editor', false),
-            'data_351'          => json_encode([
-                'date'          => Request::has('date'),
-                'title'         => Request::has('title'),
-                'slug'          => Request::has('slug'),
-                'categories'    => Request::has('categories'),
-                'sorting'       => Request::has('sorting'),
-                'tags'          => Request::has('tags')
-            ])
+        ArticleAttachmentFamily::create([
+            'name_353'      => Request::input('name'),
+            'width_353'     => Request::has('width')? Request::input('width') : null,
+            'height_353'    => Request::has('height')? Request::input('height') : null,
+            'data_353'      => null
         ]);
-    }
-
-    public function editCustomRecord($parameters)
-    {
-        $parameters['editors'] = [
-            (object)['id' => 1, 'name' => 'Wysiwyg'],
-            (object)['id' => 2, 'name' => 'Contentbuilder']
-        ];
-
-        $parameters['data'] = json_decode($parameters['object']->data_351);
-
-        return $parameters;
     }
     
     public function updateCustomRecord($parameters)
     {
-        ArticleFamily::where('id_351', $parameters['id'])->update([
-            'name_351'          => Request::input('name'),
-            'editor_type_351'   => Request::input('editor'),
-            'data_351'          => json_encode([
-                'date'          => Request::has('date'),
-                'title'         => Request::has('title'),
-                'slug'          => Request::has('slug'),
-                'categories'    => Request::has('categories'),
-                'sorting'       => Request::has('sorting'),
-                'tags'          => Request::has('tags')
-            ])
+        ArticleAttachmentFamily::where('id_353', $parameters['id'])->update([
+            'name_353'      => Request::input('name'),
+            'width_353'     => Request::has('width')? Request::input('width') : null,
+            'height_353'    => Request::has('height')? Request::input('height') : null,
+            'data_353'      => null
         ]);
     }
 }

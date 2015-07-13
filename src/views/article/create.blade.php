@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/attachment/css/attachment-library.css') }}">
 
+
+    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.select2.custom/js/select2.min.js') }}"></script>
+
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.select2.custom/js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.select2/js/i18n/' . config('app.locale') . '.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/tagsinput/jquery.tagsinput.min.js') }}"></script>
@@ -34,7 +37,51 @@
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/wysiwyg.froala/js/langs/' . config('app.locale') . '.js') }}"></script>
     @endif
 
-    @include('cms::articles.includes.common_script')
+    @include('cms::article.includes.common_script')
+
+    <script>
+        $(document).ready(function() {
+
+            $('#imageLoaded04').getFile(
+                {
+                    urlPlugin:          '/packages/syscover/pulsar/vendor',
+                    folder:             '/main-files/public',
+                    tmpFolder:          '/main-files/tmp',
+                    encryption:         true,
+                    multiple:           true,
+                    outputExtension:    'png',
+                    resize:{
+                        active:	                true,
+                        width:	                300,
+                        height:                 200,
+                        constrainProportions:	true
+                    },
+                    copies: [
+                        {
+                            width:                  100,
+                            height:                 100,
+                            constrainProportions:   true,
+                            prefix:                 '@2x',
+                            folder:                 '/main-files/public',
+                            outputExtension:        'png'
+                        },
+                        {
+                            width:                  50,
+                            height:                 40,
+                            prefix:                 '@1x',
+                            folder:                 '/main-files/public',
+                            outputExtension:        'jpg'
+                        }
+                    ]
+                },
+                function(data)
+                {
+
+                }
+            );
+
+        });
+    </script>
 
     <style>
         .drop-zone {
@@ -295,17 +342,17 @@
     <div class="widget box">
         <div class="widget-content no-padding">
             <div class="row">
-                <div class="col-md-2 drop-zone"></div>
-                <div class="col-md-2 drop-zone"></div>
-                <div class="col-md-2 drop-zone"></div>
-                <div class="col-md-2 drop-zone"></div>
-                <div class="col-md-2 drop-zone"></div>
-                <div class="col-md-2 drop-zone"></div>
                 <div class="col-md-2 drop-zone">
                     <div class="col-md-12 text-drop-zone">
                         Pulse o arrastre aquí sus fotos
                     </div>
                 </div>
+                <div class="col-md-2 drop-zone"></div>
+                <div class="col-md-2 drop-zone"></div>
+                <div class="col-md-2 drop-zone"></div>
+                <div class="col-md-2 drop-zone"></div>
+                <div class="col-md-2 drop-zone"></div>
+                <div class="col-md-2 drop-zone"></div>
             </div>
         </div>
     </div>

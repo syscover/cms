@@ -21,6 +21,11 @@ class CmsServiceProvider extends ServiceProvider
         // register translations
         $this->loadTranslationsFrom(realpath(__DIR__ . '/../../lang'), 'cms');
 
+		// register public files
+		$this->publishes([
+			realpath(__DIR__ . '/../../../public') => public_path('/packages/syscover/cms')
+		]);
+
         // register migrations
         $this->publishes([
             __DIR__.'/../../database/migrations/' => base_path('/database/migrations')

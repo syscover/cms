@@ -22,5 +22,6 @@ return [
     'status'                                => 'Estado',
     'draft'                                 => 'Borrador',
     'publish'                               => 'Publicado',
-    'select_category'                       => 'Seleccione una categoría'
+    'select_category'                       => 'Seleccione una categoría',
+    'attachment-family'                     => 'Familia de adjunto|Familias de adjunto'
 ];

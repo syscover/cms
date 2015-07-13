@@ -17,8 +17,8 @@ class CmsCreateTableAttachmentFamily extends Migration {
             $table->engine = 'InnoDB';
             $table->increments('id_353')->unsigned();
             $table->string('name_353', 100);
-            $table->smallInteger('width_353')->unsigned();
-            $table->smallInteger('height_353')->unsigned();
+            $table->smallInteger('width_353')->unsigned()->nullable();
+            $table->smallInteger('height_353')->unsigned()->nullable();
             $table->text('data_353')->nullable();
         });
     }

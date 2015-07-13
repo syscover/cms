@@ -35,7 +35,7 @@
         <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/wysiwyg.froala/js/langs/' . config('app.locale') . '.js') }}"></script>
     @endif
 
-    @include('cms::articles.includes.common_script')
+    @include('cms::article.includes.common_script')
 
     <style>
         .drop-zone {
