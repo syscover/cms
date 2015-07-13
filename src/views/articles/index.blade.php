@@ -10,9 +10,11 @@
                 $('.datatable-pulsar').dataTable({
                     'iDisplayStart' : {{ $offset }},
                     'aoColumnDefs': [
-                        { 'bSortable': false, 'aTargets': [4,5]},
-                        { 'sClass': 'checkbox-column', 'aTargets': [4]},
-                        { 'sClass': 'align-center', 'aTargets': [5]}
+                        { 'visible': false, "bSearchable": false, 'aTargets': [1]}, // hidden column 1 and prevents search on column 1
+                        { "iDataSort": 1, "aTargets": [2] }, // sort column 2 according hidden column 1 data
+                        { 'bSortable': false, 'aTargets': [5,6]},
+                        { 'sClass': 'checkbox-column', 'aTargets': [5]},
+                        { 'sClass': 'align-center', 'aTargets': [6]}
                     ],
                     "bProcessing": true,
                     "bServerSide": true,
@@ -28,9 +30,11 @@
     <!-- hotels::articles.index -->
     <tr>
         <th data-hide="phone,tablet">ID.</th>
+        <th>{{ trans('cms::pulsar.publish') }}</th>
+        <th data-class="expand">{{ trans('cms::pulsar.publish') }}</th>
         <th data-hide="phone,tablet">{{ trans_choice('pulsar::pulsar.language', 1) }}</th>
         <th>{{ trans_choice('pulsar::pulsar.section', 1) }}</th>
-        <th data-class="expand">{{ trans('pulsar::pulsar.name') }}</th>
+        <th>{{ trans('pulsar::pulsar.name') }}</th>
         <th class="checkbox-column"><input type="checkbox" class="uniform"></th>
         <th>{{ trans_choice('pulsar::pulsar.action', 2) }}</th>
     </tr>

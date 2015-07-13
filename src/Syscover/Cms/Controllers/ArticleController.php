@@ -26,7 +26,7 @@ class ArticleController extends Controller {
     protected $routeSuffix  = 'CmsArticle';
     protected $folder       = 'articles';
     protected $package      = 'cms';
-    protected $aColumns     = ['id_355', 'name_001', 'name_350', 'title_355'];
+    protected $aColumns     = ['id_355', 'publish_355', 'publish_text_355', 'name_001', 'name_350', 'title_355'];
     protected $nameM        = 'name_355';
     protected $model        = '\Syscover\Cms\Models\Article';
     protected $icon         = 'icon-file-text-alt';
@@ -84,20 +84,21 @@ class ArticleController extends Controller {
         }
 
         $article = Article::create([
-            'id_355'        => $id,
-            'lang_355'      => Request::input('lang'),
-            'author_355'    => Request::input('author'),
-            'section_355'   => Request::input('section'),
-            'family_355'    => Request::has('family')? Request::input('family') : null,
-            'status_355'    => Request::input('status'),
-            'publish_355'   => Request::has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', Request::input('publish'))->getTimestamp() : (integer)date('U'),
-            'date_355'      => \DateTime::createFromFormat(config('pulsar.datePattern'), Request::input('date'))->getTimestamp(),
-            'title_355'     => Request::input('title'),
-            'slug_355'      => Request::input('slug'),
-            'sorting_355'   => Request::input('sorting'),
-            'tags_355'      => Request::input('tags'),
-            'article_355'   => Request::input('article'),
-            'data_355'      => Article::addLangDataRecord($id, Request::input('lang'))
+            'id_355'            => $id,
+            'lang_355'          => Request::input('lang'),
+            'author_355'        => Request::input('author'),
+            'section_355'       => Request::input('section'),
+            'family_355'        => Request::has('family')? Request::input('family') : null,
+            'status_355'        => Request::input('status'),
+            'publish_355'       => Request::has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', Request::input('publish'))->getTimestamp() : (integer)date('U'),
+            'publish_text_355'  => Request::has('publish')?  Request::input('publish'): date(config('pulsar.datePattern') . ' H:i'),
+            'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), Request::input('date'))->getTimestamp(),
+            'title_355'         => Request::input('title'),
+            'slug_355'          => Request::input('slug'),
+            'sorting_355'       => Request::input('sorting'),
+            'tags_355'          => Request::input('tags'),
+            'article_355'       => Request::input('article'),
+            'data_355'          => Article::addLangDataRecord($id, Request::input('lang'))
         ]);
 
         if(is_array(Request::input('categories')))
@@ -131,17 +132,18 @@ class ArticleController extends Controller {
     public function updateCustomRecord($parameters)
     {
         Article::where('id_355', $parameters['id'])->where('lang_355', Request::input('lang'))->update([
-            'section_355'   => Request::input('section'),
-            'family_355'    => Request::has('family')? Request::input('family') : null,
-            'status_355'    => Request::input('status'),
-            'publish_355'   => Request::has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', Request::input('publish'))->getTimestamp() : (integer)date('U'),
-            'date_355'      => \DateTime::createFromFormat(config('pulsar.datePattern'), Request::input('date'))->getTimestamp(),
-            'title_355'     => Request::input('title'),
-            'slug_355'      => Request::input('slug'),
-            'sorting_355'   => Request::input('sorting'),
-            'tags_355'      => Request::input('tags'),
-            'article_355'   => Request::input('article'),
-            'data_355'      => Article::addLangDataRecord($parameters['id'], Request::input('lang'))
+            'section_355'       => Request::input('section'),
+            'family_355'        => Request::has('family')? Request::input('family') : null,
+            'status_355'        => Request::input('status'),
+            'publish_355'       => Request::has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', Request::input('publish'))->getTimestamp() : (integer)date('U'),
+            'publish_text_355'  => Request::has('publish')? Request::input('publish') : date(config('pulsar.datePattern') . ' H:i'),
+            'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), Request::input('date'))->getTimestamp(),
+            'title_355'         => Request::input('title'),
+            'slug_355'          => Request::input('slug'),
+            'sorting_355'       => Request::input('sorting'),
+            'tags_355'          => Request::input('tags'),
+            'article_355'       => Request::input('article'),
+            'data_355'          => Article::addLangDataRecord($parameters['id'], Request::input('lang'))
         ]);
 
         $article = Article::getCustomTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
