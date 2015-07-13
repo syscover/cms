@@ -17,6 +17,9 @@ class CmsCreateTableAttachmentFamily extends Migration {
             $table->engine = 'InnoDB';
             $table->increments('id_353')->unsigned();
             $table->string('name_353', 100);
+            $table->smallInteger('width_353')->unsigned();
+            $table->smallInteger('height_353')->unsigned();
+            $table->text('data_353')->nullable();
         });
     }
 
@@ -29,5 +32,4 @@ class CmsCreateTableAttachmentFamily extends Migration {
     {
         Schema::drop('013_353_attachment_family');
     }
-
 }

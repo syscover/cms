@@ -15,12 +15,12 @@ use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\ArticleFamily;
 
-class ArticleFamilyController extends Controller {
+class ArticleAttachmentFamilyController extends Controller {
 
     use TraitController;
 
-    protected $routeSuffix  = 'CmsArticleFamily';
-    protected $folder       = 'article_family';
+    protected $routeSuffix  = 'CmsArticleAttachmentFamily';
+    protected $folder       = 'article_families';
     protected $package      = 'cms';
     protected $aColumns     = ['id_351', 'name_351'];
     protected $nameM        = 'name_351';

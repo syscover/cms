@@ -1,7 +1,7 @@
 <?php namespace Syscover\Cms\Controllers;
 
 /**
- * @package	    Pulsar
+ * @package	    Cms
  * @author	    Jose Carlos Rodríguez Palacín
  * @copyright   Copyright (c) 2015, SYSCOVER, SL
  * @license
@@ -21,7 +21,7 @@ class SectionController extends Controller {
     use TraitController;
 
     protected $routeSuffix  = 'CmsSection';
-    protected $folder       = 'sections';
+    protected $folder       = 'section';
     protected $package      = 'cms';
     protected $aColumns     = ['id_350', 'name_350', 'name_351'];
     protected $nameM        = 'name_350';
