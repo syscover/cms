@@ -11,10 +11,16 @@
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/wysiwyg.froala/css/froala_style.min.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/attachment/css/attachment-library.css') }}">
+    <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/cropper/cropper.css') }}">
+    <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/filedrop/filedrop.css') }}">
+    <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/getfile/css/getfile.css') }}">
 
 
-    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.select2.custom/js/select2.min.js') }}"></script>
-
+    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/cropper/cropper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/cssloader/js/jquery.cssloader.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/mobiledetect/mdetect.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/filedrop/filedrop.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/js/jquery.getfile.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.select2.custom/js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.select2/js/i18n/' . config('app.locale') . '.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/tagsinput/jquery.tagsinput.min.js') }}"></script>
@@ -41,45 +47,18 @@
 
     <script>
         $(document).ready(function() {
-
-            $('#imageLoaded04').getFile(
+            $('#upload-file').getFile(
                 {
                     urlPlugin:          '/packages/syscover/pulsar/vendor',
-                    folder:             '/main-files/public',
-                    tmpFolder:          '/main-files/tmp',
-                    encryption:         true,
-                    multiple:           true,
-                    outputExtension:    'png',
-                    resize:{
-                        active:	                true,
-                        width:	                300,
-                        height:                 200,
-                        constrainProportions:	true
-                    },
-                    copies: [
-                        {
-                            width:                  100,
-                            height:                 100,
-                            constrainProportions:   true,
-                            prefix:                 '@2x',
-                            folder:                 '/main-files/public',
-                            outputExtension:        'png'
-                        },
-                        {
-                            width:                  50,
-                            height:                 40,
-                            prefix:                 '@1x',
-                            folder:                 '/main-files/public',
-                            outputExtension:        'jpg'
-                        }
-                    ]
+                    folder:             '/packages/syscover/cms/storage/library',
+                    tmpFolder:          '/packages/syscover/cms/storage/library',
+                    multiple:           true
                 },
                 function(data)
                 {
 
                 }
             );
-
         });
     </script>
 
@@ -342,16 +321,11 @@
     <div class="widget box">
         <div class="widget-content no-padding">
             <div class="row">
-                <div class="col-md-2 drop-zone">
+                <div id="upload-file" class="col-md-2 drop-zone">
                     <div class="col-md-12 text-drop-zone">
-                        Pulse o arrastre aquí sus fotos
+                        Pulse o arrastre aquí sus archivos
                     </div>
                 </div>
-                <div class="col-md-2 drop-zone"></div>
-                <div class="col-md-2 drop-zone"></div>
-                <div class="col-md-2 drop-zone"></div>
-                <div class="col-md-2 drop-zone"></div>
-                <div class="col-md-2 drop-zone"></div>
                 <div class="col-md-2 drop-zone"></div>
             </div>
         </div>
