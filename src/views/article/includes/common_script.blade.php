@@ -18,12 +18,13 @@
             shortcuts: true,
             shortcutsAvailable: ['bold', 'italic'],
             buttons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', 'color', 'formatBlock', 'blockStyle', 'inlineStyle', 'align', 'insertOrderedList', 'insertUnorderedList', 'outdent', 'indent', 'selectAll', 'createLink', 'insertImage', 'insertVideo', 'table', 'undo', 'redo', 'html', 'insertHorizontalRule', 'uploadFile', 'removeFormat', 'fullscreen'],
-            imagesLoadURL: '{{ route('loadCmsImages') }}',
-            imageDeleteURL: '{{ route('deleteCmsImages') }}',
+            imagesLoadURL: '{{ route('apiWysiwygCmsFile', ['type' => 'images']) }}',
+
+            imageDeleteURL: '{{ route('apiWysiwygDeleteCmsFile') }}',
             imageDeleteParams: {_token: '{{ csrf_token() }}'},
-            imageUploadURL: '{{ route('uploadCmsImages') }}',
+            imageUploadURL: '{{ route('apiWysiwygUploadCmsFile', ['type' => 'images']) }}',
             imageUploadParams: {_token: '{{ csrf_token() }}'},
-            fileUploadURL: '{{ route('uploadCmsFiles') }}',
+            fileUploadURL: '{{ route('apiWysiwygUploadCmsFile', ['type' => 'files']) }}',
             fileUploadParams: {_token: '{{ csrf_token() }}'},
             minHeight: 250,
             paragraphy: false

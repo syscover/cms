@@ -16,11 +16,12 @@
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/getfile/css/getfile.css') }}">
 
 
+    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.loadTemplate/jquery.loadTemplate-1.4.5.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/cropper/cropper.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/cssloader/js/jquery.cssloader.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/mobiledetect/mdetect.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/filedrop/filedrop.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/js/jquery.getfile.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/js/jquery.getfile.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.select2.custom/js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.select2/js/i18n/' . config('app.locale') . '.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/tagsinput/jquery.tagsinput.min.js') }}"></script>
@@ -52,14 +53,109 @@
                     urlPlugin:          '/packages/syscover/pulsar/vendor',
                     folder:             '/packages/syscover/cms/storage/library',
                     tmpFolder:          '/packages/syscover/cms/storage/library',
-                    multiple:           true
+                    multiple:           true,
+                    activateTmpDelete:  false,
+                    copies: [
+                        {
+                            folder: '/packages/syscover/cms/storage/attachment',
+                            quality: 100
+                        }
+                    ]
                 },
                 function(data)
                 {
+                    if(data.success && Array.isArray(data.files))
+                    {
+                        var files = [];
+                        for(var i = 0; data.files.length > i; i++)
+                        {
+                            files.push(data.files[i]);
+                        }
 
+                        $.ajax({
+                            url:        '{{ route('storeCmsFile') }}',
+                            data:       {
+                                files: files
+                            },
+                            headers:  {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            type:		'POST',
+                            dataType:	'json',
+                            success: function(data)
+                            {
+                                console.log(data);
+                                for(var i = 0; i < data.files.length; i++)
+                                {
+                                    if(data.files[i].is_image_354){
+                                        $('.sortable').loadTemplate('#file', {
+                                            image:      '/packages/syscover/cms/storage/attachment/' + data.files[i].file_354,
+                                            fileName:   data.files[i].file_354
+                                        }, { prepend:true });
+                                    }
+                                }
+                            }
+                        });
+                    }
                 }
             );
+/*
+            $('body').on('dragenter', function(e){
+                $('.uploader-window').css('display', 'block');
+                $('.uploader-window').css('opacity', 1);
+            });
+            $('body').on('dragleave', function(e){
+
+                console.log(e);
+                //$('.uploader-window').css('display', 'none');
+                //$('.uploader-window').css('opacity', 0);
+            });
+
+            $('.uploader-window h3').on('dragleave', function(e){
+
+            });
+            */
         });
+    </script>
+
+    <script type="text/html" id="file">
+        <li>
+            <div class="attachment-item">
+                <div class="attachment-img">
+                    <img data-src="image" />
+                </div>
+                <div class="attachment-over">
+                    <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
+                        <h4 class="attachment-title">Familia Imagen</h4>
+                        <p class="attachment-sub" data-content="fileName">Nombre del archivo</p>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
+                        <h4 class="attachment-action"><span class="glyphicon glyphicon-pencil"></span></h4>
+                    </div>
+                    <form>
+                        <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 covered">
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option selected>No visible</option>
+                                    <option>Familia 1</option>
+                                    <option>Familia 2</option>
+                                    <option>Familia 3</option>
+                                    <option>Familia 4</option>
+                                    <option>Familia 5</option>
+                                    <option>Familia 6</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-6 col-sm-offset-6 col-xs-offset-6 covered">
+                            <div class="form-group">
+                                <button type="button" class="close-ov form-control">GUARDAR</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </li>
     </script>
 
     <style>
@@ -74,7 +170,7 @@
             color: #bbb;
             text-align: center;
             font-size: 12px;
-            margin: 19px;
+
         }
     </style>
     <!-- /cms::articles.create -->
@@ -112,12 +208,86 @@
 @stop
 
 @section('box_tab2')
+
+
+
+    <style>
+        .uploader-window {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 86, 132, .9);
+            z-index: 250000;
+            display: none;
+            text-align: center;
+            opacity: 0;
+            -webkit-transition: opacity 250ms;
+            transition: opacity 250ms
+        }
+        .uploader-window-content {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px dashed #fff
+        }
+        .uploader-window h3 {
+            margin: -.5em 0 0;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            font-size: 40px;
+            color: #fff;
+            padding: 0
+        }
+
+        .uploader-window .media-progress-bar {
+            margin-top: 20px;
+            max-width: 300px;
+            background: 0 0;
+            border-color: #fff;
+            display: none
+        }
+
+        .uploader-window .media-progress-bar div {
+            background: #fff
+        }
+
+        .uploading .uploader-window .media-progress-bar {
+            display: block
+        }
+
+    </style>
+
+    <div class="uploader-window">
+        <div class="uploader-window-content">
+            <h3>Arrastra archivos aquí para subirlos</h3>
+        </div>
+    </div>
+
     <!-- cms::articles.create -->
     <div class="widget box">
         <div class="widget-content no-padding">
+
+            <div class="row">
+                <div id="upload-file" class="col-md-12 drop-zone">
+                    <div class="col-md-12 text-drop-zone">
+                        Pulse o arrastre aquí sus archivos
+                    </div>
+                </div>
+            </div>
+
             <div class="row" id="attachment-wrapper">
                 <ul class="sortable">
-                    <li class="ui-state-default">
+
+                    <li>
                         <div class="attachment-item">
                             <div class="attachment-img">
                                 <img src="http://www.astroandalucia.es/wp-content/uploads/2015/03/homepage-5.jpg">
@@ -125,13 +295,14 @@
                             <div class="attachment-over">
                                 <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
                                     <h4 class="attachment-title">Familia Imagen</h4>
+                                    <p class="attachment-sub">Nombre del archivo</p>
                                 </div>
                                 <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
                                     <h4 class="attachment-action"><span class="glyphicon glyphicon-pencil"></span></h4>
                                 </div>
                                 <form>
-                                    <div class="close-icon covered half"><span class="glyphicon glyphicon-remove"></span></div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 covered half">
+                                    <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 covered">
                                         <div class="form-group">
                                             <select class="form-control">
                                                 <option selected>No visible</option>
@@ -144,45 +315,17 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered half">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-6 col-sm-offset-6 col-xs-offset-6 covered">
                                         <div class="form-group">
-                                            <button type="button" class="open-ov form-control">NUEVA</button>
+                                            <button type="button" class="close-ov form-control">GUARDAR</button>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered half">
-                                        <div class="form-group">
-                                            <button type="button" class="close-ov full form-control">GUARDAR</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <form>
-                                    <div class="col-md-12 col-sm-12 col-xs-12  covered full">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="familia_name" placeholder="Nombre Familia" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control" name="familia_width" placeholder="Ancho (px)" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control" name="familia_height" placeholder="Alto (px)" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <button type="button" class="btn btn-default close-ov">CANCELAR</button>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <button type="button" class="btn btn-default">AÑADIR</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </li>
 
-                    <li class="ui-state-default">
+                    <li>
                         <div class="attachment-item">
                             <div class="attachment-img">
                                 <img src="http://www.astroandalucia.es/wp-content/uploads/2015/03/homepage-5.jpg">
@@ -190,13 +333,14 @@
                             <div class="attachment-over">
                                 <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
                                     <h4 class="attachment-title">Familia Imagen</h4>
+                                    <p class="attachment-sub">Nombre del archivo</p>
                                 </div>
                                 <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
                                     <h4 class="attachment-action"><span class="glyphicon glyphicon-pencil"></span></h4>
                                 </div>
                                 <form>
-                                    <div class="close-icon covered half"><span class="glyphicon glyphicon-remove"></span></div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 covered half">
+                                    <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 covered">
                                         <div class="form-group">
                                             <select class="form-control">
                                                 <option selected>No visible</option>
@@ -209,103 +353,10 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered half">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-6 col-sm-offset-6 col-xs-offset-6 covered">
                                         <div class="form-group">
-                                            <button type="button" class="open-ov form-control">NUEVA</button>
+                                            <button type="button" class="close-ov form-control">GUARDAR</button>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered half">
-                                        <div class="form-group">
-                                            <button type="button" class="close-ov full form-control">GUARDAR</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <form>
-                                    <div class="col-md-12 col-sm-12 col-xs-12  covered full">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="familia_name" placeholder="Nombre Familia" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control" name="familia_width" placeholder="Ancho (px)" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control" name="familia_height" placeholder="Alto (px)" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <button type="button" class="btn btn-default close-ov">CANCELAR</button>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <button type="button" class="btn btn-default">AÑADIR</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="ui-state-default">
-                        <div class="attachment-item">
-                            <div class="attachment-img">
-                                <img src="http://www.astroandalucia.es/wp-content/uploads/2015/03/homepage-5.jpg">
-                            </div>
-                            <div class="attachment-over">
-                                <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
-                                    <h4 class="attachment-title">Familia Imagen</h4>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
-                                    <h4 class="attachment-action"><span class="glyphicon glyphicon-pencil"></span></h4>
-                                </div>
-                                <form>
-                                    <div class="close-icon covered half"><span class="glyphicon glyphicon-remove"></span></div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 covered half">
-                                        <div class="form-group">
-                                            <select class="form-control">
-                                                <option selected>No visible</option>
-                                                <option>Familia 1</option>
-                                                <option>Familia 2</option>
-                                                <option>Familia 3</option>
-                                                <option>Familia 4</option>
-                                                <option>Familia 5</option>
-                                                <option>Familia 6</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered half">
-                                        <div class="form-group">
-                                            <button type="button" class="open-ov form-control">NUEVA</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered half">
-                                        <div class="form-group">
-                                            <button type="button" class="close-ov full form-control">GUARDAR</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <form>
-                                    <div class="col-md-12 col-sm-12 col-xs-12  covered full">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="familia_name" placeholder="Nombre Familia" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control" name="familia_width" placeholder="Ancho (px)" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control" name="familia_height" placeholder="Alto (px)" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <button type="button" class="btn btn-default close-ov">CANCELAR</button>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 covered full">
-                                        <button type="button" class="btn btn-default">AÑADIR</button>
                                     </div>
                                 </form>
                             </div>
@@ -314,19 +365,6 @@
 
                 </ul>
 
-            </div>
-        </div>
-    </div>
-    @include('pulsar::includes.html.form_section_header', ['label' => trans('cms::pulsar.content'), 'icon' => 'icon-inbox'])
-    <div class="widget box">
-        <div class="widget-content no-padding">
-            <div class="row">
-                <div id="upload-file" class="col-md-2 drop-zone">
-                    <div class="col-md-12 text-drop-zone">
-                        Pulse o arrastre aquí sus archivos
-                    </div>
-                </div>
-                <div class="col-md-2 drop-zone"></div>
             </div>
         </div>
     </div>
