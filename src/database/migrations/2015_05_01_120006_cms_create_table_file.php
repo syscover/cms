@@ -18,7 +18,7 @@ class CmsCreateTableFile extends Migration {
             $table->increments('id_354')->unsigned();
             $table->string('file_354', 1020);
             $table->string('mime_354', 255);
-            $table->integer('size_354');
+            $table->integer('size_354')->unsigned();
             $table->boolean('is_image_354');
             $table->smallInteger('width_354')->unsigned()->nullable();
             $table->smallInteger('height_354')->unsigned()->nullable();
