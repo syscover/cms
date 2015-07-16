@@ -23,5 +23,6 @@ return [
     'draft'                                 => 'Draft',
     'publish'                               => 'Publish',
     'select_category'                       => 'Select a category',
-    'attachment-family'                     => 'Attachment family|Attachment families'
+    'select_family'                         => 'Select a family',
+    'attachment_family'                     => 'Attachment family|Attachment families'
 ];

@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Syscover\Pulsar\Traits\TraitModel;
 
-class ArticleAttachmentFamily extends Model {
+class AttachmentFamily extends Model {
 
     use TraitModel;
 

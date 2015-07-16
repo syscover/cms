@@ -16,7 +16,7 @@ class CmsCreateTableFile extends Migration {
         {
             $table->engine = 'InnoDB';
             $table->increments('id_354')->unsigned();
-            $table->string('file_354', 1020);
+            $table->string('file_name_354', 1020);
             $table->string('mime_354', 255);
             $table->integer('size_354')->unsigned();
             $table->boolean('is_image_354');

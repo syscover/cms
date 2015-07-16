@@ -12,9 +12,10 @@
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request as HttpRequest;
-use Syscover\Cms\Models\Category;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
+use Syscover\Cms\Models\AttachmentFamily;
+use Syscover\Cms\Models\Category;
 use Syscover\Cms\Models\Section;
 use Syscover\Cms\Models\ArticleFamily;
 use Syscover\Cms\Models\Article;
@@ -50,10 +51,11 @@ class ArticleController extends Controller {
 
     public function createCustomRecord($parameters)
     {
-        $parameters['sections']     = Section::all();
-        $parameters['families']     = ArticleFamily::all();
-        $parameters['categories']   = Category::getTranslationsRecords($parameters['lang']);
-        $parameters['statuses']     = [
+        $parameters['sections']             = Section::all();
+        $parameters['families']             = ArticleFamily::all();
+        $parameters['attachmentFamilies']   = AttachmentFamily::all();
+        $parameters['categories']           = Category::getTranslationsRecords($parameters['lang']);
+        $parameters['statuses']             = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];

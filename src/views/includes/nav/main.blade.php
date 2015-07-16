@@ -1,4 +1,4 @@
-        <li{!! Miscellaneous::setCurrentOpenPage(['cms-article','cms-article-family','cms-section','cms-category','cms-article-attachment-family']) !!}>
+        <li{!! Miscellaneous::setCurrentOpenPage(['cms-article','cms-article-family','cms-section','cms-category','cms-attachment-family']) !!}>
             <a href="javascript:void(0);"><i class="sys-icon-edit-write"></i>CMS</a>
             <ul class="sub-menu">
                 @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-article', 'access'))
@@ -13,8 +13,8 @@
                 @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-category', 'access'))
                     <li{!! Miscellaneous::setCurrentPage('cms-category') !!}><a href="{{ route('CmsCategory', [session('baseLang')]) }}"><i class="icon-list-ol"></i>{{ trans_choice('pulsar::pulsar.category', 2) }}</a></li>
                 @endif
-                @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-article-attachment-family', 'access'))
-                    <li{!! Miscellaneous::setCurrentPage('cms-article-attachment-family') !!}><a href="{{ route('CmsArticleAttachmentFamily') }}"><i class="icon-picture"></i>{{ trans_choice('cms::pulsar.attachment-family', 2) }}</a></li>
+                @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-attachment-family', 'access'))
+                    <li{!! Miscellaneous::setCurrentPage('cms-attachment-family') !!}><a href="{{ route('CmsAttachmentFamily') }}"><i class="icon-picture"></i>{{ trans_choice('cms::pulsar.attachment_family', 2) }}</a></li>
                 @endif
             </ul>
         </li>

@@ -48,7 +48,10 @@
 
     <script>
         $(document).ready(function() {
-            $('#upload-file').getFile(
+
+            $.dragDropEffects();
+
+            $('#attachment-library-content').getFile(
                 {
                     urlPlugin:          '/packages/syscover/pulsar/vendor',
                     folder:             '/packages/syscover/cms/storage/library',
@@ -57,7 +60,7 @@
                     activateTmpDelete:  false,
                     copies: [
                         {
-                            folder: '/packages/syscover/cms/storage/attachment',
+                            folder: '/packages/syscover/cms/storage/tmp',
                             quality: 100
                         }
                     ]
@@ -73,7 +76,7 @@
                         }
 
                         $.ajax({
-                            url:        '{{ route('storeCmsFile') }}',
+                            url:        '{{ route('storeCmsFile', ['newArticle' => 1]) }}',
                             data:       {
                                 files: files
                             },
@@ -84,50 +87,135 @@
                             dataType:	'json',
                             success: function(data)
                             {
-                                console.log(data);
                                 for(var i = 0; i < data.files.length; i++)
                                 {
-                                    if(data.files[i].is_image_354){
+                                    var obj = data.files[i];
+
+                                    if($('.sortable li').length == 0) $('#library-placeholder').hide();
+
+                                    if(obj.isImage)
+                                    {
                                         $('.sortable').loadTemplate('#file', {
-                                            image:      '/packages/syscover/cms/storage/attachment/' + data.files[i].file_354,
-                                            fileName:   data.files[i].file_354
+                                            image:      obj.copies[0].folder + '/' + obj.copies[0].name,
+                                            fileName:   obj.copies[0].name,
+                                            isImage:    obj.isImage? 'is-image' : 'no-image'
                                         }, { prepend:true });
                                     }
+
+                                    // set input hidden with attachment data
+                                    var dataFiles = JSON.parse($('[name=dataFiles]').val());
+                                    dataFiles.push(obj.copies[0]);
+                                    $('[name=dataFiles]').val(JSON.stringify(dataFiles));
                                 }
+
+                                $.setAttachmentActions();
+                                $.setEventFamilies();
                             }
                         });
                     }
                 }
             );
-/*
-            $('body').on('dragenter', function(e){
-                $('.uploader-window').css('display', 'block');
-                $('.uploader-window').css('opacity', 1);
-            });
-            $('body').on('dragleave', function(e){
-
-                console.log(e);
-                //$('.uploader-window').css('display', 'none');
-                //$('.uploader-window').css('opacity', 0);
-            });
-
-            $('.uploader-window h3').on('dragleave', function(e){
-
-            });
-            */
         });
+
+        $.setEventFamilies = function() {
+            $('.save-attachment').off('click').on('click', function(){
+                if($(this).closest('li').find('select').val() != '')
+                {
+                    var url = '{{ route('apiShowCmsAttachmentFamily', ['id' => 'id', 'api' => 1]) }}';
+                    var that = this;
+
+                    $.ajax({
+                        url:    url.replace('id', $(this).closest('li').find('select').val()),
+                        headers:  {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        type:		'POST',
+                        dataType:	'json',
+                        success: function(data)
+                        {
+                            if($(that).closest('li').find('img').hasClass('is-image') && data.width_353 != null && data.height_353 != null)
+                            {
+                                $.getFile(
+                                    {
+                                        urlPlugin:  '/packages/syscover/pulsar/vendor',
+                                        folder:     '/packages/syscover/cms/storage/tmp',
+                                        srcFolder:  '/packages/syscover/cms/storage/tmp',
+                                        srcFile:    $(that).closest('li').find('.file-name').html(),
+                                        crop: {
+                                            active: true,
+                                            width: data.width_353,
+                                            height: data.height_353
+                                        }
+                                    },
+                                    function(data) {
+                                        console.log(data);
+                                    }
+                                );
+                            }
+                            else
+                            {
+                                alert('no getfile');
+                            }
+                        }
+                    });
+                }
+            });
+        };
+
+        $.dragDropEffects = function() {
+            $(document).on('dragover', function(e){
+                e.preventDefault();
+                var al = $('#attachment-library').get(0);
+                if($.contains(al, e.target) || e.target.id=='attachment-library-mask' || e.target.id=='attachment-library-content' || e.target.id=='attachment-library')
+                {
+                    $('#attachment-library-mask').css('z-index', 9999999999).css('opacity', 1);
+                    $('#library-placeholder').css('opacity', 0).css('z-index', -1);
+                }
+                else
+                {
+                    $('#attachment-library-mask').css('opacity', 0).css('z-index', -1);
+                    $('#library-placeholder').css('opacity', 1).css('z-index', 'auto');
+                }
+            });
+
+            $(document).on('dragenter', function(e)
+            {
+                e.preventDefault();
+                if(e.target.id=='attachment-library' || e.target.id=='attachment-library-mask' || e.target.id=='attachment-library-content' || e.target.id=='attachment-library')
+                {
+                    $('#attachment-library-mask').css('z-index', 9999999999).css('opacity', 1);
+                    $('#library-placeholder').css('opacity', 0).css('z-index', -1);
+                }
+            });
+
+            $(document).on('dragleave', function(e)
+            {
+                e.preventDefault();
+                if(e.target.id=='attachment-library-mask' || e.target.id=='attachment-library-content')
+                {
+                    $('#attachment-library-mask').css('opacity', 0).css('z-index', -1);
+                    $('#library-placeholder').css('opacity', 1).css('z-index', 'auto');
+                }
+            });
+
+            $('#attachment-library-content').on('drop', function(e)
+            {
+                e.preventDefault();
+                $('#attachment-library-mask').css('opacity', 0).css('z-index', -1);
+            });
+        };
     </script>
 
     <script type="text/html" id="file">
         <li>
             <div class="attachment-item">
                 <div class="attachment-img">
-                    <img data-src="image" />
+                    <img data-src="image" data-class="isImage"  />
                 </div>
                 <div class="attachment-over">
                     <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
                         <h4 class="attachment-title">Familia Imagen</h4>
-                        <p class="attachment-sub" data-content="fileName">Nombre del archivo</p>
+                        <p class="attachment-sub file-name" data-content="fileName"></p>
                     </div>
                     <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
                         <h4 class="attachment-action"><span class="glyphicon glyphicon-pencil"></span></h4>
@@ -136,41 +224,66 @@
                         <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
                         <div class="col-md-12 col-sm-12 col-xs-12 covered">
                             <div class="form-group">
-                                <select class="form-control">
-                                    <option selected>No visible</option>
-                                    <option>Familia 1</option>
-                                    <option>Familia 2</option>
-                                    <option>Familia 3</option>
-                                    <option>Familia 4</option>
-                                    <option>Familia 5</option>
-                                    <option>Familia 6</option>
+                                <input type="text" class="form-control" id="" placeholder="Nombre Imagen">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="attachmentFamily">
+                                    <option value="" selected>{{ trans('cms::pulsar.select_family') }}</option>
+                                    @foreach($attachmentFamilies as $attachmentFamily)
+                                        <option value="{{ $attachmentFamily->id_353 }}">{{ $attachmentFamily->name_353 }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-6 col-sm-offset-6 col-xs-offset-6 covered">
+                        <div class="col-md-12 col-sm-12 col-xs-12 covered">
                             <div class="form-group">
-                                <button type="button" class="close-ov form-control">GUARDAR</button>
+                                <button type="button" class="close-ov form-control save-attachment">GUARDAR</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+            <div class="remove-img">
+                <span class="glyphicon glyphicon-remove"></span>
+            </div>
         </li>
     </script>
 
     <style>
-        .drop-zone {
-            height: 100px;
-            line-height: 25px;
-            border: 2px dashed #bbb;
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;
-            border-radius: 5px;
-            padding: 20px;
-            color: #bbb;
+        #attachment-library{
+            min-height: 242px;
+        }
+        #attachment-library-mask{
+            position: absolute;
+            height:100%;
+            width:100%;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            background-color: rgba(0, 37, 147,0.9);
+            color:white;
+            font-size:20px;
+            z-index:-1;
+            opacity: 0;
             text-align: center;
-            font-size: 12px;
-
+            -webkit-transition: opacity 0.3s;
+            -moz-transition: opacity 0.3s;
+            -ms-transition: opacity 0.3s;
+            -o-transition: opacity 0.3s;
+            transition: opacity 0.3s;
+        }
+        #attachment-library-content {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 3px dashed #fff;
+            border-radius:5px;
+            font-size: 18px;
+            color: white;
+            padding-top:20%;
         }
     </style>
     <!-- /cms::articles.create -->
@@ -203,6 +316,7 @@
         @include('pulsar::includes.html.form_wysiwyg_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'wysiwyg', 'labelSize' => 2, 'fieldSize' => 10])
         @include('pulsar::includes.html.form_contentbuilder_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'contentbuilder', 'theme' => 'default', 'value' => Input::old('article', isset($object->article_355)? $object->article_355 : null), 'labelSize' => 2, 'fieldSize' => 10])
         <textarea name="article" class="hidden">{{ Input::old('article', isset($object->article_355)? $object->article_355 : null) }}</textarea>
+        @include('pulsar::includes.html.form_hidden', ['name' => 'dataFiles', 'value' => '[]'])
     @include('pulsar::includes.html.form_record_footer', ['action' => 'store'])
     <!-- /cms::articles.create -->
 @stop
@@ -212,161 +326,50 @@
 
 
     <style>
-        .uploader-window {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 86, 132, .9);
-            z-index: 250000;
-            display: none;
-            text-align: center;
-            opacity: 0;
-            -webkit-transition: opacity 250ms;
-            transition: opacity 250ms
-        }
-        .uploader-window-content {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 1px dashed #fff
-        }
-        .uploader-window h3 {
-            margin: -.5em 0 0;
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            -webkit-transform: translateY(-50%);
-            -ms-transform: translateY(-50%);
-            transform: translateY(-50%);
-            font-size: 40px;
-            color: #fff;
-            padding: 0
-        }
-
-        .uploader-window .media-progress-bar {
+        #library-placeholder{
+            height: 200px;
+            width: 95%;
+            border: 2px dashed grey;
+            border-radius: 5px;
+            margin-left: 2.5%;
+            margin-right: 2.5%;
             margin-top: 20px;
-            max-width: 300px;
-            background: 0 0;
-            border-color: #fff;
-            display: none
+            margin-bottom: 20px;
+            -webkit-transition: opacity 0.3s;
+            -moz-transition: opacity 0.3s;
+            -ms-transition: opacity 0.3s;
+            -o-transition: opacity 0.3s;
+            transition: opacity 0.3s;
         }
-
-        .uploader-window .media-progress-bar div {
-            background: #fff
+        #library-placeholder p{
+            color: grey;
+            text-align: center;
+            font-size: 18px;
+            padding-top: 80px;
         }
-
-        .uploading .uploader-window .media-progress-bar {
-            display: block
-        }
-
     </style>
 
-    <div class="uploader-window">
-        <div class="uploader-window-content">
-            <h3>Arrastra archivos aquí para subirlos</h3>
-        </div>
-    </div>
+
+
 
     <!-- cms::articles.create -->
-    <div class="widget box">
+    <div id="attachment-library" class="widget box">
         <div class="widget-content no-padding">
-
-            <div class="row">
-                <div id="upload-file" class="col-md-12 drop-zone">
-                    <div class="col-md-12 text-drop-zone">
-                        Pulse o arrastre aquí sus archivos
-                    </div>
-                </div>
-            </div>
-
             <div class="row" id="attachment-wrapper">
-                <ul class="sortable">
-
-                    <li>
-                        <div class="attachment-item">
-                            <div class="attachment-img">
-                                <img src="http://www.astroandalucia.es/wp-content/uploads/2015/03/homepage-5.jpg">
-                            </div>
-                            <div class="attachment-over">
-                                <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
-                                    <h4 class="attachment-title">Familia Imagen</h4>
-                                    <p class="attachment-sub">Nombre del archivo</p>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
-                                    <h4 class="attachment-action"><span class="glyphicon glyphicon-pencil"></span></h4>
-                                </div>
-                                <form>
-                                    <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 covered">
-                                        <div class="form-group">
-                                            <select class="form-control">
-                                                <option selected>No visible</option>
-                                                <option>Familia 1</option>
-                                                <option>Familia 2</option>
-                                                <option>Familia 3</option>
-                                                <option>Familia 4</option>
-                                                <option>Familia 5</option>
-                                                <option>Familia 6</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-6 col-sm-offset-6 col-xs-offset-6 covered">
-                                        <div class="form-group">
-                                            <button type="button" class="close-ov form-control">GUARDAR</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="attachment-item">
-                            <div class="attachment-img">
-                                <img src="http://www.astroandalucia.es/wp-content/uploads/2015/03/homepage-5.jpg">
-                            </div>
-                            <div class="attachment-over">
-                                <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
-                                    <h4 class="attachment-title">Familia Imagen</h4>
-                                    <p class="attachment-sub">Nombre del archivo</p>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
-                                    <h4 class="attachment-action"><span class="glyphicon glyphicon-pencil"></span></h4>
-                                </div>
-                                <form>
-                                    <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 covered">
-                                        <div class="form-group">
-                                            <select class="form-control">
-                                                <option selected>No visible</option>
-                                                <option>Familia 1</option>
-                                                <option>Familia 2</option>
-                                                <option>Familia 3</option>
-                                                <option>Familia 4</option>
-                                                <option>Familia 5</option>
-                                                <option>Familia 6</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-6 col-sm-offset-6 col-xs-offset-6 covered">
-                                        <div class="form-group">
-                                            <button type="button" class="close-ov form-control">GUARDAR</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
-
+                <div id="library-placeholder">
+                    <p>Arrastre aqui sus archivos</p>
+                </div>
+                <ul class="sortable"></ul>
             </div>
         </div>
     </div>
     <!-- /cms::articles.create -->
+@stop
+
+@section('endBody')
+    <div id="attachment-library-mask">
+        <div id="attachment-library-content">
+            Arrastre aqui sus archivos para ...
+        </div>
+    </div>
 @stop

@@ -18,8 +18,9 @@ class CmsCreateTableAttachment extends Migration {
             $table->integer('id_357')->unsigned();
             $table->string('lang_357', 2);
             $table->integer('article_357')->unsigned();
+            $table->integer('file_357')->unsigned();
             $table->string('name_357', 510);
-            $table->string('file_357', 1020);
+            $table->string('file_name_357', 1020);
             $table->string('mime_354', 255);
             $table->integer('size_354')->unsigned();
             $table->boolean('is_image_357');

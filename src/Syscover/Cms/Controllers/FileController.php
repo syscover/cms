@@ -24,7 +24,7 @@ class FileController extends Controller {
     protected $routeSuffix  = 'CmsFile';
     protected $folder       = 'attachment';
     protected $package      = 'cms';
-    protected $aColumns     = ['id_354', 'file_354', 'mime_354', 'size_354', 'width_354', 'width_354', 'height_354', 'data_354'];
+    protected $aColumns     = ['id_354', 'file_name_354', 'mime_354', 'size_354', 'width_354', 'width_354', 'height_354', 'data_354'];
     protected $nameM        = 'file_354';
     protected $model        = '\Syscover\Cms\Models\File';
     protected $icon         = 'sys-icon-magnet';
@@ -32,10 +32,13 @@ class FileController extends Controller {
 
     public function storeFile(HttpRequest $request)
     {
+        $parameters = $request->route()->parameters();
         $files      = $request->input('files');
+        //$uri        = $parameters['newArticle'] == 1? 'packages/syscover/cms/storage/tmp' : 'packages/syscover/cms/storage/library';
         $uri        = 'packages/syscover/cms/storage/library';
         $path       = public_path() . '/' . $uri;
-        $objects    = [];
+        $objects            = [];
+        $objectsResponse    = [];
 
         for($i = 0; $i < count($files); $i++)
         {
@@ -45,7 +48,7 @@ class FileController extends Controller {
             }
 
             $objects[] = [
-                'file_354'      => $files[$i]['name'],
+                'file_name_354' => $files[$i]['name'],
                 'mime_354'      => $files[$i]['mime'],
                 'size_354'      => $files[$i]['size'],
                 'is_image_354'  => $files[$i]['isImage'] == 'true'? true : false,
@@ -53,13 +56,15 @@ class FileController extends Controller {
                 'height_354'    => isset($files[$i]['height'])? $files[$i]['height'] : null,
                 'data_354'      => null
             ];
+
+            $objectsResponse[] = $files[$i];
         }
 
         File::insert($objects);
 
         $response = [
             'success' => true,
-            'files'   => $objects
+            'files'   => $objectsResponse
         ];
 
         return response()->json($response);

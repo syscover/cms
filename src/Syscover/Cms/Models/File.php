@@ -22,7 +22,7 @@ class File extends Model {
     protected $primaryKey   = 'id_354';
     protected $sufix        = '354';
     public $timestamps      = false;
-    protected $fillable     = ['id_354', 'file_354', 'mime_354', 'size_354', 'is_image_354', 'width_354', 'height_354', 'data_354'];
+    protected $fillable     = ['id_354', 'file_name_354', 'mime_354', 'size_354', 'is_image_354', 'width_354', 'height_354', 'data_354'];
     private static $rules   = [
     ];
 

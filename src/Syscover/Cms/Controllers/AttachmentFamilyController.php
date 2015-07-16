@@ -13,24 +13,24 @@
 use Illuminate\Support\Facades\Request;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
-use Syscover\Cms\Models\ArticleAttachmentFamily;
+use Syscover\Cms\Models\AttachmentFamily;
 
-class ArticleAttachmentFamilyController extends Controller {
+class AttachmentFamilyController extends Controller {
 
     use TraitController;
 
-    protected $routeSuffix  = 'CmsArticleAttachmentFamily';
-    protected $folder       = 'article_attachment_family';
+    protected $routeSuffix  = 'CmsAttachmentFamily';
+    protected $folder       = 'attachment_family';
     protected $package      = 'cms';
     protected $aColumns     = ['id_353', 'name_353'];
     protected $nameM        = 'name_353';
-    protected $model        = '\Syscover\Cms\Models\ArticleAttachmentFamily';
+    protected $model        = '\Syscover\Cms\Models\AttachmentFamily';
     protected $icon         = 'icon-picture';
     protected $objectTrans  = 'attachment-family';
 
     public function storeCustomRecord()
     {
-        ArticleAttachmentFamily::create([
+        AttachmentFamily::create([
             'name_353'      => Request::input('name'),
             'width_353'     => Request::has('width')? Request::input('width') : null,
             'height_353'    => Request::has('height')? Request::input('height') : null,
@@ -40,7 +40,7 @@ class ArticleAttachmentFamilyController extends Controller {
     
     public function updateCustomRecord($parameters)
     {
-        ArticleAttachmentFamily::where('id_353', $parameters['id'])->update([
+        AttachmentFamily::where('id_353', $parameters['id'])->update([
             'name_353'      => Request::input('name'),
             'width_353'     => Request::has('width')? Request::input('width') : null,
             'height_353'    => Request::has('height')? Request::input('height') : null,

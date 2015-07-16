@@ -23,5 +23,6 @@ return [
     'draft'                                 => 'Borrador',
     'publish'                               => 'Publicado',
     'select_category'                       => 'Seleccione una categoría',
-    'attachment-family'                     => 'Familia de adjunto|Familias de adjunto'
+    'select_family'                         => 'Seleccione una familia',
+    'attachment_family'                     => 'Familia de adjunto|Familias de adjunto'
 ];
