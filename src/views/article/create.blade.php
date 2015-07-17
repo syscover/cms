@@ -78,7 +78,7 @@
 
                         // store files like library element
                         $.ajax({
-                            url:        '{{ route('storeCmsFile', ['newArticle' => 1]) }}',
+                            url:        '{{ route('storeCmsLibrary', ['newArticle' => 1]) }}',
                             data:       {
                                 files: files
                             },
@@ -98,9 +98,9 @@
                                     if(obj.isImage)
                                     {
                                         $('.sortable').loadTemplate('#file', {
-                                            image:      obj.copies[0].folder + '/' + obj.copies[0].name,
-                                            fileName:   obj.copies[0].name,
-                                            isImage:    obj.isImage? 'is-image' : 'no-image'
+                                            image:              obj.copies[0].folder + '/' + obj.copies[0].name,
+                                            fileName:           obj.copies[0].name,
+                                            isImage:            obj.isImage? 'is-image' : 'no-image'
                                         }, { prepend:true });
                                     }
 
@@ -108,11 +108,16 @@
                                     var dataFiles = JSON.parse($('[name=dataFiles]').val());
 
                                     dataFiles.push({
-                                        folder: obj.copies[0].folder,
-                                        fileName: obj.copies[0].name
+                                        family:             "",
+                                        folder:             obj.copies[0].folder,
+                                        fileName:           obj.copies[0].name,
+                                        libraryFileName:    obj.name,
+                                        imageName:          ""
                                     });
 
                                     $('[name=dataFiles]').val(JSON.stringify(dataFiles));
+
+                                    $.shortingElements();
                                 }
 
                                 $.setAttachmentActions();
@@ -125,7 +130,10 @@
         });
 
         $.setEventSaveAttachmentProperties = function() {
-            $('.attachment-family').off('change').on('change', function(){
+            $('.attachment-family, .image-name').off('focus').on('focus', function () {
+                // get previous value from select
+                $(this).data('previous', $(this).val());
+            }).off('change').on('change', function(){
                 $(this).addClass('changed');
             });
 
@@ -165,6 +173,8 @@
                                         $(that).closest('li').find('.family-name').html(data.name_353);
                                         $(that).closest('li').find('.attachment-family').removeClass('changed');
                                         $(that).closest('.attachment-item').toggleClass('cover');
+                                        $('.attachment-family').data('previous', $('.attachment-family').val());
+                                        $.setFamilyAttachment($(that).closest('li').find('.file-name').html(), data.id_353);
                                     }
                                 );
                             }
@@ -174,6 +184,8 @@
                                 $(that).closest('li').find('.family-name').html(data.name_353);
                                 $(that).closest('li').find('.attachment-family').removeClass('changed');
                                 $(that).closest('.attachment-item').toggleClass('cover');
+                                $('.attachment-family').data('previous', $('.attachment-family').val());
+                                $.setFamilyAttachment($(that).closest('li').find('.file-name').html(), data.id_353);
                             }
                         }
                     });
@@ -186,6 +198,8 @@
                     }
                     $(this).closest('li').find('.attachment-family').removeClass('changed');
                     $(this).closest('.attachment-item').toggleClass('cover');
+                    $('.attachment-family').data('previous', $('.attachment-family').val());
+                    $.setFamilyAttachment($(that).closest('li').find('.file-name').html(), '');
                 }
 
                 // set name of image
@@ -199,50 +213,10 @@
                         dataFiles[i].imageName = $(this).closest('li').find('.image-name').val();
                     }
                 }
+                // set previous value to image name
+                $('.image-name').data('previous', $('.image-name').val());
+
                 $('[name=dataFiles]').val(JSON.stringify(dataFiles));
-            });
-        };
-
-        $.dragDropEffects = function() {
-            $(document).on('dragover', function(e){
-                e.preventDefault();
-                var al = $('#attachment-library').get(0);
-                if($.contains(al, e.target) || e.target.id=='attachment-library-mask' || e.target.id=='attachment-library-content' || e.target.id=='attachment-library')
-                {
-                    $('#attachment-library-mask').css('z-index', 9999999999).css('opacity', 1);
-                    $('#library-placeholder').css('opacity', 0).css('z-index', -1);
-                }
-                else
-                {
-                    $('#attachment-library-mask').css('opacity', 0).css('z-index', -1);
-                    $('#library-placeholder').css('opacity', 1).css('z-index', 'auto');
-                }
-            });
-
-            $(document).on('dragenter', function(e)
-            {
-                e.preventDefault();
-                if(e.target.id=='attachment-library' || e.target.id=='attachment-library-mask' || e.target.id=='attachment-library-content' || e.target.id=='attachment-library')
-                {
-                    $('#attachment-library-mask').css('z-index', 9999999999).css('opacity', 1);
-                    $('#library-placeholder').css('opacity', 0).css('z-index', -1);
-                }
-            });
-
-            $(document).on('dragleave', function(e)
-            {
-                e.preventDefault();
-                if(e.target.id=='attachment-library-mask' || e.target.id=='attachment-library-content')
-                {
-                    $('#attachment-library-mask').css('opacity', 0).css('z-index', -1);
-                    $('#library-placeholder').css('opacity', 1).css('z-index', 'auto');
-                }
-            });
-
-            $('#attachment-library-content').on('drop', function(e)
-            {
-                e.preventDefault();
-                $('#attachment-library-mask').css('opacity', 0).css('z-index', -1);
             });
         };
     </script>
@@ -265,10 +239,10 @@
                         <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
                         <div class="col-md-12 col-sm-12 col-xs-12 covered">
                             <div class="form-group">
-                                <input type="text" class="form-control image-name" placeholder="{{ trans('cms::pulsar.image_name') }}">
+                                <input type="text" class="form-control image-name" placeholder="{{ trans('cms::pulsar.image_name') }}" data-previous="">
                             </div>
                             <div class="form-group">
-                                <select class="form-control attachment-family" name="attachmentFamily">
+                                <select class="form-control attachment-family" name="attachmentFamily" data-previous="">
                                     <option value="" selected>{{ trans('cms::pulsar.select_family') }}</option>
                                     @foreach($attachmentFamilies as $attachmentFamily)
                                         <option value="{{ $attachmentFamily->id_353 }}">{{ $attachmentFamily->name_353 }}</option>

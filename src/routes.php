@@ -14,13 +14,19 @@ Route::group(['middleware' => ['auth.pulsar','permission.pulsar','locale.pulsar'
 
     /*
     |--------------------------------------------------------------------------
+    | LIBRARY
+    |--------------------------------------------------------------------------
+    */
+    Route::post(config('pulsar.appName') . '/cms/library/store/{newArticle}',     ['as'=>'storeCmsLibrary',              'uses'=>'Syscover\Cms\Controllers\LibraryController@storeLibrary',  'resource' => 'cms-article',        'action' => 'create']);
+
+    /*
+    |--------------------------------------------------------------------------
     | FILES
     |--------------------------------------------------------------------------
     */
     Route::get(config('pulsar.appName') . '/cms/files/{type}',                  ['as'=>'apiWysiwygCmsFile',         'uses'=>'Syscover\Cms\Controllers\FileController@getFilesWysiwyg',      'resource' => 'cms-article',        'action' => 'create']);
     Route::post(config('pulsar.appName') . '/cms/archives/images/delete',       ['as'=>'apiWysiwygDeleteCmsFile',   'uses'=>'Syscover\Cms\Controllers\FileController@deleteFilesWysiwyg',   'resource' => 'cms-article',        'action' => 'create']);
     Route::post(config('pulsar.appName') . '/cms/files/upload/{type}',          ['as'=>'apiWysiwygUploadCmsFile',   'uses'=>'Syscover\Cms\Controllers\FileController@uploadFilesWysiwyg',   'resource' => 'cms-article',        'action' => 'create']);
-    Route::post(config('pulsar.appName') . '/cms/files/store/{newArticle}',     ['as'=>'storeCmsFile',              'uses'=>'Syscover\Cms\Controllers\FileController@storeFile',            'resource' => 'cms-article',        'action' => 'create']);
 
     /*
     |--------------------------------------------------------------------------
