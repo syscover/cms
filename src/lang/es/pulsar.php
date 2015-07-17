@@ -24,5 +24,6 @@ return [
     'publish'                               => 'Publicado',
     'select_category'                       => 'Seleccione una categoría',
     'select_family'                         => 'Seleccione una familia',
-    'attachment_family'                     => 'Familia de adjunto|Familias de adjunto'
+    'attachment_family'                     => 'Familia de adjunto|Familias de adjunto',
+    'image_name'                            => 'Nombre de la imagen'
 ];

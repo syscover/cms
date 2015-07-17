@@ -69,12 +69,14 @@
                 {
                     if(data.success && Array.isArray(data.files))
                     {
+                        // set files inside array to throw them in ajax
                         var files = [];
                         for(var i = 0; data.files.length > i; i++)
                         {
                             files.push(data.files[i]);
                         }
 
+                        // store files like library element
                         $.ajax({
                             url:        '{{ route('storeCmsFile', ['newArticle' => 1]) }}',
                             data:       {
@@ -104,12 +106,17 @@
 
                                     // set input hidden with attachment data
                                     var dataFiles = JSON.parse($('[name=dataFiles]').val());
-                                    dataFiles.push(obj.copies[0]);
+
+                                    dataFiles.push({
+                                        folder: obj.copies[0].folder,
+                                        fileName: obj.copies[0].name
+                                    });
+
                                     $('[name=dataFiles]').val(JSON.stringify(dataFiles));
                                 }
 
                                 $.setAttachmentActions();
-                                $.setEventFamilies();
+                                $.setEventSaveAttachmentProperties();
                             }
                         });
                     }
@@ -117,9 +124,13 @@
             );
         });
 
-        $.setEventFamilies = function() {
+        $.setEventSaveAttachmentProperties = function() {
+            $('.attachment-family').off('change').on('change', function(){
+                $(this).addClass('changed');
+            });
+
             $('.save-attachment').off('click').on('click', function(){
-                if($(this).closest('li').find('select').val() != '')
+                if($(this).closest('li').find('select').val() != '' && $(this).closest('li').find('.attachment-family').hasClass('changed'))
                 {
                     var url = '{{ route('apiShowCmsAttachmentFamily', ['id' => 'id', 'api' => 1]) }}';
                     var that = this;
@@ -139,26 +150,56 @@
                                     {
                                         urlPlugin:  '/packages/syscover/pulsar/vendor',
                                         folder:     '/packages/syscover/cms/storage/tmp',
-                                        srcFolder:  '/packages/syscover/cms/storage/tmp',
+                                        srcFolder:  '/packages/syscover/cms/storage/library',
                                         srcFile:    $(that).closest('li').find('.file-name').html(),
                                         crop: {
-                                            active: true,
-                                            width: data.width_353,
-                                            height: data.height_353
+                                            active:     true,
+                                            width:      data.width_353,
+                                            height:     data.height_353,
+                                            overwrite:  true
                                         }
                                     },
-                                    function(data) {
-                                        console.log(data);
+                                    function(response)
+                                    {
+                                        $(that).closest('li').find('img').attr('src', response.folder + '/' + response.name + '?' + Math.floor((Math.random() * 1000) + 1));
+                                        $(that).closest('li').find('.family-name').html(data.name_353);
+                                        $(that).closest('li').find('.attachment-family').removeClass('changed');
+                                        $(that).closest('.attachment-item').toggleClass('cover');
                                     }
                                 );
                             }
                             else
                             {
-                                alert('no getfile');
+                                // set family without getFile
+                                $(that).closest('li').find('.family-name').html(data.name_353);
+                                $(that).closest('li').find('.attachment-family').removeClass('changed');
+                                $(that).closest('.attachment-item').toggleClass('cover');
                             }
                         }
                     });
                 }
+                else
+                {
+                    if($(this).closest('li').find('select').val() == '')
+                    {
+                        $(this).closest('li').find('.family-name').html('');
+                    }
+                    $(this).closest('li').find('.attachment-family').removeClass('changed');
+                    $(this).closest('.attachment-item').toggleClass('cover');
+                }
+
+                // set name of image
+                var fileName    = $(this).closest('li').find('.file-name').html();
+                var dataFiles   = JSON.parse($('[name=dataFiles]').val());
+
+                for(var i = 0; i < dataFiles.length; i++)
+                {
+                    if(dataFiles[i].fileName == fileName)
+                    {
+                        dataFiles[i].imageName = $(this).closest('li').find('.image-name').val();
+                    }
+                }
+                $('[name=dataFiles]').val(JSON.stringify(dataFiles));
             });
         };
 
@@ -214,7 +255,7 @@
                 </div>
                 <div class="attachment-over">
                     <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
-                        <h4 class="attachment-title">Familia Imagen</h4>
+                        <h4 class="attachment-title family-name"></h4>
                         <p class="attachment-sub file-name" data-content="fileName"></p>
                     </div>
                     <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
@@ -224,10 +265,10 @@
                         <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
                         <div class="col-md-12 col-sm-12 col-xs-12 covered">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="" placeholder="Nombre Imagen">
+                                <input type="text" class="form-control image-name" placeholder="{{ trans('cms::pulsar.image_name') }}">
                             </div>
                             <div class="form-group">
-                                <select class="form-control" name="attachmentFamily">
+                                <select class="form-control attachment-family" name="attachmentFamily">
                                     <option value="" selected>{{ trans('cms::pulsar.select_family') }}</option>
                                     @foreach($attachmentFamilies as $attachmentFamily)
                                         <option value="{{ $attachmentFamily->id_353 }}">{{ $attachmentFamily->name_353 }}</option>
@@ -237,7 +278,7 @@
                         </div>
                         <div class="col-md-12 col-sm-12 col-xs-12 covered">
                             <div class="form-group">
-                                <button type="button" class="close-ov form-control save-attachment">GUARDAR</button>
+                                <button type="button" class="close-ov form-control save-attachment">{{ trans('pulsar::pulsar.save') }}</button>
                             </div>
                         </div>
                     </form>
@@ -248,44 +289,6 @@
             </div>
         </li>
     </script>
-
-    <style>
-        #attachment-library{
-            min-height: 242px;
-        }
-        #attachment-library-mask{
-            position: absolute;
-            height:100%;
-            width:100%;
-            top:0;
-            left:0;
-            right:0;
-            bottom:0;
-            background-color: rgba(0, 37, 147,0.9);
-            color:white;
-            font-size:20px;
-            z-index:-1;
-            opacity: 0;
-            text-align: center;
-            -webkit-transition: opacity 0.3s;
-            -moz-transition: opacity 0.3s;
-            -ms-transition: opacity 0.3s;
-            -o-transition: opacity 0.3s;
-            transition: opacity 0.3s;
-        }
-        #attachment-library-content {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 3px dashed #fff;
-            border-radius:5px;
-            font-size: 18px;
-            color: white;
-            padding-top:20%;
-        }
-    </style>
     <!-- /cms::articles.create -->
 @stop
 
@@ -322,42 +325,12 @@
 @stop
 
 @section('box_tab2')
-
-
-
-    <style>
-        #library-placeholder{
-            height: 200px;
-            width: 95%;
-            border: 2px dashed grey;
-            border-radius: 5px;
-            margin-left: 2.5%;
-            margin-right: 2.5%;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            -webkit-transition: opacity 0.3s;
-            -moz-transition: opacity 0.3s;
-            -ms-transition: opacity 0.3s;
-            -o-transition: opacity 0.3s;
-            transition: opacity 0.3s;
-        }
-        #library-placeholder p{
-            color: grey;
-            text-align: center;
-            font-size: 18px;
-            padding-top: 80px;
-        }
-    </style>
-
-
-
-
     <!-- cms::articles.create -->
     <div id="attachment-library" class="widget box">
         <div class="widget-content no-padding">
             <div class="row" id="attachment-wrapper">
                 <div id="library-placeholder">
-                    <p>Arrastre aqui sus archivos</p>
+
                 </div>
                 <ul class="sortable"></ul>
             </div>

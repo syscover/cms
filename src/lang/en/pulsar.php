@@ -24,5 +24,6 @@ return [
     'publish'                               => 'Publish',
     'select_category'                       => 'Select a category',
     'select_family'                         => 'Select a family',
-    'attachment_family'                     => 'Attachment family|Attachment families'
+    'attachment_family'                     => 'Attachment family|Attachment families',
+    'image_name'                            => 'Image name'
 ];
