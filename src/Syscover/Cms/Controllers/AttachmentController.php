@@ -152,7 +152,7 @@ class AttachmentController extends Controller {
 
         if($attachment->file_name_357 != null && $attachment->file_name_357 != "")
         {
-            unlink(public_path() . Attachment::$folder . '/' . $attachment->file_name_357);
+            File::delete(public_path() . Attachment::$folder . '/' . $attachment->file_name_357);
         }
 
         Attachment::deleteTranslationRecord($parameters['id'], $parameters['lang']);

@@ -44,156 +44,17 @@
         <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/wysiwyg.froala/js/langs/' . config('app.locale') . '.js') }}"></script>
     @endif
 
-    @include('cms::article.includes.common_script')
-
     <script>
         $(document).ready(function() {
-
             @if(count($attachments) > 0)
                 $('#library-placeholder').hide();
             @endif
-            var storeNewAttachment = true;
-
             $.setAttachmentActions();
             $.setEventSaveAttachmentProperties();
-
-            $('#attachment-library-content').getFile(
-                {
-                    urlPlugin:          '/packages/syscover/pulsar/vendor',
-                    folder:             '/packages/syscover/cms/storage/library',
-                    tmpFolder:          '/packages/syscover/cms/storage/library',
-                    multiple:           true,
-                    activateTmpDelete:  false,
-                    copies: [
-                        {
-                            folder: '/packages/syscover/cms/storage/tmp',
-                            quality: 100
-                        }
-                    ]
-                },
-                function(dataUploaded)
-                {
-                    if(dataUploaded.success && Array.isArray(dataUploaded.files))
-                    {
-                        // set files inside array to throw them in ajax
-                        var files = [];
-                        for(var i = 0; dataUploaded.files.length > i; i++)
-                        {
-                            files.push(dataUploaded.files[i]);
-                        }
-
-                        // store files like library element
-                        $.ajax({
-                            url:        '{{ route('storeCmsLibrary', ['newArticle' => 1]) }}',
-                            data:       {
-                                files: files
-                            },
-                            headers:  {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            type:		'POST',
-                            dataType:	'json',
-                            success: function(dataStored)
-                            {
-                                var newAttachments = [];
-                                for(var i = 0; i < dataStored.files.length; i++)
-                                {
-                                    var obj = dataStored.files[i];
-
-                                    if($('.sortable li').length == 0) $('#library-placeholder').hide();
-
-                                    if(obj.isImage)
-                                    {
-                                        $('.sortable').loadTemplate('#file', {
-                                            image:              obj.copies[0].folder + '/' + obj.copies[0].name,
-                                            fileName:           obj.copies[0].name,
-                                            isImage:            obj.isImage? 'is-image' : 'no-image'
-                                        }, { prepend:true });
-                                    }
-
-                                    newAttachments.push({
-                                        type:               obj.type,
-                                        mime:               obj.mime,
-                                        family:             "",
-                                        folder:             obj.copies[0].folder,
-                                        fileName:           obj.copies[0].name,
-                                        library:            obj.library,
-                                        libraryFileName:    obj.name,
-                                        imageName:          ""
-                                    });
-                                }
-
-                                // set input hidden with attachment data
-                                var attachments = JSON.parse($('[name=attachments]').val());
-                                console.log(attachments);
-                                $('[name=attachments]').val(JSON.stringify(attachments.concat(newAttachments)));
-
-                                if(!storeNewAttachment) $.shortingElements();
-                                $.setAttachmentActions();
-                                $.setEventSaveAttachmentProperties();
-
-                                // stored function
-                                if(storeNewAttachment)
-                                {
-                                    $.ajax({
-                                        url: '{{ route('storeCmsAttachment', ['newArticle' => 1]) }}',
-                                        data:       {
-                                            attachments: newAttachments,
-                                            lang: $('[name=lang]').val(),
-                                            article: $('[name=id]').val()
-                                        },
-                                        headers:  {
-                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                        },
-                                        type:		'POST',
-                                        dataType:	'json',
-                                        success: function(response)
-                                        {
-                                            $.shortingElements();
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                    }
-                }
-            );
         });
-
-
-
-        $.updateAttachment = function(element) {
-            if($(element).closest('li').data('id') != undefined)
-            {
-                var attachments = JSON.parse($('[name=attachments]').val());
-                var attachment = null;
-
-                for(var i = 0; i < attachments.length; i++)
-                {
-                    if(attachments[i].id == $(element).closest('li').data('id'))
-                    {
-                        attachment = attachments[i];
-                    }
-                }
-                var url = '{{ route('updateCmsAttachment', ['lang'=> $lang->id_001, 'id' => 'id']) }}';
-
-                // update attachment across ajax
-                $.ajax({
-                    url:    url.replace('id', $(element).closest('li').data('id')),
-                    headers:  {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    data: {
-                        _method: 'PUT',
-                        attachment: attachment
-                    },
-                    type:		'POST',
-                    dataType:	'json',
-                    success: function(data){}
-                });
-            }
-        };
     </script>
+
+    @include('cms::article.includes.common_script', ['action' => 'edit'])
 
     <script type="text/html" id="file">
         <li>

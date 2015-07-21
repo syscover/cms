@@ -223,6 +223,12 @@ class ArticleController extends Controller {
     public function deleteCustomRecord($object)
     {
         $object->categories()->detach();
+        $attachments = $object->attachments;
+
+        foreach ($attachments as $attachment)
+        {
+            File::delete(public_path() . Attachment::$folder . '/' . $attachment->file_name_354);
+        }
     }
 
     public function deleteCustomRecords($ids)
