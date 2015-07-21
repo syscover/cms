@@ -11,27 +11,93 @@
  */
 
 use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\File;
 use Syscover\Cms\Models\Attachment;
 use Syscover\Pulsar\Controllers\Controller;
 
 class AttachmentController extends Controller {
 
-    public function apiDeleteAttachment(HttpRequest $request)
+    public function storeAttachment(HttpRequest $request)
     {
-        $parameters     = $request->route()->parameters();
+        $parameters = $request->route()->parameters();
+        $attachments = $request->input('attachments');
 
-        $attachment = Attachment::getTranslationRecord($parameters['id'], $parameters['lang']);
-
-        if($attachment->file_name_357 != null && $attachment->file_name_357 != "")
+        foreach($attachments as $attachment)
         {
-            unlink(public_path() . Attachment::$folder . '/' . $attachment->file_name_357);
-        }
+            $idAttachment = Attachment::max('id_357');
+            $idAttachment++;
 
-        Attachment::deleteTranslationRecord($parameters['id'], $parameters['lang']);
+            $width = null; $height= null;
+            if($attachment['type']['id'] == 1)
+            {
+                list($width, $height) = getimagesize(public_path() . $attachment['folder'] . '/' . $attachment['fileName']);
+            }
+
+            // move file fom temp file to attachment folder
+            File::move(public_path() . $attachment['folder'] . '/' . $attachment['fileName'], public_path() . Attachment::$folder . '/' . $attachment['fileName']);
+
+            Attachment::create([
+                'id_357'                => $idAttachment,
+                'lang_357'              => $request->input('lang'),
+                'article_357'           => $request->input('article'),
+                'family_357'            => $attachment['family'] == ""? null : $attachment['family'],
+                'library_357'           => $attachment['library'],
+                'library_file_name_357' => $attachment['libraryFileName'] == ""? null : $attachment['libraryFileName'],
+                'sorting_357'           => isset($attachment['sorting'])? $attachment['sorting'] : null,
+                'name_357'              => $attachment['imageName'] == ""? null : $attachment['imageName'],
+                'file_name_357'         => $attachment['fileName'] == ""? null : $attachment['fileName'],
+                'mime_357'              => $attachment['mime'],
+                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $attachment['fileName']),
+                'type_357'              => $attachment['type']['id'],
+                'type_text_357'         => $attachment['type']['name'],
+                'width_357'             => $width,
+                'height_357'            => $height,
+                'data_357'              => null
+            ]);
+        }
 
         $response = [
             'success' => true,
-            'message' => "Attachment deleted"
+            'message' => "Attachments stored"
+        ];
+
+        return response()->json($response);
+
+    }
+
+    public function apiUpdateAttachment(HttpRequest $request)
+    {
+        $parameters = $request->route()->parameters();
+        $attachment = $request->input('attachment');
+
+        // check that is a attachment stored
+        if(isset($attachment['id']))
+        {
+            $width = null; $height= null;
+            if($attachment['type']['id'] == 1)
+            {
+                list($width, $height) = getimagesize(public_path() . $attachment['folder'] . '/' . $attachment['fileName']);
+            }
+
+            Attachment::where('id_357', $attachment['id'])->where('lang_357', $parameters['lang'])->update([
+                'family_357'            => $attachment['family'] == ""? null : $attachment['family'],
+                'library_357'           => $attachment['library'],
+                'library_file_name_357' => $attachment['libraryFileName'] == ""? null : $attachment['libraryFileName'],
+                'sorting_357'           => $attachment['sorting'],
+                'name_357'              => $attachment['imageName'] == ""? null : $attachment['imageName'],
+                'file_name_357'         => $attachment['fileName'] == ""? null : $attachment['fileName'],
+                'mime_357'              => $attachment['mime'],
+                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $attachment['fileName']),
+                'type_357'              => $attachment['type']['id'],
+                'type_text_357'         => $attachment['type']['name'],
+                'width_357'             => $width,
+                'height_357'            => $height
+            ]);
+        }
+
+        $response = [
+            'success' => true,
+            'message' => "Attachment updated"
         ];
 
         return response()->json($response);
@@ -78,39 +144,22 @@ class AttachmentController extends Controller {
         return response()->json($response);
     }
 
-    public function apiUpdateAttachment(HttpRequest $request)
+    public function apiDeleteAttachment(HttpRequest $request)
     {
-        $parameters = $request->route()->parameters();
-        $attachment = $request->input('attachment');
+        $parameters     = $request->route()->parameters();
 
-        // check that is a attachment stored
-        if(isset($attachment['id']))
+        $attachment = Attachment::getTranslationRecord($parameters['id'], $parameters['lang']);
+
+        if($attachment->file_name_357 != null && $attachment->file_name_357 != "")
         {
-            $width = null; $height= null;
-            if($attachment['type']['id'] == 1)
-            {
-                list($width, $height) = getimagesize(public_path() . $attachment['folder'] . '/' . $attachment['fileName']);
-            }
-
-            Attachment::where('id_357', $attachment['id'])->where('lang_357', $parameters['lang'])->update([
-                'family_357'            => $attachment['family'] == ""? null : $attachment['family'],
-                'library_357'           => $attachment['library'],
-                'library_file_name_357' => $attachment['libraryFileName'] == ""? null : $attachment['libraryFileName'],
-                'sorting_357'           => $attachment['sorting'],
-                'name_357'              => $attachment['imageName'] == ""? null : $attachment['imageName'],
-                'file_name_357'         => $attachment['fileName'] == ""? null : $attachment['fileName'],
-                'mime_357'              => $attachment['mime'],
-                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $attachment['fileName']),
-                'type_357'              => $attachment['type']['id'],
-                'type_text_357'         => $attachment['type']['name'],
-                'width_357'             => $width,
-                'height_357'            => $height
-            ]);
+            unlink(public_path() . Attachment::$folder . '/' . $attachment->file_name_357);
         }
+
+        Attachment::deleteTranslationRecord($parameters['id'], $parameters['lang']);
 
         $response = [
             'success' => true,
-            'message' => "Attachment updated"
+            'message' => "Attachment deleted"
         ];
 
         return response()->json($response);

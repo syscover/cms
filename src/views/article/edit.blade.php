@@ -52,6 +52,7 @@
             @if(count($attachments) > 0)
                 $('#library-placeholder').hide();
             @endif
+            var storeNewAttachment = true;
 
             $.setAttachmentActions();
             $.setEventSaveAttachmentProperties();
@@ -94,6 +95,7 @@
                             dataType:	'json',
                             success: function(dataStored)
                             {
+                                var newAttachments = [];
                                 for(var i = 0; i < dataStored.files.length; i++)
                                 {
                                     var obj = dataStored.files[i];
@@ -109,10 +111,7 @@
                                         }, { prepend:true });
                                     }
 
-                                    // set input hidden with attachment data
-                                    var attachments = JSON.parse($('[name=attachments]').val());
-
-                                    attachments.push({
+                                    newAttachments.push({
                                         type:               obj.type,
                                         mime:               obj.mime,
                                         family:             "",
@@ -122,14 +121,38 @@
                                         libraryFileName:    obj.name,
                                         imageName:          ""
                                     });
-
-                                    $('[name=attachments]').val(JSON.stringify(attachments));
-
-                                    $.shortingElements();
                                 }
 
+                                // set input hidden with attachment data
+                                var attachments = JSON.parse($('[name=attachments]').val());
+                                console.log(attachments);
+                                $('[name=attachments]').val(JSON.stringify(attachments.concat(newAttachments)));
+
+                                if(!storeNewAttachment) $.shortingElements();
                                 $.setAttachmentActions();
                                 $.setEventSaveAttachmentProperties();
+
+                                // stored function
+                                if(storeNewAttachment)
+                                {
+                                    $.ajax({
+                                        url: '{{ route('storeCmsAttachment', ['newArticle' => 1]) }}',
+                                        data:       {
+                                            attachments: newAttachments,
+                                            lang: $('[name=lang]').val(),
+                                            article: $('[name=id]').val()
+                                        },
+                                        headers:  {
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        },
+                                        type:		'POST',
+                                        dataType:	'json',
+                                        success: function(response)
+                                        {
+                                            $.shortingElements();
+                                        }
+                                    });
+                                }
                             }
                         });
                     }

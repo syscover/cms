@@ -17,7 +17,7 @@ Route::group(['middleware' => ['auth.pulsar','permission.pulsar','locale.pulsar'
     | ATTACHMENT
     |--------------------------------------------------------------------------
     */
-    Route::post(config('pulsar.appName') . '/cms/attachment/store/{lang}/{offset}/{id?}',                  ['as'=>'storeCmsCategory',                'uses'=>'Syscover\Cms\Controllers\CategoryController@storeRecord',                'resource' => 'cms-category',        'action' => 'create']);
+    Route::post(config('pulsar.appName') . '/cms/attachment/store/{lang}/{id?}',            ['as'=>'storeCmsAttachment',    'uses'=>'Syscover\Cms\Controllers\AttachmentController@storeAttachment',       'resource' => 'cms-article',    'action' => 'create']);
     Route::put(config('pulsar.appName') . '/cms/attachment/update/{lang}/{id}',             ['as'=>'updateCmsAttachment',   'uses'=>'Syscover\Cms\Controllers\AttachmentController@apiUpdateAttachment',   'resource' => 'cms-article',    'action' => 'edit']);
     Route::put(config('pulsar.appName') . '/cms/attachment/update/{lang}',                  ['as'=>'updatesCmsAttachment',  'uses'=>'Syscover\Cms\Controllers\AttachmentController@apiUpdateAttachments',  'resource' => 'cms-article',    'action' => 'edit']);
     Route::delete(config('pulsar.appName') . '/cms/attachment/delete/{lang}/{id}',          ['as'=>'deleteCmsAttachment',   'uses'=>'Syscover\Cms\Controllers\AttachmentController@apiDeleteAttachment',   'resource' => 'cms-article',    'action' => 'delete']);
