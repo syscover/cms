@@ -49,8 +49,6 @@
     <script>
         $(document).ready(function() {
 
-            $.dragDropEffects();
-
             $('#attachment-library-content').getFile(
                 {
                     urlPlugin:          '/packages/syscover/pulsar/vendor',
@@ -65,15 +63,15 @@
                         }
                     ]
                 },
-                function(data)
+                function(dataUploaded)
                 {
-                    if(data.success && Array.isArray(data.files))
+                    if(dataUploaded.success && Array.isArray(dataUploaded.files))
                     {
                         // set files inside array to throw them in ajax
                         var files = [];
-                        for(var i = 0; data.files.length > i; i++)
+                        for(var i = 0; dataUploaded.files.length > i; i++)
                         {
-                            files.push(data.files[i]);
+                            files.push(dataUploaded.files[i]);
                         }
 
                         // store files like library element
@@ -87,11 +85,11 @@
                             },
                             type:		'POST',
                             dataType:	'json',
-                            success: function(data)
+                            success: function(dataStored)
                             {
-                                for(var i = 0; i < data.files.length; i++)
+                                for(var i = 0; i < dataStored.files.length; i++)
                                 {
-                                    var obj = data.files[i];
+                                    var obj = dataStored.files[i];
 
                                     if($('.sortable li').length == 0) $('#library-placeholder').hide();
 
@@ -105,17 +103,20 @@
                                     }
 
                                     // set input hidden with attachment data
-                                    var dataFiles = JSON.parse($('[name=dataFiles]').val());
+                                    var attachments = JSON.parse($('[name=attachments]').val());
 
-                                    dataFiles.push({
+                                    attachments.push({
+                                        type:               obj.type,
+                                        mime:               obj.mime,
                                         family:             "",
                                         folder:             obj.copies[0].folder,
                                         fileName:           obj.copies[0].name,
+                                        library:            obj.library,
                                         libraryFileName:    obj.name,
                                         imageName:          ""
                                     });
 
-                                    $('[name=dataFiles]').val(JSON.stringify(dataFiles));
+                                    $('[name=attachments]').val(JSON.stringify(attachments));
 
                                     $.shortingElements();
                                 }
@@ -128,97 +129,6 @@
                 }
             );
         });
-
-        $.setEventSaveAttachmentProperties = function() {
-            $('.attachment-family, .image-name').off('focus').on('focus', function () {
-                // get previous value from select
-                $(this).data('previous', $(this).val());
-            }).off('change').on('change', function(){
-                $(this).addClass('changed');
-            });
-
-            $('.save-attachment').off('click').on('click', function(){
-                if($(this).closest('li').find('select').val() != '' && $(this).closest('li').find('.attachment-family').hasClass('changed'))
-                {
-                    var url = '{{ route('apiShowCmsAttachmentFamily', ['id' => 'id', 'api' => 1]) }}';
-                    var that = this;
-
-                    $.ajax({
-                        url:    url.replace('id', $(this).closest('li').find('select').val()),
-                        headers:  {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        type:		'POST',
-                        dataType:	'json',
-                        success: function(data)
-                        {
-                            if($(that).closest('li').find('img').hasClass('is-image') && data.width_353 != null && data.height_353 != null)
-                            {
-                                $.getFile(
-                                    {
-                                        urlPlugin:  '/packages/syscover/pulsar/vendor',
-                                        folder:     '/packages/syscover/cms/storage/tmp',
-                                        srcFolder:  '/packages/syscover/cms/storage/library',
-                                        srcFile:    $(that).closest('li').find('.file-name').html(),
-                                        crop: {
-                                            active:     true,
-                                            width:      data.width_353,
-                                            height:     data.height_353,
-                                            overwrite:  true
-                                        }
-                                    },
-                                    function(response)
-                                    {
-                                        $(that).closest('li').find('img').attr('src', response.folder + '/' + response.name + '?' + Math.floor((Math.random() * 1000) + 1));
-                                        $(that).closest('li').find('.family-name').html(data.name_353);
-                                        $(that).closest('li').find('.attachment-family').removeClass('changed');
-                                        $(that).closest('.attachment-item').toggleClass('cover');
-                                        $('.attachment-family').data('previous', $('.attachment-family').val());
-                                        $.setFamilyAttachment($(that).closest('li').find('.file-name').html(), data.id_353);
-                                    }
-                                );
-                            }
-                            else
-                            {
-                                // set family without getFile
-                                $(that).closest('li').find('.family-name').html(data.name_353);
-                                $(that).closest('li').find('.attachment-family').removeClass('changed');
-                                $(that).closest('.attachment-item').toggleClass('cover');
-                                $('.attachment-family').data('previous', $('.attachment-family').val());
-                                $.setFamilyAttachment($(that).closest('li').find('.file-name').html(), data.id_353);
-                            }
-                        }
-                    });
-                }
-                else
-                {
-                    if($(this).closest('li').find('select').val() == '')
-                    {
-                        $(this).closest('li').find('.family-name').html('');
-                    }
-                    $(this).closest('li').find('.attachment-family').removeClass('changed');
-                    $(this).closest('.attachment-item').toggleClass('cover');
-                    $('.attachment-family').data('previous', $('.attachment-family').val());
-                    $.setFamilyAttachment($(that).closest('li').find('.file-name').html(), '');
-                }
-
-                // set name of image
-                var fileName    = $(this).closest('li').find('.file-name').html();
-                var dataFiles   = JSON.parse($('[name=dataFiles]').val());
-
-                for(var i = 0; i < dataFiles.length; i++)
-                {
-                    if(dataFiles[i].fileName == fileName)
-                    {
-                        dataFiles[i].imageName = $(this).closest('li').find('.image-name').val();
-                    }
-                }
-                // set previous value to image name
-                $('.image-name').data('previous', $('.image-name').val());
-
-                $('[name=dataFiles]').val(JSON.stringify(dataFiles));
-            });
-        };
     </script>
 
     <script type="text/html" id="file">
@@ -293,7 +203,7 @@
         @include('pulsar::includes.html.form_wysiwyg_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'wysiwyg', 'labelSize' => 2, 'fieldSize' => 10])
         @include('pulsar::includes.html.form_contentbuilder_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'contentbuilder', 'theme' => 'default', 'value' => Input::old('article', isset($object->article_355)? $object->article_355 : null), 'labelSize' => 2, 'fieldSize' => 10])
         <textarea name="article" class="hidden">{{ Input::old('article', isset($object->article_355)? $object->article_355 : null) }}</textarea>
-        @include('pulsar::includes.html.form_hidden', ['name' => 'dataFiles', 'value' => '[]'])
+        @include('pulsar::includes.html.form_hidden', ['name' => 'attachments', 'value' => '[]'])
     @include('pulsar::includes.html.form_record_footer', ['action' => 'store'])
     <!-- /cms::articles.create -->
 @stop
@@ -304,7 +214,7 @@
         <div class="widget-content no-padding">
             <div class="row" id="attachment-wrapper">
                 <div id="library-placeholder">
-
+                    <p>Arrastre aquí sus archivos</p>
                 </div>
                 <ul class="sortable"></ul>
             </div>
@@ -316,7 +226,7 @@
 @section('endBody')
     <div id="attachment-library-mask">
         <div id="attachment-library-content">
-            Arrastre aqui sus archivos para ...
+            Arrastre aquí sus archivos
         </div>
     </div>
 @stop

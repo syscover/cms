@@ -36,31 +36,50 @@ class LibraryController extends Controller {
         $path               = public_path() . '/' . $uri;
         $objects            = [];
         $objectsResponse    = [];
+        $filesNames         = [];
 
-        for($i = 0; $i < count($files); $i++)
+        foreach($files as &$file)
         {
-            if($files[$i]['isImage'] == 'true')
+            if($file['isImage'] == 'true')
             {
-                list($files[$i]['width'], $files[$i]['height']) = getimagesize($path . '/' . $files[$i]['name']);
+                list($file['width'], $file['height']) = getimagesize($path . '/' . $file['name']);
             }
 
-            $type = $this->getType($files[$i]['mime']);
+            $file['type'] = $this->getType($file['mime']);
 
             $objects[] = [
-                'file_name_354' => $files[$i]['name'],
-                'mime_354'      => $files[$i]['mime'],
-                'size_354'      => $files[$i]['size'],
-                'type_354'      => $type['id'],
-                'type_text_354' => $type['type'],
-                'width_354'     => isset($files[$i]['width'])? $files[$i]['width'] : null,
-                'height_354'    => isset($files[$i]['height'])? $files[$i]['height'] : null,
+                'file_name_354' => $file['name'],
+                'mime_354'      => $file['mime'],
+                'size_354'      => $file['size'],
+                'type_354'      => $file['type']['id'],
+                'type_text_354' => $file['type']['name'],
+                'width_354'     => isset($file['width'])? $file['width'] : null,
+                'height_354'    => isset($file['height'])? $file['height'] : null,
                 'data_354'      => null
             ];
 
-            $objectsResponse[] = $files[$i];
+            if($file['name'] != null && $file['name'] != "")
+            {
+                $filesNames[] = $file['name'];
+            }
+
+            $objectsResponse[] = $file;
         }
 
         Library::insert($objects);
+
+        $lastLibraryInsert = Library::whereIn('file_name_354', $filesNames)->get();
+
+        foreach($lastLibraryInsert as $library)
+        {
+            foreach($objectsResponse as &$objectResponse)
+            {
+                if($library->file_name_354 == $objectResponse['name'])
+                {
+                    $objectResponse['library'] = $library->id_354;
+                }
+            }
+        }
 
         $response = [
             'success' => true,
@@ -89,19 +108,19 @@ class LibraryController extends Controller {
             case 'image/pjpeg':
             case 'image/png':
             case 'image/svg+xml':
-                return [ 'id' => 1, 'type' => trans_choice('pulsar::pulsar.image', 1)];
+                return [ 'id' => 1, 'name' => trans_choice('pulsar::pulsar.image', 1)];
                 break;
             case 'text/plain':
             case 'application/msword':
             case 'application/x-pdf':
             case 'application/pdf':
-                return [ 'id' => 2, 'type' => trans_choice('pulsar::pulsar.file', 1)];
+                return [ 'id' => 2, 'name' => trans_choice('pulsar::pulsar.file', 1)];
                 break;
             case 'video/avi':
             case 'video/mpeg':
             case 'video/quicktime':
             case 'video/mp4':
-                return [ 'id' => 3, 'type' => trans_choice('pulsar::pulsar.video', 1)];
+                return [ 'id' => 3, 'name' => trans_choice('pulsar::pulsar.video', 1)];
                 break;
             default:
                 return null;

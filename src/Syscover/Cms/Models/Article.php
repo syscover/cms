@@ -42,9 +42,16 @@ class Article extends Model {
         return $this->belongsTo('Syscover\Pulsar\Models\Lang', 'lang_355');
     }
 
+    public function attachments()
+    {
+        return $this->hasMany('Syscover\Cms\Models\Attachment','article_357')->where('013_357_attachment.lang_357', $this->lang_355)
+            ->leftJoin('013_353_attachment_family', '013_357_attachment.family_357', '=', '013_353_attachment_family.id_353')
+            ->orderBy('013_357_attachment.sorting_357');
+    }
+
     public function categories()
     {
-        return Article::belongsToMany('Syscover\Cms\Models\Category','013_356_articles_categories','article_356','category_356');
+        return $this->belongsToMany('Syscover\Cms\Models\Category','013_356_articles_categories','article_356','category_356');
     }
 
     public static function getCustomRecordsLimit($parameters)

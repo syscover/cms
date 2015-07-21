@@ -25,7 +25,7 @@ class CmsCreateTableArticle extends Migration {
             $table->string('publish_text_355', 25);         // date publish in text format
             $table->integer('date_355')->unsigned(); // date of article
             $table->string('title_355', 510);
-            $table->string('slug_355', 255);
+            $table->string('slug_355', 255)->nullable();
             $table->integer('sorting_355')->unsigned(); // article sort
             $table->string('tags_355', 1020); // article tags
             $table->longText('article_355');

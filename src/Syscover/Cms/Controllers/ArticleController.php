@@ -1,7 +1,7 @@
 <?php namespace Syscover\Cms\Controllers;
 
 /**
- * @package	    Pulsar
+ * @package	    Cms
  * @author	    Jose Carlos Rodríguez Palacín
  * @copyright   Copyright (c) 2015, SYSCOVER, SL
  * @license
@@ -10,6 +10,7 @@
  * @filesource
  */
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request as HttpRequest;
 use Syscover\Pulsar\Controllers\Controller;
@@ -19,6 +20,7 @@ use Syscover\Cms\Models\Category;
 use Syscover\Cms\Models\Section;
 use Syscover\Cms\Models\ArticleFamily;
 use Syscover\Cms\Models\Article;
+use Syscover\Cms\Models\Attachment;
 
 class ArticleController extends Controller {
 
@@ -96,7 +98,7 @@ class ArticleController extends Controller {
             'publish_text_355'  => Request::has('publish')?  Request::input('publish'): date(config('pulsar.datePattern') . ' H:i'),
             'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), Request::input('date'))->getTimestamp(),
             'title_355'         => Request::input('title'),
-            'slug_355'          => Request::input('slug'),
+            'slug_355'          => Request::input('slug') == "" || !Request::has('slug')? null : Request::input('slug'),
             'sorting_355'       => Request::input('sorting'),
             'tags_355'          => Request::input('tags'),
             'article_355'       => Request::input('article'),
@@ -107,17 +109,76 @@ class ArticleController extends Controller {
         {
             $article->categories()->sync(Request::input('categories'));
         }
+
+        // Attachment
+        $attachments = json_decode(Request::input('attachments'));
+
+        foreach($attachments as $attachment)
+        {
+            $idAttachment = Attachment::max('id_357');
+            $idAttachment++;
+
+            $width = null; $height= null;
+            if($attachment->type->id == 1)
+            {
+                list($width, $height) = getimagesize(public_path() . $attachment->folder . '/' . $attachment->fileName);
+            }
+
+            // move file fom temp file to attachment folder
+            File::move(public_path() . $attachment->folder . '/' . $attachment->fileName, public_path() . Attachment::$folder . '/' . $attachment->fileName);
+
+            Attachment::create([
+                'id_357'                => $idAttachment,
+                'lang_357'              => Request::input('lang'),
+                'article_357'           => $article->id_355,
+                'family_357'            => $attachment->family == ""? null : $attachment->family,
+                'library_357'           => $attachment->library,
+                'library_file_name_357' => $attachment->libraryFileName == ""? null : $attachment->libraryFileName,
+                'sorting_357'           => $attachment->sorting,
+                'name_357'              => $attachment->imageName == ""? null : $attachment->imageName,
+                'file_name_357'         => $attachment->fileName == ""? null : $attachment->fileName,
+                'mime_357'              => $attachment->mime,
+                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $attachment->fileName),
+                'type_357'              => $attachment->type->id,
+                'type_text_357'         => $attachment->type->name,
+                'width_357'             => $width,
+                'height_357'            => $height,
+                'data_357'              => null
+            ]);
+        }
     }
 
     public function editCustomRecord($parameters)
     {
-        $parameters['sections']     = Section::all();
-        $parameters['families']     = ArticleFamily::all();
-        $parameters['categories']   = Category::getTranslationsRecords($parameters['lang']->id_001);
-        $parameters['statuses']     = [
+        $parameters['sections']             = Section::all();
+        $parameters['families']             = ArticleFamily::all();
+        $parameters['attachmentFamilies']   = AttachmentFamily::all();
+        $parameters['categories']           = Category::getTranslationsRecords($parameters['lang']->id_001);
+        $parameters['statuses']             = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
+
+        $parameters['attachments']          = $parameters['object']->attachments;
+        $attachmentsInput     = [];
+
+        foreach($parameters['attachments'] as $attachment)
+        {
+            $attachmentsInput[] = [
+                'id'                => $attachment->id_357,
+                'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357],
+                'mime'              => $attachment->mime_357,
+                'family'            => $attachment->family_357,
+                'folder'            => Attachment::$folder,
+                'fileName'          => $attachment->file_name_357,
+                'library'           => $attachment->library_357,
+                'libraryFileName'   => $attachment->library_file_name_357,
+                'imageName'         => $attachment->name_357,
+                'sorting'           => $attachment->sorting_357,
+            ];
+        }
+
+        $parameters['attachmentsInput'] = json_encode($attachmentsInput);
 
         return $parameters;
     }
@@ -141,11 +202,10 @@ class ArticleController extends Controller {
             'publish_text_355'  => Request::has('publish')? Request::input('publish') : date(config('pulsar.datePattern') . ' H:i'),
             'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), Request::input('date'))->getTimestamp(),
             'title_355'         => Request::input('title'),
-            'slug_355'          => Request::input('slug'),
+            'slug_355'          => Request::input('slug') == "" || !Request::has('slug')? null : Request::input('slug'),
             'sorting_355'       => Request::input('sorting'),
             'tags_355'          => Request::input('tags'),
-            'article_355'       => Request::input('article'),
-            'data_355'          => Article::addLangDataRecord($parameters['id'], Request::input('lang'))
+            'article_355'       => Request::input('article')
         ]);
 
         $article = Article::getCustomTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);

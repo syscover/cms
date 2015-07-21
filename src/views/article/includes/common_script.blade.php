@@ -112,7 +112,7 @@
                 separator: '-',
                 lang: '{{ $lang->id_001 }}'
             }));
-            checkSlug();
+            $.checkSlug();
         });
 
         $("[name=slug]").on('change', function(){
@@ -120,7 +120,7 @@
                 separator: '-',
                 lang: '{{ $lang->id_001 }}'
             }));
-            checkSlug();
+            $.checkSlug();
         });
 
         $("#recordForm").on('submit', function(event){
@@ -178,9 +178,12 @@
 
         // Licencia froala
         $('.froala-box').children('div:eq(2)').hide();
+
+        // Start attachemnt scripts
+        $.dragDropEffects();
     });
 
-    function checkSlug() {
+    $.checkSlug = function() {
         $.ajax({
             dataType:   'json',
             type:       'POST',
@@ -199,4 +202,198 @@
             }
         });
     }
+
+    // set save event attachment element
+    $.setEventSaveAttachmentProperties = function() {
+        $('.attachment-family, .image-name').off('focus').on('focus', function () {
+            // get previous value from select
+            $(this).data('previous', $(this).val());
+        }).off('change').on('change', function(){
+            $(this).addClass('changed');
+        });
+
+        $('.save-attachment').off('click').on('click', function(){
+            if($(this).closest('li').find('select').val() != '' && $(this).closest('li').find('.attachment-family').hasClass('changed'))
+            {
+                var url = '{{ route('apiShowCmsAttachmentFamily', ['id' => 'id', 'api' => 1]) }}';
+                var that = this;
+
+                $.ajax({
+                    url:    url.replace('id', $(this).closest('li').find('select').val()),
+                    headers:  {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    type:		'POST',
+                    dataType:	'json',
+                    success: function(data)
+                    {
+                        if($(that).closest('li').find('img').hasClass('is-image') && data.width_353 != null && data.height_353 != null)
+                        {
+                            $.getFile(
+                                    {
+                                        urlPlugin:  '/packages/syscover/pulsar/vendor',
+                                        folder:     $(that).closest('li').data('id') == undefined? '/packages/syscover/cms/storage/tmp' : '/packages/syscover/cms/storage/attachment',
+                                        srcFolder:  '/packages/syscover/cms/storage/library',
+                                        srcFile:    $(that).closest('li').find('.file-name').html(),
+                                        crop: {
+                                            active:     true,
+                                            width:      data.width_353,
+                                            height:     data.height_353,
+                                            overwrite:  true
+                                        }
+                                    },
+                                    function(response)
+                                    {
+                                        $(that).closest('li').find('img').attr('src', response.folder + '/' + response.name + '?' + Math.floor((Math.random() * 1000) + 1));
+                                        $(that).closest('li').find('.family-name').html(data.name_353);
+                                        $(that).closest('li').find('.attachment-family').removeClass('changed');
+                                        $(that).closest('.attachment-item').toggleClass('cover');
+                                        $('.attachment-family').data('previous', $('.attachment-family').val());
+                                        $.setFamilyAttachment($(that).closest('li').find('.file-name').html(), data.id_353);
+                                        $.setNameAttachment(that);
+                                        if($(that).closest('li').data('id') != undefined) $.updateAttachment(that);
+                                    }
+                            );
+                        }
+                        else
+                        {
+                            // set family without getFile
+                            $(that).closest('li').find('.family-name').html(data.name_353);
+                            $(that).closest('li').find('.attachment-family').removeClass('changed');
+                            $(that).closest('.attachment-item').toggleClass('cover');
+                            $('.attachment-family').data('previous', $('.attachment-family').val());
+                            $.setFamilyAttachment($(that).closest('li').find('.file-name').html(), data.id_353);
+                            $.setNameAttachment(that);
+                            if($(that).closest('li').data('id') != undefined) $.updateAttachment(that);
+                        }
+                    }
+                });
+            }
+            else
+            {
+                if($(this).closest('li').find('.attachment-family').hasClass('changed'))
+                {
+                    $(this).closest('li').find('.family-name').html('');
+                    $(this).closest('li').find('.attachment-family').removeClass('changed');
+                    $('.attachment-family').data('previous', $('.attachment-family').val());
+                    $.setFamilyAttachment($(this).closest('li').find('.file-name').html(), '');
+                }
+                $(this).closest('.attachment-item').toggleClass('cover');
+                $.setNameAttachment(this);
+                if($(this).closest('li').data('id') != undefined) $.updateAttachment(this);
+            }
+        });
+    };
+
+    // set events on attachment elements
+    $.setAttachmentActions = function() {
+
+        // set button actions from li elements
+        $('.attachment-action span').off('click').on('click', function() {
+            $(this).closest('.attachment-item').toggleClass('cover');
+        });
+
+        $('button.open-ov').off('click').on('click', function() {
+            $(this).closest('.attachment-item').toggleClass('cover');
+        });
+
+        $('button.close-ov').off('click').on('click', function() {
+            $(this).closest('.attachment-item').toggleClass('cover');
+        });
+
+        $('div.close-icon').off('click').on('click', function() {
+            $(this).closest('.attachment-item').toggleClass('cover');
+            $(this).closest('li').find('.attachment-family').removeClass('changed').val($(this).closest('li').find('.attachment-family').data('previous'));
+            $(this).closest('li').find('.image-name').removeClass('changed').val($(this).closest('li').find('.image-name').data('previous'));
+        });
+
+        // sorting elements
+        $(".sortable").sortable({
+            stop: function(event, ui){
+                $.shortingElements();
+            }
+        });
+
+        // remove li elements
+        $('.remove-img').off('click').on('click', function() {
+
+            $(this).closest('li').fadeOut( "slow", function() {
+
+                // check that attachment have id and is stored in database
+                if($(this).data('id') != undefined)
+                {
+                    var url = '{{ route('deleteCmsAttachment', ['lang'=> $lang->id_001, 'id' => 'id']) }}';
+                    var that = this;
+
+                    $.ajax({
+                        url:    url.replace('id', $(this).data('id')),
+                        headers:  {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        data: {_method: 'DELETE'},
+                        type:		'POST',
+                        dataType:	'json',
+                        success: function(data)
+                        {
+                            if(data.success)
+                            {
+                                $.removeAttachment(that);
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    $.removeAttachment(this);
+                }
+            });
+        });
+    };
+
+    // Shorting elements
+    $.shortingElements = function() {
+        var attachments   = JSON.parse($('[name=attachments]').val());
+        var hasId         = false;
+        $('.sortable').find('li').each(function(index) {
+            for(var i = 0; i < attachments.length; i++)
+            {
+                if($(this).find('.file-name').html() == attachments[i].fileName)
+                {
+                    attachments[i].sorting = index;
+                }
+                if(attachments[i].id != undefined)
+                {
+                    hasId = true;
+                }
+            }
+        });
+
+        if(hasId)
+        {
+            // update attachment across ajax
+            $.ajax({
+                url:    '{{ route('updatesCmsAttachment', ['lang'=> $lang->id_001]) }}',
+                headers:  {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    _method: 'PUT',
+                    attachments: attachments
+                },
+                type:		'POST',
+                dataType:	'json',
+                success: function(data)
+                {
+                    if(data.success)
+                    {
+                        $('[name=attachments]').val(JSON.stringify(attachments));
+                    }
+                }
+            });
+        }
+        else
+        {
+            $('[name=attachments]').val(JSON.stringify(attachments));
+        }
+    };
 </script>

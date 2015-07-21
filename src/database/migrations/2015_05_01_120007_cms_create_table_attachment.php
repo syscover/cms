@@ -18,13 +18,14 @@ class CmsCreateTableAttachment extends Migration {
             $table->integer('id_357')->unsigned();
             $table->string('lang_357', 2);
             $table->integer('article_357')->unsigned()->nullable();
-            $table->integer('attachment_family_357')->unsigned();
+            $table->integer('family_357')->unsigned()->nullable();
             $table->integer('library_357')->unsigned()->nullable();         // original element library
+            $table->string('library_file_name_357', 1020)->nullable();
             $table->integer('sorting_357')->unsigned()->nullable();         // attachment sort
             $table->string('name_357', 510)->nullable();
             $table->string('file_name_357', 1020)->nullable();
-            $table->string('mime_354', 255);
-            $table->integer('size_354')->unsigned()->nullable();
+            $table->string('mime_357', 255)->nullable();
+            $table->integer('size_357')->unsigned()->nullable();
             $table->tinyInteger('type_357')->unsigned();                    // 1 = image, 2 = file, 3 = video
             $table->string('type_text_357', 50);
             $table->smallInteger('width_357')->unsigned()->nullable();
@@ -35,7 +36,7 @@ class CmsCreateTableAttachment extends Migration {
                 ->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('article_357')->references('id_355')->on('013_355_article')
                 ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('attachment_family_357')->references('id_353')->on('013_353_attachment_family')
+            $table->foreign('family_357')->references('id_353')->on('013_353_attachment_family')
                 ->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('library_357')->references('id_354')->on('013_354_library')
                 ->onDelete('set null')->onUpdate('cascade');
