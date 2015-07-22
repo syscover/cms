@@ -34,7 +34,7 @@ class CmsCreateTableAttachment extends Migration {
 
             $table->foreign('lang_357')->references('id_001')->on('001_001_lang')
                 ->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('article_357')->references('id_355')->on('013_355_article')
+            $table->foreign(['article_357', 'lang_357'])->references(['id_355','lang_355'])->on('013_355_article')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('family_357')->references('id_353')->on('013_353_attachment_family')
                 ->onDelete('restrict')->onUpdate('cascade');

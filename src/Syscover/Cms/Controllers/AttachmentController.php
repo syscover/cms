@@ -19,8 +19,9 @@ class AttachmentController extends Controller {
 
     public function storeAttachment(HttpRequest $request)
     {
-        $parameters = $request->route()->parameters();
-        $attachments = $request->input('attachments');
+        $parameters             = $request->route()->parameters();
+        $attachments            = $request->input('attachments');
+        $attachmentsResponse    = [];
 
         foreach($attachments as $attachment)
         {
@@ -34,12 +35,12 @@ class AttachmentController extends Controller {
             }
 
             // move file fom temp file to attachment folder
-            File::move(public_path() . $attachment['folder'] . '/' . $attachment['fileName'], public_path() . Attachment::$folder . '/' . $attachment['fileName']);
+            File::move(public_path() . $attachment['folder'] . '/' . $attachment['fileName'], public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']);
 
-            Attachment::create([
+            $attachmentsResponse[] = Attachment::create([
                 'id_357'                => $idAttachment,
-                'lang_357'              => $request->input('lang'),
-                'article_357'           => $request->input('article'),
+                'lang_357'              => $parameters['lang'],
+                'article_357'           => $parameters['article'],
                 'family_357'            => $attachment['family'] == ""? null : $attachment['family'],
                 'library_357'           => $attachment['library'],
                 'library_file_name_357' => $attachment['libraryFileName'] == ""? null : $attachment['libraryFileName'],
@@ -47,7 +48,7 @@ class AttachmentController extends Controller {
                 'name_357'              => $attachment['imageName'] == ""? null : $attachment['imageName'],
                 'file_name_357'         => $attachment['fileName'] == ""? null : $attachment['fileName'],
                 'mime_357'              => $attachment['mime'],
-                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $attachment['fileName']),
+                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']),
                 'type_357'              => $attachment['type']['id'],
                 'type_text_357'         => $attachment['type']['name'],
                 'width_357'             => $width,
@@ -57,8 +58,8 @@ class AttachmentController extends Controller {
         }
 
         $response = [
-            'success' => true,
-            'message' => "Attachments stored"
+            'success'       => true,
+            'attachments'   => $attachmentsResponse
         ];
 
         return response()->json($response);
@@ -87,7 +88,7 @@ class AttachmentController extends Controller {
                 'name_357'              => $attachment['imageName'] == ""? null : $attachment['imageName'],
                 'file_name_357'         => $attachment['fileName'] == ""? null : $attachment['fileName'],
                 'mime_357'              => $attachment['mime'],
-                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $attachment['fileName']),
+                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']),
                 'type_357'              => $attachment['type']['id'],
                 'type_text_357'         => $attachment['type']['name'],
                 'width_357'             => $width,
@@ -103,7 +104,7 @@ class AttachmentController extends Controller {
         return response()->json($response);
     }
 
-    public function apiUpdateAttachments(HttpRequest $request)
+    public function apiUpdatesAttachment(HttpRequest $request)
     {
         $parameters = $request->route()->parameters();
         $attachments = $request->input('attachments');
@@ -127,7 +128,7 @@ class AttachmentController extends Controller {
                     'name_357'              => $attachment['imageName'] == ""? null : $attachment['imageName'],
                     'file_name_357'         => $attachment['fileName'] == ""? null : $attachment['fileName'],
                     'mime_357'              => $attachment['mime'],
-                    'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $attachment['fileName']),
+                    'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']),
                     'type_357'              => $attachment['type']['id'],
                     'type_text_357'         => $attachment['type']['name'],
                     'width_357'             => $width,
@@ -146,13 +147,13 @@ class AttachmentController extends Controller {
 
     public function apiDeleteAttachment(HttpRequest $request)
     {
-        $parameters     = $request->route()->parameters();
+        $parameters = $request->route()->parameters();
 
         $attachment = Attachment::getTranslationRecord($parameters['id'], $parameters['lang']);
 
         if($attachment->file_name_357 != null && $attachment->file_name_357 != "")
         {
-            File::delete(public_path() . Attachment::$folder . '/' . $attachment->file_name_357);
+            File::delete(public_path() . Attachment::$folder . '/' . $attachment->article_357 . '/' . $attachment->lang_357 . '/' . $attachment->file_name_357);
         }
 
         Attachment::deleteTranslationRecord($parameters['id'], $parameters['lang']);

@@ -44,16 +44,6 @@
         <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/wysiwyg.froala/js/langs/' . config('app.locale') . '.js') }}"></script>
     @endif
 
-    <script>
-        $(document).ready(function() {
-            @if(count($attachments) > 0)
-                $('#library-placeholder').hide();
-            @endif
-            $.setAttachmentActions();
-            $.setEventSaveAttachmentProperties();
-        });
-    </script>
-
     @include('cms::article.includes.common_script', ['action' => 'edit'])
 
     <script type="text/html" id="file">
@@ -146,7 +136,7 @@
                     <li data-id="{{$attachment->id_357}}">
                         <div class="attachment-item">
                             <div class="attachment-img">
-                                <img{!! $attachment->type_357 == 1? ' class="is-image"' : null !!} src="/packages/syscover/cms/storage/attachment/{{ $attachment->file_name_357 }}" />
+                                <img{!! $attachment->type_357 == 1? ' class="is-image"' : null !!} src="/packages/syscover/cms/storage/attachment/{{ $attachment->article_357 }}/{{ $attachment->lang_357 }}/{{ $attachment->file_name_357 }}" />
                             </div>
                             <div class="attachment-over">
                                 <div class="col-md-10 col-sm-10 col-xs-10 uncovered">

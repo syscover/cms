@@ -61,6 +61,37 @@ class ArticleController extends Controller {
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
+        $parameters['attachmentsInput']     = json_encode([]);
+
+        if(isset($parameters['id']))
+        {
+            $parameters['attachments'] = Attachment::getTranslationsAttachmentsArticle(['lang' => session('baseLang')->id_001, 'article' => $parameters['id']]);
+
+            foreach($parameters['attachments'] as $attachment)
+            {
+                File::copy(public_path() . Attachment::$folder . '/' . $attachment->file_name_357, public_path() . Attachment::$tmpFolder . '/' . $attachment->file_name_357);
+
+                $attachmentsInput     = [];
+
+                foreach($parameters['attachments'] as $attachment)
+                {
+                    $attachmentsInput[] = [
+                        'id'                => $attachment->id_357,
+                        'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357],
+                        'mime'              => $attachment->mime_357,
+                        'family'            => $attachment->family_357,
+                        'folder'            => Attachment::$tmpFolder,
+                        'fileName'          => $attachment->file_name_357,
+                        'library'           => $attachment->library_357,
+                        'libraryFileName'   => $attachment->library_file_name_357,
+                        'imageName'         => $attachment->name_357,
+                        'sorting'           => $attachment->sorting_357,
+                    ];
+                }
+
+                $parameters['attachmentsInput'] = json_encode($attachmentsInput);
+            }
+        }
 
         return $parameters;
     }
@@ -113,6 +144,11 @@ class ArticleController extends Controller {
         // Attachment
         $attachments = json_decode(Request::input('attachments'));
 
+        if(!File::exists(public_path() . Attachment::$folder . '/' . $article->id_355 . '/'. Request::input('lang')))
+        {
+            File::makeDirectory(public_path() . Attachment::$folder . '/' . $article->id_355 . '/'. Request::input('lang'), 0755, true);
+        }
+
         foreach($attachments as $attachment)
         {
             $idAttachment = Attachment::max('id_357');
@@ -125,7 +161,7 @@ class ArticleController extends Controller {
             }
 
             // move file fom temp file to attachment folder
-            File::move(public_path() . $attachment->folder . '/' . $attachment->fileName, public_path() . Attachment::$folder . '/' . $attachment->fileName);
+            File::move(public_path() . $attachment->folder . '/' . $attachment->fileName, public_path() . Attachment::$folder . '/' . $article->id_355 . '/'. Request::input('lang') .'/' . $attachment->fileName);
 
             Attachment::create([
                 'id_357'                => $idAttachment,
@@ -138,7 +174,7 @@ class ArticleController extends Controller {
                 'name_357'              => $attachment->imageName == ""? null : $attachment->imageName,
                 'file_name_357'         => $attachment->fileName == ""? null : $attachment->fileName,
                 'mime_357'              => $attachment->mime,
-                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $attachment->fileName),
+                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $article->id_355 .  '/' . Request::input('lang') . '/' . $attachment->fileName),
                 'type_357'              => $attachment->type->id,
                 'type_text_357'         => $attachment->type->name,
                 'width_357'             => $width,
@@ -169,7 +205,7 @@ class ArticleController extends Controller {
                 'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357],
                 'mime'              => $attachment->mime_357,
                 'family'            => $attachment->family_357,
-                'folder'            => Attachment::$folder,
+                'folder'            => Attachment::$folder . '/' . $attachment->article_357 . '/' . $attachment->lang_357,
                 'fileName'          => $attachment->file_name_357,
                 'library'           => $attachment->library_357,
                 'libraryFileName'   => $attachment->library_file_name_357,

@@ -17,9 +17,9 @@ Route::group(['middleware' => ['auth.pulsar','permission.pulsar','locale.pulsar'
     | ATTACHMENT
     |--------------------------------------------------------------------------
     */
-    Route::post(config('pulsar.appName') . '/cms/attachment/store/{lang}/{id?}',            ['as'=>'storeCmsAttachment',    'uses'=>'Syscover\Cms\Controllers\AttachmentController@storeAttachment',       'resource' => 'cms-article',    'action' => 'create']);
-    Route::put(config('pulsar.appName') . '/cms/attachment/update/{lang}/{id}',             ['as'=>'updateCmsAttachment',   'uses'=>'Syscover\Cms\Controllers\AttachmentController@apiUpdateAttachment',   'resource' => 'cms-article',    'action' => 'edit']);
-    Route::put(config('pulsar.appName') . '/cms/attachment/update/{lang}',                  ['as'=>'updatesCmsAttachment',  'uses'=>'Syscover\Cms\Controllers\AttachmentController@apiUpdateAttachments',  'resource' => 'cms-article',    'action' => 'edit']);
+    Route::post(config('pulsar.appName') . '/cms/attachment/store/{article}/{lang}',        ['as'=>'storeCmsAttachment',    'uses'=>'Syscover\Cms\Controllers\AttachmentController@storeAttachment',       'resource' => 'cms-article',    'action' => 'create']);
+    Route::put(config('pulsar.appName') . '/cms/attachment/update/{article}/{lang}/{id}',   ['as'=>'updateCmsAttachment',   'uses'=>'Syscover\Cms\Controllers\AttachmentController@apiUpdateAttachment',   'resource' => 'cms-article',    'action' => 'edit']);
+    Route::put(config('pulsar.appName') . '/cms/attachment/update/{article}/{lang}',        ['as'=>'updatesCmsAttachment',  'uses'=>'Syscover\Cms\Controllers\AttachmentController@apiUpdatesAttachment',  'resource' => 'cms-article',    'action' => 'edit']);
     Route::delete(config('pulsar.appName') . '/cms/attachment/delete/{lang}/{id}',          ['as'=>'deleteCmsAttachment',   'uses'=>'Syscover\Cms\Controllers\AttachmentController@apiDeleteAttachment',   'resource' => 'cms-article',    'action' => 'delete']);
 
     /*
@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth.pulsar','permission.pulsar','locale.pulsar'
     | LIBRARY
     |--------------------------------------------------------------------------
     */
-    Route::post(config('pulsar.appName') . '/cms/library/store/{newArticle}',     ['as'=>'storeCmsLibrary',              'uses'=>'Syscover\Cms\Controllers\LibraryController@storeLibrary',  'resource' => 'cms-article',        'action' => 'create']);
+    Route::post(config('pulsar.appName') . '/cms/library/store',   ['as'=>'storeCmsLibrary',              'uses'=>'Syscover\Cms\Controllers\LibraryController@storeLibrary',  'resource' => 'cms-article',        'action' => 'create']);
 
     /*
     |--------------------------------------------------------------------------
