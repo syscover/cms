@@ -77,15 +77,17 @@ class ArticleController extends Controller {
                 {
                     $attachmentsInput[] = [
                         'id'                => $attachment->id_357,
+                        'family'            => $attachment->family_357,
                         'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357],
                         'mime'              => $attachment->mime_357,
-                        'family'            => $attachment->family_357,
+                        'name'              => $attachment->name_357,
                         'folder'            => config('cms.tmpFolder'),
                         'fileName'          => $attachment->file_name_357,
+                        'width'             => $attachment->width_357,
+                        'height'            => $attachment->height_357,
                         'library'           => $attachment->library_357,
                         'libraryFileName'   => $attachment->library_file_name_357,
-                        'name'              => $attachment->name_357,
-                        'sorting'           => $attachment->sorting_357,
+                        'sorting'           => $attachment->sorting_357
                     ];
                 }
 
@@ -202,16 +204,16 @@ class ArticleController extends Controller {
         {
             $attachmentsInput[] = [
                 'id'                => $attachment->id_357,
+                'family'            => $attachment->family_357,
                 'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357],
                 'mime'              => $attachment->mime_357,
-                'family'            => $attachment->family_357,
+                'name'              => $attachment->name_357,
                 'folder'            => config('cms.attachmentFolder') . '/' . $attachment->article_357 . '/' . $attachment->lang_357,
                 'fileName'          => $attachment->file_name_357,
-                'library'           => $attachment->library_357,
-                'libraryFileName'   => $attachment->library_file_name_357,
-                'name'              => $attachment->name_357,
                 'width'             => $attachment->width_357,
                 'height'            => $attachment->height_357,
+                'library'           => $attachment->library_357,
+                'libraryFileName'   => $attachment->library_file_name_357,
                 'sorting'           => $attachment->sorting_357,
             ];
         }
