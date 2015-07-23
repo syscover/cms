@@ -28,14 +28,8 @@ class AttachmentController extends Controller {
             $idAttachment = Attachment::max('id_357');
             $idAttachment++;
 
-            $width = null; $height= null;
-            if($attachment['type']['id'] == 1)
-            {
-                list($width, $height) = getimagesize(public_path() . Attachment::$tmpFolder . '/' . $attachment['copies'][0]['name']);
-            }
-
             // move file from temp file to attachment folder
-            File::move(public_path() . Attachment::$tmpFolder . '/' . $attachment['copies'][0]['name'], public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['copies'][0]['name']);
+            File::move(public_path() . config('cms.tmpFolder') . '/' . $attachment['fileName'], public_path() . config('cms.attachmentFolder') . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']);
 
             $attachmentsResponse[] = Attachment::create([
                 'id_357'                => $idAttachment,
@@ -43,16 +37,16 @@ class AttachmentController extends Controller {
                 'article_357'           => $parameters['article'],
                 'family_357'            => null,
                 'library_357'           => $attachment['library'],
-                'library_file_name_357' => $attachment['name'] == ""? null : $attachment['name'],   // maybe a attachment without filename, embed video for example
+                'library_file_name_357' => $attachment['libraryFileName'],
                 'sorting_357'           => null,
                 'name_357'              => null,
-                'file_name_357'         => $attachment['copies'][0]['name'] == ""? null : $attachment['copies'][0]['name'],
+                'file_name_357'         => $attachment['fileName'],
                 'mime_357'              => $attachment['mime'],
-                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['copies'][0]['name']),
+                'size_357'              => filesize(public_path() . config('cms.attachmentFolder') . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']),
                 'type_357'              => $attachment['type']['id'],
                 'type_text_357'         => $attachment['type']['name'],
-                'width_357'             => $width,
-                'height_357'            => $height,
+                'width_357'             => $attachment['width'],
+                'height_357'            => $attachment['height'],
                 'data_357'              => null
             ]);
         }
@@ -63,7 +57,6 @@ class AttachmentController extends Controller {
         ];
 
         return response()->json($response);
-
     }
 
     public function apiUpdateAttachment(HttpRequest $request)
@@ -85,10 +78,10 @@ class AttachmentController extends Controller {
                 'library_357'           => $attachment['library'],
                 'library_file_name_357' => $attachment['libraryFileName'] == ""? null : $attachment['libraryFileName'],
                 'sorting_357'           => $attachment['sorting'],
-                'name_357'              => $attachment['imageName'] == ""? null : $attachment['imageName'],
+                'name_357'              => $attachment['name'] == ""? null : $attachment['name'],
                 'file_name_357'         => $attachment['fileName'] == ""? null : $attachment['fileName'],
                 'mime_357'              => $attachment['mime'],
-                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']),
+                'size_357'              => filesize(public_path() . config('cms.attachmentFolder') . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']),
                 'type_357'              => $attachment['type']['id'],
                 'type_text_357'         => $attachment['type']['name'],
                 'width_357'             => $width,
@@ -125,10 +118,10 @@ class AttachmentController extends Controller {
                     'library_357'           => $attachment['library'],
                     'library_file_name_357' => $attachment['libraryFileName'] == ""? null : $attachment['libraryFileName'],
                     'sorting_357'           => $attachment['sorting'],
-                    'name_357'              => $attachment['imageName'] == ""? null : $attachment['imageName'],
+                    'name_357'              => $attachment['name'] == ""? null : $attachment['name'],
                     'file_name_357'         => $attachment['fileName'] == ""? null : $attachment['fileName'],
                     'mime_357'              => $attachment['mime'],
-                    'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']),
+                    'size_357'              => filesize(public_path() . config('cms.attachmentFolder') . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']),
                     'type_357'              => $attachment['type']['id'],
                     'type_text_357'         => $attachment['type']['name'],
                     'width_357'             => $width,
@@ -153,7 +146,7 @@ class AttachmentController extends Controller {
 
         if($attachment->file_name_357 != null && $attachment->file_name_357 != "")
         {
-            File::delete(public_path() . Attachment::$folder . '/' . $attachment->article_357 . '/' . $attachment->lang_357 . '/' . $attachment->file_name_357);
+            File::delete(public_path() . config('cms.attachmentFolder') . '/' . $attachment->article_357 . '/' . $attachment->lang_357 . '/' . $attachment->file_name_357);
         }
 
         Attachment::deleteTranslationRecord($parameters['id'], $parameters['lang']);
@@ -161,6 +154,18 @@ class AttachmentController extends Controller {
         $response = [
             'success' => true,
             'message' => "Attachment deleted"
+        ];
+
+        return response()->json($response);
+    }
+
+    public function apiDeleteTmpAttachment(HttpRequest $request)
+    {
+        File::delete(public_path() . config('cms.tmpFolder') . '/' . $request->input('fileName'));
+
+        $response = [
+            'success' => true,
+            'message' => "Temp attachment deleted"
         ];
 
         return response()->json($response);

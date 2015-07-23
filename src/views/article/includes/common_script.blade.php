@@ -197,7 +197,7 @@
                 tmpFolder:          '{{ config('cms.libraryFolder') }}',
                 multiple:           true,
                 activateTmpDelete:  false,
-                copies: [
+                copies: [ //??
                     {
                         folder: '{{ config('cms.tmpFolder') }}',
                         quality: 100
@@ -206,6 +206,7 @@
             },
             function(dataUploaded)
             {
+                console.log(dataUploaded);
                 if(dataUploaded.success && Array.isArray(dataUploaded.files))
                 {
                     $.storeLibrary(dataUploaded.files);
@@ -248,7 +249,6 @@
             dataType:	'json',
             success: function(libraryDataStored)
             {
-                var newAttachments = [];
                 // Variable $action defined in edit.blade.php with a include
                 @if(isset($action) && $action == 'edit')
                     var toStoreAttachmentDB = true;
@@ -259,71 +259,74 @@
                 // stored function
                 if(toStoreAttachmentDB)
                 {
-                    $.ajax({
-                        url: '{{ route('storeCmsAttachment', ['article'=> isset($object->id_355)? $object->id_355 : null , 'lang'=> $lang->id_001]) }}',
-                        data:       {
-                            attachments: libraryDataStored.files,
-                            lang: $('[name=lang]').val(),
-                            article: $('[name=id]').val()
-                        },
-                        headers:  {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        type:		'POST',
-                        dataType:	'json',
-                        success: function(response)
-                        {
-                            console.log(response);
-                            if(response.success)
-                            {
-                                if($('.sortable li').length == 0 && response.attachments.length > 0) $('#library-placeholder').hide();
-
-                                response.attachments.forEach(function(attachment, index, array){
-                                    newAttachments.push({
-                                        id:                 attachment.id_357,
-                                        type:               {id: attachment.type_357, name: attachment.type_text_357},
-                                        mime:               attachment.mime_357,
-                                        family:             "",
-                                        folder:             '{{ \Syscover\Cms\Models\Attachment::$folder }}/' + attachment.article_357 + '/' + attachment.lang_357,
-                                        fileName:           attachment.file_name_357,
-                                        library:            attachment.library_357,
-                                        libraryFileName:    attachment.library_file_name_357,
-                                        imageName:          ""
-                                    });
-                                });
-
-                                // set input hidden with attachment data
-                                var attachments = JSON.parse($('[name=attachments]').val());
-                                $('[name=attachments]').val(JSON.stringify(attachments.concat(newAttachments)));
-
-                                $.shortingElements();
-                            }
-                        }
-                    });
+                    $.storeAttachment(libraryDataStored.files);
                 }
                 else
                 {
                     if($('.sortable li').length == 0 && libraryDataStored.files.length > 0) $('#library-placeholder').hide();
-                    libraryDataStored.foreach(function(file, index, array){
-                        if(file.isImage)
-                        {
-                            $('.sortable').loadTemplate('#file', {
-                                image:              file.copies[0].folder + '/' + file.copies[0].name,
-                                fileName:           file.copies[0].name,
-                                isImage:            file.isImage? 'is-image' : 'no-image'
-                            }, { prepend:true });
-                        }
+
+                    libraryDataStored.files.forEach(function(file, index, array){
+                        $('.sortable').loadTemplate('#file', {
+                            image:              file.folder + '/' + file.fileName,
+                            fileName:           file.fileName,
+                            isImage:            file.type.id == 1? 'is-image' : 'no-image'
+                        }, { prepend:true });
                     });
 
-                    newAttachments.push({
-                        type:               obj.type,
-                        mime:               obj.mime,
-                        family:             "",
-                        folder:             obj.copies[0].folder,
-                        fileName:           obj.copies[0].name,
-                        library:            obj.library,
-                        libraryFileName:    obj.name,
-                        imageName:          ""
+                    // set input hidden with attachment data
+                    var attachments = JSON.parse($('[name=attachments]').val());
+                    $('[name=attachments]').val(JSON.stringify(attachments.concat(libraryDataStored.files)));
+
+                    $.shortingElements();
+                    $.setAttachmentActions();
+                    $.setEventSaveAttachmentProperties();
+                }
+            }
+        });
+    };
+
+    $.storeAttachment = function(files) {
+        $.ajax({
+            url: '{{ route('storeCmsAttachment', ['article'=> isset($object->id_355)? $object->id_355 : null , 'lang'=> $lang->id_001]) }}',
+            data:       {
+                attachments:    files,
+                lang:           $('[name=lang]').val(),
+                article:        $('[name=id]').val()
+            },
+            headers:  {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            type:		'POST',
+            dataType:	'json',
+            success: function(attachmentDataStored)
+            {
+                if(attachmentDataStored.success)
+                {
+                    var newAttachments = [];
+                    if($('.sortable li').length == 0 && attachmentDataStored.attachments.length > 0) $('#library-placeholder').hide();
+
+                    attachmentDataStored.attachments.forEach(function(attachment, index, array){
+                        newAttachments.push({
+                            id:                 attachment.id_357,
+                            type:               {id: attachment.type_357, name: attachment.type_text_357},
+                            mime:               attachment.mime_357,
+                            family:             null,
+                            folder:             '{{ config('cms.attachmentFolder') }}/' + attachment.article_357 + '/' + attachment.lang_357,
+                            fileName:           attachment.file_name_357,
+                            library:            attachment.library_357,
+                            libraryFileName:    attachment.library_file_name_357,
+                            name:               null
+                        });
+
+                        $('.sortable').loadTemplate('#file', {
+                            id:                 attachment.id_357,
+                            image:              '{{ config('cms.attachmentFolder') }}/' + attachment.article_357 + '/' + attachment.lang_357 + '/' + attachment.file_name_357,
+                            fileName:           attachment.file_name_357,
+                            isImage:            attachment.type_357 == 1? 'is-image' : 'no-image'
+                        }, { prepend:true });
+
+                        // put id across loadTemple and replace id data-id for id attribute, to detect script is a stored database element
+                        $('#' + attachment.id_357).data('id', attachment.id_357).removeAttr('id');
                     });
 
                     // set input hidden with attachment data
@@ -331,10 +334,9 @@
                     $('[name=attachments]').val(JSON.stringify(attachments.concat(newAttachments)));
 
                     $.shortingElements();
+                    $.setAttachmentActions();
+                    $.setEventSaveAttachmentProperties();
                 }
-
-                $.setAttachmentActions();
-                $.setEventSaveAttachmentProperties();
             }
         });
     };
@@ -368,8 +370,8 @@
                             $.getFile(
                                 {
                                     urlPlugin:  '/packages/syscover/pulsar/vendor',
-                                    folder:     $(that).closest('li').data('id') == undefined? '{{ \Syscover\Cms\Models\Attachment::$tmpFolder }}' : '{{ \Syscover\Cms\Models\Attachment::$folder }}/{{ isset($object->id_355)? $object->id_355 : null }}/{{ $lang->id_001 }}',
-                                    srcFolder:  '/packages/syscover/cms/storage/library',
+                                    folder:     $(that).closest('li').data('id') == undefined? '{{ config('cms.tmpFolder') }}' : '{{ config('cms.attachmentFolder') }}/{{ isset($object->id_355)? $object->id_355 : null }}/{{ $lang->id_001 }}',
+                                    srcFolder:  '{{ config('cms.libraryFolder') }}',
                                     srcFile:    $(that).closest('li').find('.file-name').html(),
                                     crop: {
                                         active:     true,
@@ -425,16 +427,15 @@
     $.updateAttachment = function(element) {
         if($(element).closest('li').data('id') != undefined)
         {
-            var attachments = JSON.parse($('[name=attachments]').val());
-            var attachment = null;
+            var attachments         = JSON.parse($('[name=attachments]').val());
+            var attachmentToUpdate  = null;
 
-            for(var i = 0; i < attachments.length; i++)
-            {
-                if(attachments[i].id == $(element).closest('li').data('id'))
+            attachments.forEach(function(attachment, index, array){
+                if(attachment.id == $(element).closest('li').data('id'))
                 {
-                    attachment = attachments[i];
+                    attachmentToUpdate = attachment;
                 }
-            }
+            });
             var url = '{{ route('updateCmsAttachment', ['article'=> isset($object->id_355)? $object->id_355 : null , 'lang'=> $lang->id_001, 'id' => 'id']) }}';
 
             // update attachment across ajax
@@ -445,7 +446,7 @@
                 },
                 data: {
                     _method: 'PUT',
-                    attachment: attachment
+                    attachment: attachmentToUpdate
                 },
                 type:		'POST',
                 dataType:	'json',
@@ -488,12 +489,13 @@
 
             $(this).closest('li').fadeOut( "slow", function() {
 
+                var that = this;
+
                 // check that attachment have id and is stored in database
                 if($(this).data('id') != undefined)
                 {
+                    // delete file from attachment folder
                     var url = '{{ route('deleteCmsAttachment', ['lang'=> $lang->id_001, 'id' => 'id']) }}';
-                    var that = this;
-
                     $.ajax({
                         url:    url.replace('id', $(this).data('id')),
                         headers:  {
@@ -513,7 +515,26 @@
                 }
                 else
                 {
-                    $.removeAttachment(this);
+                    // delete file from tmp folder
+                    $.ajax({
+                        url:    '{{ route('deleteTmpCmsAttachment') }}',
+                        headers:  {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        data: {
+                            _method:    'DELETE',
+                            fileName:   $(this).find('.file-name').html()
+                        },
+                        type:		'POST',
+                        dataType:	'json',
+                        success: function(data)
+                        {
+                            if(data.success)
+                            {
+                                $.removeAttachment(that);
+                            }
+                        }
+                    });
                 }
             });
         });
@@ -523,18 +544,19 @@
     $.shortingElements = function() {
         var attachments   = JSON.parse($('[name=attachments]').val());
         var hasId         = false;
-        $('.sortable').find('li').each(function(index) {
-            for(var i = 0; i < attachments.length; i++)
-            {
-                if($(this).find('.file-name').html() == attachments[i].fileName)
+
+        $('.sortable li').each(function(i) {
+            var that = this;
+            attachments.forEach(function(attachment, j, attachments){
+                if($(that).find('.file-name').html() == attachment.fileName)
                 {
-                    attachments[i].sorting = index;
+                    attachment.sorting = i;
                 }
-                if(attachments[i].id != undefined)
+                if(attachment.id != undefined)
                 {
                     hasId = true;
                 }
-            }
+            });
         });
 
         if(hasId)

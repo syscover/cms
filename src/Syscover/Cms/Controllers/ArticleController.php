@@ -69,7 +69,7 @@ class ArticleController extends Controller {
 
             foreach($parameters['attachments'] as $attachment)
             {
-                File::copy(public_path() . Attachment::$folder . '/' . $attachment->file_name_357, public_path() . Attachment::$tmpFolder . '/' . $attachment->file_name_357);
+                File::copy(public_path() . config('cms.attachmentFolder') . '/' . $attachment->file_name_357, public_path() . config('cms.tmpFolder') . '/' . $attachment->file_name_357);
 
                 $attachmentsInput     = [];
 
@@ -80,11 +80,11 @@ class ArticleController extends Controller {
                         'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357],
                         'mime'              => $attachment->mime_357,
                         'family'            => $attachment->family_357,
-                        'folder'            => Attachment::$tmpFolder,
+                        'folder'            => config('cms.tmpFolder'),
                         'fileName'          => $attachment->file_name_357,
                         'library'           => $attachment->library_357,
                         'libraryFileName'   => $attachment->library_file_name_357,
-                        'imageName'         => $attachment->name_357,
+                        'name'              => $attachment->name_357,
                         'sorting'           => $attachment->sorting_357,
                     ];
                 }
@@ -144,9 +144,9 @@ class ArticleController extends Controller {
         // Attachment
         $attachments = json_decode(Request::input('attachments'));
 
-        if(!File::exists(public_path() . Attachment::$folder . '/' . $article->id_355 . '/'. Request::input('lang')))
+        if(!File::exists(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 . '/'. Request::input('lang')))
         {
-            File::makeDirectory(public_path() . Attachment::$folder . '/' . $article->id_355 . '/'. Request::input('lang'), 0755, true);
+            File::makeDirectory(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 . '/'. Request::input('lang'), 0755, true);
         }
 
         foreach($attachments as $attachment)
@@ -161,7 +161,7 @@ class ArticleController extends Controller {
             }
 
             // move file fom temp file to attachment folder
-            File::move(public_path() . $attachment->folder . '/' . $attachment->fileName, public_path() . Attachment::$folder . '/' . $article->id_355 . '/'. Request::input('lang') .'/' . $attachment->fileName);
+            File::move(public_path() . $attachment->folder . '/' . $attachment->fileName, public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 . '/'. Request::input('lang') .'/' . $attachment->fileName);
 
             Attachment::create([
                 'id_357'                => $idAttachment,
@@ -171,10 +171,10 @@ class ArticleController extends Controller {
                 'library_357'           => $attachment->library,
                 'library_file_name_357' => $attachment->libraryFileName == ""? null : $attachment->libraryFileName,
                 'sorting_357'           => $attachment->sorting,
-                'name_357'              => $attachment->imageName == ""? null : $attachment->imageName,
+                'name_357'              => $attachment->name == ""? null : $attachment->name,
                 'file_name_357'         => $attachment->fileName == ""? null : $attachment->fileName,
                 'mime_357'              => $attachment->mime,
-                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $article->id_355 .  '/' . Request::input('lang') . '/' . $attachment->fileName),
+                'size_357'              => filesize(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 .  '/' . Request::input('lang') . '/' . $attachment->fileName),
                 'type_357'              => $attachment->type->id,
                 'type_text_357'         => $attachment->type->name,
                 'width_357'             => $width,
@@ -205,11 +205,13 @@ class ArticleController extends Controller {
                 'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357],
                 'mime'              => $attachment->mime_357,
                 'family'            => $attachment->family_357,
-                'folder'            => Attachment::$folder . '/' . $attachment->article_357 . '/' . $attachment->lang_357,
+                'folder'            => config('cms.attachmentFolder') . '/' . $attachment->article_357 . '/' . $attachment->lang_357,
                 'fileName'          => $attachment->file_name_357,
                 'library'           => $attachment->library_357,
                 'libraryFileName'   => $attachment->library_file_name_357,
-                'imageName'         => $attachment->name_357,
+                'name'              => $attachment->name_357,
+                'width'             => $attachment->width_357,
+                'height'            => $attachment->height_357,
                 'sorting'           => $attachment->sorting_357,
             ];
         }
@@ -259,11 +261,11 @@ class ArticleController extends Controller {
     public function deleteCustomRecord($object)
     {
         $object->categories()->detach();
-        $attachments = $object->attachments;
+        File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $object->id_355 . '/' . $object->lang_355);
 
-        foreach ($attachments as $attachment)
+        if(count(File::directories(public_path() . config('cms.attachmentFolder') . '/' . $object->id_355)) == 0)
         {
-            File::delete(public_path() . Attachment::$folder . '/' . $attachment->file_name_354);
+            File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $object->id_355);
         }
     }
 
@@ -274,6 +276,13 @@ class ArticleController extends Controller {
         foreach($articles as $article)
         {
             $article->categories()->detach();
+
+            File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 . '/' . $article->lang_355);
+
+            if(count(File::directories(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355)) == 0)
+            {
+                File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355);
+            }
         }
     }
 

@@ -67,9 +67,12 @@ class LibraryController extends Controller {
             // convert format getFile to format cms application
             $objectsResponse[] = [
                 'id'        => null,
+                'family'    => null,
                 'type'      => $type,
                 'mime'      => $file['mime'],
-                'fileName'  => $file['name'],
+                'name'      => null,
+                'folder'    => config('cms.tmpFolder'),
+                'fileName'  => $file['copies'][0]['name'], // get name of copy in temp folder
                 'width'     => $width,
                 'height'    => $height
             ];

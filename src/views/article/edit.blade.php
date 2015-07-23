@@ -47,7 +47,7 @@
     @include('cms::article.includes.common_script', ['action' => 'edit'])
 
     <script type="text/html" id="file">
-        <li>
+        <li data-id="id">
             <div class="attachment-item">
                 <div class="attachment-img">
                     <img data-src="image" data-class="isImage"  />
