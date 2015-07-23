@@ -38,23 +38,24 @@ class LibraryController extends Controller {
         $objectsResponse    = [];
         $filesNames         = [];
 
-        foreach($files as &$file)
+        foreach($files as $file)
         {
+            $width = null; $height= null;
             if($file['isImage'] == 'true')
             {
-                list($file['width'], $file['height']) = getimagesize($path . '/' . $file['name']);
+                list($width, $height) = getimagesize($path . '/' . $file['name']);
             }
 
-            $file['type'] = $this->getType($file['mime']);
+            $type = $this->getType($file['mime']);
 
             $objects[] = [
                 'file_name_354' => $file['name'],
                 'mime_354'      => $file['mime'],
                 'size_354'      => $file['size'],
-                'type_354'      => $file['type']['id'],
-                'type_text_354' => $file['type']['name'],
-                'width_354'     => isset($file['width'])? $file['width'] : null,
-                'height_354'    => isset($file['height'])? $file['height'] : null,
+                'type_354'      => $type['id'],
+                'type_text_354' => $type['name'],
+                'width_354'     => $width,
+                'height_354'    => $height,
                 'data_354'      => null
             ];
 
@@ -63,7 +64,15 @@ class LibraryController extends Controller {
                 $filesNames[] = $file['name'];
             }
 
-            $objectsResponse[] = $file;
+            // convert format getFile to format cms application
+            $objectsResponse[] = [
+                'id'        => null,
+                'type'      => $type,
+                'mime'      => $file['mime'],
+                'fileName'  => $file['name'],
+                'width'     => $width,
+                'height'    => $height
+            ];
         }
 
         Library::insert($objects);
@@ -74,9 +83,10 @@ class LibraryController extends Controller {
         {
             foreach($objectsResponse as &$objectResponse)
             {
-                if($library->file_name_354 == $objectResponse['name'])
+                if($library->file_name_354 == $objectResponse['fileName'])
                 {
-                    $objectResponse['library'] = $library->id_354;
+                    $objectResponse['library']          = $library->id_354;
+                    $objectResponse['libraryFileName']  = $library->file_name_354;
                 }
             }
         }

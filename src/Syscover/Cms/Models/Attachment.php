@@ -24,11 +24,7 @@ class Attachment extends Model {
     public $timestamps      = false;
     public $incrementing    = false;
     protected $fillable     = ['id_357', 'lang_357', 'article_357', 'family_357', 'library_357', 'library_file_name_357', 'sorting_357', 'name_357', 'file_name_357', 'mime_357', 'size_357', 'type_357', 'type_text_357', 'width_357', 'height_357', 'data_357'];
-    private static $rules   = [
-    ];
-
-    public static $folder       = '/packages/syscover/cms/storage/attachment';
-    public static $tmpFolder    = '/packages/syscover/cms/storage/tmp';
+    private static $rules   = [];
 
     public static function validate($data)
     {

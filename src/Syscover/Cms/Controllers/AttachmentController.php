@@ -31,24 +31,24 @@ class AttachmentController extends Controller {
             $width = null; $height= null;
             if($attachment['type']['id'] == 1)
             {
-                list($width, $height) = getimagesize(public_path() . $attachment['folder'] . '/' . $attachment['fileName']);
+                list($width, $height) = getimagesize(public_path() . Attachment::$tmpFolder . '/' . $attachment['copies'][0]['name']);
             }
 
-            // move file fom temp file to attachment folder
-            File::move(public_path() . $attachment['folder'] . '/' . $attachment['fileName'], public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']);
+            // move file from temp file to attachment folder
+            File::move(public_path() . Attachment::$tmpFolder . '/' . $attachment['copies'][0]['name'], public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['copies'][0]['name']);
 
             $attachmentsResponse[] = Attachment::create([
                 'id_357'                => $idAttachment,
                 'lang_357'              => $parameters['lang'],
                 'article_357'           => $parameters['article'],
-                'family_357'            => $attachment['family'] == ""? null : $attachment['family'],
+                'family_357'            => null,
                 'library_357'           => $attachment['library'],
-                'library_file_name_357' => $attachment['libraryFileName'] == ""? null : $attachment['libraryFileName'],
-                'sorting_357'           => isset($attachment['sorting'])? $attachment['sorting'] : null,
-                'name_357'              => $attachment['imageName'] == ""? null : $attachment['imageName'],
-                'file_name_357'         => $attachment['fileName'] == ""? null : $attachment['fileName'],
+                'library_file_name_357' => $attachment['name'] == ""? null : $attachment['name'],   // maybe a attachment without filename, embed video for example
+                'sorting_357'           => null,
+                'name_357'              => null,
+                'file_name_357'         => $attachment['copies'][0]['name'] == ""? null : $attachment['copies'][0]['name'],
                 'mime_357'              => $attachment['mime'],
-                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['fileName']),
+                'size_357'              => filesize(public_path() . Attachment::$folder . '/' . $parameters['article'] . '/' . $parameters['lang'] . '/' . $attachment['copies'][0]['name']),
                 'type_357'              => $attachment['type']['id'],
                 'type_text_357'         => $attachment['type']['name'],
                 'width_357'             => $width,
