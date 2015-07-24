@@ -196,13 +196,16 @@
                 folder:             '{{ config('cms.libraryFolder') }}',
                 tmpFolder:          '{{ config('cms.libraryFolder') }}',
                 multiple:           true,
-                activateTmpDelete:  false,
-                copies: [ //??
+                activateTmpDelete:  false
+                //TODO: eliminar las copias desde getFile y que se hagan desde al LibraryController, comprobar
+                /*
+                copies: [
                     {
                         folder: '{{ config('cms.tmpFolder') }}',
                         quality: 100
                     }
                 ]
+                */
             },
             function(dataUploaded)
             {
@@ -267,7 +270,7 @@
 
                     libraryDataStored.files.forEach(function(file, index, array){
                         $('.sortable').loadTemplate('#file', {
-                            image:              file.folder + '/' + file.fileName,
+                            image:              file.type.id == 1? file.folder + '/' + file.fileName : '{{ config('cms.iconsFolder') }}/' + file.type.icon,
                             fileName:           file.fileName,
                             isImage:            file.type.id == 1? 'is-image' : 'no-image'
                         }, { prepend:true });

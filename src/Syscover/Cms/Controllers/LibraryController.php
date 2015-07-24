@@ -10,6 +10,7 @@
  * @filesource
  */
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request as HttpRequest;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
@@ -32,18 +33,18 @@ class LibraryController extends Controller {
     {
         $parameters         = $request->route()->parameters();
         $files              = $request->input('files');
-        $uri                = 'packages/syscover/cms/storage/library';
-        $path               = public_path() . '/' . $uri;
         $objects            = [];
         $objectsResponse    = [];
         $filesNames         = [];
 
         foreach($files as $file)
         {
+            File::copy(public_path() . config('cms.libraryFolder') . '/' . $file['name'], public_path() . config('cms.tmpFolder') . '/' . $file['name']);
+
             $width = null; $height= null;
             if($file['isImage'] == 'true')
             {
-                list($width, $height) = getimagesize($path . '/' . $file['name']);
+                list($width, $height) = getimagesize(public_path() . config('cms.libraryFolder') . '/' . $file['name']);
             }
 
             $type = $this->getType($file['mime']);
@@ -72,7 +73,7 @@ class LibraryController extends Controller {
                 'mime'      => $file['mime'],
                 'name'      => null,
                 'folder'    => config('cms.tmpFolder'),
-                'fileName'  => $file['copies'][0]['name'], // get name of copy in temp folder
+                'fileName'  => $file['name'],
                 'width'     => $width,
                 'height'    => $height
             ];
@@ -127,7 +128,7 @@ class LibraryController extends Controller {
             case 'application/msword':
             case 'application/x-pdf':
             case 'application/pdf':
-                return [ 'id' => 2, 'name' => trans_choice('pulsar::pulsar.file', 1)];
+                return [ 'id' => 2, 'name' => trans_choice('pulsar::pulsar.file', 1), 'icon' => 'icon_AI.png'];
                 break;
             case 'video/avi':
             case 'video/mpeg':
