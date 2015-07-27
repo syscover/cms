@@ -5,7 +5,7 @@
                     <li{!! Miscellaneous::setCurrentPage('cms-article') !!}><a href="{{ route('CmsArticle', [session('baseLang')]) }}"><i class="icon-file-text-alt"></i>{{ trans_choice('pulsar::pulsar.article', 2) }}</a></li>
                 @endif
                 @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-library', 'access'))
-                    <li{!! Miscellaneous::setCurrentPage('cms-library') !!}><a href="{{ route('CmsArticleFamily') }}"><i class="icon-book"></i>{{ trans_choice('pulsar::pulsar.library', 2) }}</a></li>
+                    <li{!! Miscellaneous::setCurrentPage('cms-library') !!}><a href="{{ route('CmsLibrary') }}"><i class="icon-book"></i>{{ trans_choice('pulsar::pulsar.library', 2) }}</a></li>
                 @endif
                 @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-article-family', 'access'))
                     <li{!! Miscellaneous::setCurrentPage('cms-article-family') !!}><a href="{{ route('CmsArticleFamily') }}"><i class="icon-align-justify"></i>{{ trans_choice('cms::pulsar.article_family', 2) }}</a></li>

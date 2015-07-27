@@ -20,14 +20,39 @@ class LibraryController extends Controller {
 
     use TraitController;
 
-    protected $routeSuffix  = 'CmsFile';
-    protected $folder       = 'attachment';
+    protected $routeSuffix  = 'CmsLibrary';
+    protected $folder       = 'library';
     protected $package      = 'cms';
-    protected $aColumns     = ['id_354', 'file_name_354', 'mime_354', 'size_354', 'type_text_354', 'width_354', 'width_354', 'height_354', 'data_354'];
+    protected $aColumns     = ['id_354', ['type' => 'library_img', 'data' => 'file_name_354'], 'file_name_354', ['type' => 'size', 'data' => 'size_354'], 'mime_354', 'type_text_354'];
     protected $nameM        = 'file_354';
     protected $model        = '\Syscover\Cms\Models\Library';
-    protected $icon         = 'sys-icon-magnet';
-    protected $objectTrans  = 'file';
+    protected $icon         = 'icon-book';
+    protected $objectTrans  = 'library';
+
+    public function customColumnType($row, $aColumn, $aObject, $request)
+    {
+        switch ($aColumn['type'])
+        {
+            case 'library_img':
+                if($aObject['type_354'] == 1)
+                {
+                    $row[] = '<img src="' . asset(config('cms.libraryFolder') . '/' . $aObject['file_name_354']) . '" style="max-width: 100px; max-height: 50px">';
+                }
+                else
+                {
+                    $data = json_decode($aObject['data_354']);
+                    $row[] = '<img src="' . asset(config('cms.iconsFolder') . '/' . $data->icon) . '" style="max-width: 100px; max-height: 50px">';
+                }
+
+                break;
+            case 'size':
+                $row[] = number_format($aObject['size_354'] / 1048576, 2) . ' Mb';
+                break;
+        }
+
+        return $row;
+    }
+
 
     public function storeLibrary(HttpRequest $request)
     {
