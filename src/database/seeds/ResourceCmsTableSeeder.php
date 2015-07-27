@@ -14,6 +14,7 @@ class ResourceCmsTableSeeder extends Seeder {
             ['id_007' => 'cms-category','name_007' => 'Categories','package_007' => '13'],
             ['id_007' => 'cms-article','name_007' => 'Articles','package_007' => '13'],
             ['id_007' => 'cms-article-attachment-family','name_007' => 'Article attachment families','package_007' => '13'],
+            ['id_007' => 'cms-library','name_007' => 'Library','package_007' => '13'],
         ]);
     }
 }
