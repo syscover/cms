@@ -129,7 +129,7 @@
         <div class="widget-content no-padding">
             <div class="row" id="attachment-wrapper">
                 <div id="library-placeholder">
-                    <p>Arrastre aquí sus archivos</p>
+                    <p>{{ trans('cms::pulsar.drag_files') }}</p>
                 </div>
                 <ul class="sortable">
                     @if(isset($attachments))
@@ -186,7 +186,7 @@
 @section('endBody')
     <div id="attachment-library-mask">
         <div id="attachment-library-content">
-            Arrastre aquí sus archivos
+            {{ trans('cms::pulsar.drag_files') }}
         </div>
     </div>
 @stop

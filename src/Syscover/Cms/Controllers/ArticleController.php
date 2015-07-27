@@ -181,7 +181,7 @@ class ArticleController extends Controller {
                 'type_text_357'         => $attachment->type->name,
                 'width_357'             => $width,
                 'height_357'            => $height,
-                'data_357'              => null
+                'data_357'              => json_encode(['icon' => $attachment->type->icon])
             ]);
         }
     }

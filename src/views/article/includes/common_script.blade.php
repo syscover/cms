@@ -197,19 +197,9 @@
                 tmpFolder:          '{{ config('cms.libraryFolder') }}',
                 multiple:           true,
                 activateTmpDelete:  false
-                //TODO: eliminar las copias desde getFile y que se hagan desde al LibraryController, comprobar
-                /*
-                copies: [
-                    {
-                        folder: '{{ config('cms.tmpFolder') }}',
-                        quality: 100
-                    }
-                ]
-                */
             },
             function(dataUploaded)
             {
-                console.log(dataUploaded);
                 if(dataUploaded.success && Array.isArray(dataUploaded.files))
                 {
                     $.storeLibrary(dataUploaded.files);
@@ -270,7 +260,7 @@
 
                     libraryDataStored.files.forEach(function(file, index, array){
                         $('.sortable').loadTemplate('#file', {
-                            image:              file.type.id == 1? file.folder + '/' + file.fileName : '{{ config('cms.iconsFolder') }}/' + file.type.icon,
+                            image:              file.type.id == 1? '{{ config('cms.tmpFolder') }}/' + file.fileName : '{{ config('cms.iconsFolder') }}/' + file.type.icon,
                             fileName:           file.fileName,
                             isImage:            file.type.id == 1? 'is-image' : 'no-image'
                         }, { prepend:true });
@@ -309,6 +299,10 @@
                     if($('.sortable li').length == 0 && attachmentDataStored.attachments.length > 0) $('#library-placeholder').hide();
 
                     attachmentDataStored.attachments.forEach(function(attachment, index, array){
+
+                        // parse data atributtes to json
+                        var attachmentData = JSON.parse(attachment.data_357);
+
                         newAttachments.push({
                             id:                 attachment.id_357,
                             type:               {id: attachment.type_357, name: attachment.type_text_357},
@@ -323,7 +317,7 @@
 
                         $('.sortable').loadTemplate('#file', {
                             id:                 attachment.id_357,
-                            image:              '{{ config('cms.attachmentFolder') }}/' + attachment.article_357 + '/' + attachment.lang_357 + '/' + attachment.file_name_357,
+                            image:              attachment.type_357 == 1? '{{ config('cms.attachmentFolder') }}/' + attachment.article_357 + '/' + attachment.lang_357 + '/' + attachment.file_name_357 : '{{ config('cms.iconsFolder') }}/' + attachmentData.icon,
                             fileName:           attachment.file_name_357,
                             isImage:            attachment.type_357 == 1? 'is-image' : 'no-image'
                         }, { prepend:true });

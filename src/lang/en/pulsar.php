@@ -25,5 +25,6 @@ return [
     'select_category'                       => 'Select a category',
     'select_family'                         => 'Select a family',
     'attachment_family'                     => 'Attachment family|Attachment families',
-    'image_name'                            => 'Image name'
+    'image_name'                            => 'Image name',
+    'drag_files'                            => 'Drag files here'
 ];

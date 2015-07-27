@@ -57,7 +57,7 @@ class LibraryController extends Controller {
                 'type_text_354' => $type['name'],
                 'width_354'     => $width,
                 'height_354'    => $height,
-                'data_354'      => null
+                'data_354'      => json_encode(['icon' => $type['icon']])
             ];
 
             if($file['name'] != null && $file['name'] != "")
@@ -122,19 +122,21 @@ class LibraryController extends Controller {
             case 'image/pjpeg':
             case 'image/png':
             case 'image/svg+xml':
-                return [ 'id' => 1, 'name' => trans_choice('pulsar::pulsar.image', 1)];
+                return [ 'id' => 1, 'name' => trans_choice('pulsar::pulsar.image', 1), 'icon' => 'icon_Generic.png'];
                 break;
             case 'text/plain':
             case 'application/msword':
+                return [ 'id' => 2, 'name' => trans_choice('pulsar::pulsar.file', 1), 'icon' => 'icon_DOCX.png'];
+                break;
             case 'application/x-pdf':
             case 'application/pdf':
-                return [ 'id' => 2, 'name' => trans_choice('pulsar::pulsar.file', 1), 'icon' => 'icon_AI.png'];
+                return [ 'id' => 2, 'name' => trans_choice('pulsar::pulsar.file', 1), 'icon' => 'icon_PDF.png'];
                 break;
             case 'video/avi':
             case 'video/mpeg':
             case 'video/quicktime':
             case 'video/mp4':
-                return [ 'id' => 3, 'name' => trans_choice('pulsar::pulsar.video', 1)];
+                return [ 'id' => 3, 'name' => trans_choice('pulsar::pulsar.video', 1), 'icon' => 'icon_Generic.png'];
                 break;
             default:
                 return null;

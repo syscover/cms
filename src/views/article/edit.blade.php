@@ -129,14 +129,15 @@
         <div class="widget-content no-padding">
             <div class="row" id="attachment-wrapper">
                 <div id="library-placeholder">
-                    <p>Arrastre aquí sus archivos</p>
+                    <p>{{ trans('cms::pulsar.drag_files') }}</p>
                 </div>
                 <ul class="sortable">
                     @foreach($attachments as $attachment)
+                    <?php $data = json_decode($attachment->data_357); ?>
                     <li data-id="{{$attachment->id_357}}">
                         <div class="attachment-item">
                             <div class="attachment-img">
-                                <img{!! $attachment->type_357 == 1? ' class="is-image"' : ' class="no-image"' !!} src="{{ $attachment->type_357 == 1? config('cms.attachmentFolder') . '/' . $attachment->article_357 . '/' . $attachment->lang_357 . '/' . $attachment->file_name_357 : config('cms.iconsFolder') . '/' . 'icon_AI.png' }}" /> <!-- TODO: INSERT ICON IN DATABASE -->
+                                <img{!! $attachment->type_357 == 1? ' class="is-image"' : ' class="no-image"' !!} src="{{ $attachment->type_357 == 1? config('cms.attachmentFolder') . '/' . $attachment->article_357 . '/' . $attachment->lang_357 . '/' . $attachment->file_name_357 : config('cms.iconsFolder') . '/' . $data->icon }}" />
                             </div>
                             <div class="attachment-over">
                                 <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
@@ -184,7 +185,7 @@
 @section('endBody')
     <div id="attachment-library-mask">
         <div id="attachment-library-content">
-            Arrastre aquí sus archivos
+            {{ trans('cms::pulsar.drag_files') }}
         </div>
     </div>
 @stop

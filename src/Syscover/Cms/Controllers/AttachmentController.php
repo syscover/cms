@@ -47,7 +47,7 @@ class AttachmentController extends Controller {
                 'type_text_357'         => $attachment['type']['name'],
                 'width_357'             => $attachment['width'],
                 'height_357'            => $attachment['height'],
-                'data_357'              => null
+                'data_357'              => json_encode(['icon' => $attachment['type']['icon']])
             ]);
         }
 
