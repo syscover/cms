@@ -28,6 +28,7 @@ class LibraryController extends Controller {
     protected $model        = '\Syscover\Cms\Models\Library';
     protected $icon         = 'icon-book';
     protected $objectTrans  = 'library';
+    protected $jsonParam    = ['edit' => false];
 
     public function customColumnType($row, $aColumn, $aObject, $request)
     {
@@ -36,12 +37,12 @@ class LibraryController extends Controller {
             case 'library_img':
                 if($aObject['type_354'] == 1)
                 {
-                    $row[] = '<img src="' . asset(config('cms.libraryFolder') . '/' . $aObject['file_name_354']) . '" style="max-width: 100px; max-height: 50px">';
+                    $row[] = '<img src="' . asset(config('cms.libraryFolder') . '/' . $aObject['file_name_354']) . '" class="image-index-list">';
                 }
                 else
                 {
                     $data = json_decode($aObject['data_354']);
-                    $row[] = '<img src="' . asset(config('cms.iconsFolder') . '/' . $data->icon) . '" style="max-width: 100px; max-height: 50px">';
+                    $row[] = '<img src="' . asset(config('cms.iconsFolder') . '/' . $data->icon) . '" class="image-index-list">';
                 }
 
                 break;
@@ -128,13 +129,22 @@ class LibraryController extends Controller {
         return response()->json($response);
     }
 
-    public function updateCustomRecord($parameters)
+    public function deleteCustomRecord($object)
     {
-        Section::where('id_350', $parameters['id'])->update([
-            'id_350'                => Request::input('id'),
-            'name_350'              => Request::input('name'),
-            'article_family_350'    => Request::has('family')? Request::input('family') : null
-        ]);
+        File::delete(public_path() . config('cms.libraryFolder') . '/' . $object->file_name_354);
+    }
+
+    public function deleteCustomRecords($ids)
+    {
+        $files      = Library::whereIn('id_354', $ids)->get();
+        $fileNames  = [];
+
+        foreach($files as $file)
+        {
+            $fileNames[] = public_path() . config('cms.libraryFolder') . '/' . $file->file_name_354;
+        }
+
+        File::delete($fileNames);
     }
 
     private function getType($mime)
