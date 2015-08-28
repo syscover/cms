@@ -3,6 +3,7 @@
 
         var contentArticle = null;
 
+        /*TODO: implementar tabla de etiquetas común para todos los artículos e insertarlas en el autocompletar */
         $('.tags-autocomplete').tagsInput({
             defaultText: '{{ trans('pulsar::pulsar.add_tag') }}',
             width: '100%',
@@ -176,6 +177,7 @@
         });
         @endif
 
+        // TODO: Comprar licencia FROALA
         // Licencia froala
         $('.froala-box').children('div:eq(2)').hide();
 
