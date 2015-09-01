@@ -25,7 +25,7 @@ class ArticleFamilyController extends Controller {
     protected $aColumns     = ['id_351', 'name_351'];
     protected $nameM        = 'name_351';
     protected $model        = '\Syscover\Cms\Models\ArticleFamily';
-    protected $icon         = 'icon-align-justify';
+    protected $icon         = 'fa fa-align-justify';
     protected $objectTrans  = 'article_family';
 
     public function createCustomRecord($parameters)

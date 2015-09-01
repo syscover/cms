@@ -25,7 +25,7 @@ class AttachmentFamilyController extends Controller {
     protected $aColumns     = ['id_353', 'name_353'];
     protected $nameM        = 'name_353';
     protected $model        = '\Syscover\Cms\Models\AttachmentFamily';
-    protected $icon         = 'icon-picture';
+    protected $icon         = 'fa fa-picture-o';
     protected $objectTrans  = 'attachment-family';
 
     public function storeCustomRecord()

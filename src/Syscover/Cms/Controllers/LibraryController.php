@@ -26,7 +26,7 @@ class LibraryController extends Controller {
     protected $aColumns     = ['id_354', ['type' => 'library_img', 'data' => 'file_name_354'], 'file_name_354', ['type' => 'size', 'data' => 'size_354'], 'mime_354', 'type_text_354'];
     protected $nameM        = 'file_354';
     protected $model        = '\Syscover\Cms\Models\Library';
-    protected $icon         = 'icon-book';
+    protected $icon         = 'fa fa-book';
     protected $objectTrans  = 'library';
     protected $jsonParam    = ['edit' => false];
 

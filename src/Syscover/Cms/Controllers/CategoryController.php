@@ -25,7 +25,7 @@ class CategoryController extends Controller {
     protected $aColumns     = ['id_352', 'name_001', 'name_352'];
     protected $nameM        = 'name_352';
     protected $model        = '\Syscover\Cms\Models\Category';
-    protected $icon         = 'icon-list-ol';
+    protected $icon         = 'fa fa-list-ol';
     protected $objectTrans  = 'category';
 
     public function indexCustom($parameters)
