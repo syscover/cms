@@ -10,7 +10,7 @@
             height: 'auto',
             autocomplete_url: [ { "id": "Netta rufina", "label": "Red-crested Pochard", "value": "Red-crested Pochard" }, { "id": "Sterna sandvicensis", "label": "Sandwich Tern", "value": "Sandwich Tern" }]
         });
-
+        /*
         $('.wysiwyg').editable({
             language: '{{ config('app.locale') }}',
             inlineMode: false,
@@ -18,7 +18,7 @@
             tabSpaces: true,
             shortcuts: true,
             shortcutsAvailable: ['bold', 'italic'],
-            buttons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', 'color', 'formatBlock', 'blockStyle', 'inlineStyle', 'align', 'insertOrderedList', 'insertUnorderedList', 'outdent', 'indent', 'selectAll', 'createLink', 'insertImage', 'insertVideo', 'table', 'undo', 'redo', 'html', 'insertHorizontalRule', 'uploadFile', 'removeFormat', 'fullscreen'],
+            buttons: ['formatBlock', 'blockStyle', 'inlineStyle', 'align', 'insertOrderedList', 'insertUnorderedList', 'outdent', 'indent', 'selectAll', 'createLink', 'insertImage', 'insertVideo', 'table', 'undo', 'redo', 'html', 'insertHorizontalRule', 'uploadFile', 'removeFormat', 'fullscreen'],
             imagesLoadURL: '{{ route('apiWysiwygCmsFile', ['type' => 'images']) }}',
 
             imageDeleteURL: '{{ route('apiWysiwygDeleteCmsFile') }}',
@@ -29,6 +29,19 @@
             fileUploadParams: {_token: '{{ csrf_token() }}'},
             minHeight: 250,
             paragraphy: false
+        });
+        */
+        $('.wysiwyg').froalaEditor({
+            language: '{{ config('app.locale') }}',
+            placeholderText: '{{ trans('cms::pulsar.type_something') }}',
+            toolbarInline: false,
+            toolbarSticky: true,
+            tabSpaces: true,
+            shortcutsEnabled: ['show', 'bold', 'italic', 'underline', 'strikeThrough', 'indent', 'outdent', 'undo', 'redo', 'insertImage', 'createLink'],
+            toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'emoticons', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', 'insertHR', '-', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
+            heightMin: 250,
+            enter: $.FroalaEditor.ENTER_BR,
+            key: 'PC-9eA-7arfC2zxF-10xv=='
         });
 
 
@@ -176,11 +189,6 @@
             $(this).get(0).contentWindow.getParentHtml('article');
         });
         @endif
-
-        // TODO: Comprar licencia FROALA
-        // Licencia froala
-        $('.froala-box').children('div:eq(2)').hide();
-
 
         //==========================
         // Start attachment scripts
