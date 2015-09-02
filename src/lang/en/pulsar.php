@@ -27,5 +27,6 @@ return [
     'attachment_family'                     => 'Attachment family|Attachment families',
     'image_name'                            => 'Image name',
     'drag_files'                            => 'Drag files here',
-    'type_something'                        => 'Type something'
+    'type_something'                        => 'Type something',
+    'custom_fields'                         => 'Custom fields'
 ];
