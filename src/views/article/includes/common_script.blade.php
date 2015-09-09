@@ -180,7 +180,7 @@
 
         @if(isset($object->editor_type_351) && $object->editor_type_351 == 1)
         // set HTML wysiwyg component
-        $('.wysiwyg').editable('setHTML', $('[name=article]').val());
+        $('.wysiwyg').froalaEditor('html.set', $('[name=article]').val());
         @endif
 
         @if(isset($object->editor_type_351) && $object->editor_type_351 == 2)
@@ -372,8 +372,10 @@
                     dataType:	'json',
                     success: function(data)
                     {
+                        // check if element is a image to do a crop
                         if($(that).closest('li').find('img').hasClass('is-image') && data.width_353 != null && data.height_353 != null)
                         {
+                            // Throw get file plugin to crop anf create or overwrite image
                             $.getFile(
                                 {
                                     urlPlugin:  '/packages/syscover/pulsar/vendor',
@@ -430,7 +432,7 @@
         });
     };
 
-    // update elements on database
+    // Update elements only on database
     $.updateAttachment = function(element) {
         if($(element).closest('li').data('id') != undefined)
         {
@@ -547,7 +549,7 @@
         });
     };
 
-    // Shorting elements
+    // Sorting elements and register on database new sorting
     $.shortingElements = function() {
         var attachments   = JSON.parse($('[name=attachments]').val());
         var hasId         = false;

@@ -28,5 +28,6 @@ return [
     'image_name'                            => 'Nombre de la imagen',
     'drag_files'                            => 'Arrastre aquí sus archivos',
     'type_something'                        => 'Escribe algo',
-    'custom_fields'                         => 'Campos personalizados'
+    'custom_fields'                         => 'Campos personalizados',
+    'field'                                 => 'Campo|Campos',
 ];

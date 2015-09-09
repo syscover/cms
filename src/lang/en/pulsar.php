@@ -28,5 +28,6 @@ return [
     'image_name'                            => 'Image name',
     'drag_files'                            => 'Drag files here',
     'type_something'                        => 'Type something',
-    'custom_fields'                         => 'Custom fields'
+    'custom_fields'                         => 'Custom fields',
+    'field'                                 => 'Field|Fields',
 ];
