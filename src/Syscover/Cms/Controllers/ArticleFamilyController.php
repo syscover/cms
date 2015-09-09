@@ -35,6 +35,11 @@ class ArticleFamilyController extends Controller {
             (object)['id' => 2, 'name' => 'Contentbuilder'],
         ];
 
+        $parameters['types'] = [
+            (object)['id' => 1, 'name' => 'Text'],
+            (object)['id' => 2, 'name' => 'Checkbox'],
+        ];
+
         return $parameters;
     }
 
@@ -49,7 +54,8 @@ class ArticleFamilyController extends Controller {
                 'slug'          => Request::has('slug'),
                 'categories'    => Request::has('categories'),
                 'sorting'       => Request::has('sorting'),
-                'tags'          => Request::has('tags')
+                'tags'          => Request::has('tags'),
+                'customFields'  => json_decode(Request::input('fieldsData'))
             ])
         ]);
     }
@@ -61,7 +67,13 @@ class ArticleFamilyController extends Controller {
             (object)['id' => 2, 'name' => 'Contentbuilder']
         ];
 
-        $parameters['data'] = json_decode($parameters['object']->data_351);
+        $parameters['types'] = [
+            (object)['id' => 1, 'name' => 'Text'],
+            (object)['id' => 2, 'name' => 'Checkbox'],
+        ];
+
+        $parameters['data']         = json_decode($parameters['object']->data_351);
+        $parameters['customFields'] = json_encode($parameters['data']->customFields);
 
         return $parameters;
     }
@@ -77,7 +89,8 @@ class ArticleFamilyController extends Controller {
                 'slug'          => Request::has('slug'),
                 'categories'    => Request::has('categories'),
                 'sorting'       => Request::has('sorting'),
-                'tags'          => Request::has('tags')
+                'tags'          => Request::has('tags'),
+                'customFields'  => json_decode(Request::input('fieldsData'))
             ])
         ]);
     }
