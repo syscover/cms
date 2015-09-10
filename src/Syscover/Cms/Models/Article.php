@@ -88,6 +88,8 @@ class Article extends Model {
             ->join('013_350_section', '013_355_article.section_355', '=', '013_350_section.id_350')
             ->leftJoin('013_351_article_family', '013_355_article.family_355', '=', '013_351_article_family.id_351')
             ->where('lang_355', $parameters['lang'])
+            ->where('publish_355', '<' , date('U'))
+            ->where('status_355', 1)
             ->get();
     }
 }
