@@ -91,7 +91,7 @@ class Article extends Model {
             ->where('publish_355', '<' , date('U'))
             ->where('status_355', 1)
             ->orderBy('sorting_355')
-            ->orderBy('date_355')
+            ->orderBy('date_355', 'desc')
             ->get();
     }
 
