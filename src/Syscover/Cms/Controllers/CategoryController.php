@@ -53,7 +53,7 @@ class CategoryController extends Controller {
             'lang_352'      => Request::input('lang'),
             'name_352'      => Request::input('name'),
             'sorting_352'   => Request::has('sorting')? Request::input('sorting') : null,
-            'data_352'      => Category::addLangDataRecord($id, Request::input('lang'))
+            'data_lang_352' => Category::addLangDataRecord($id, Request::input('lang'))
         ]);
     }
 

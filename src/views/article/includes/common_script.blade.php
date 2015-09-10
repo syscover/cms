@@ -10,27 +10,7 @@
             height: 'auto',
             autocomplete_url: [ { "id": "Netta rufina", "label": "Red-crested Pochard", "value": "Red-crested Pochard" }, { "id": "Sterna sandvicensis", "label": "Sandwich Tern", "value": "Sandwich Tern" }]
         });
-        /*
-        $('.wysiwyg').editable({
-            language: '{{ config('app.locale') }}',
-            inlineMode: false,
-            toolbarFixed: false,
-            tabSpaces: true,
-            shortcuts: true,
-            shortcutsAvailable: ['bold', 'italic'],
-            buttons: ['formatBlock', 'blockStyle', 'inlineStyle', 'align', 'insertOrderedList', 'insertUnorderedList', 'outdent', 'indent', 'selectAll', 'createLink', 'insertImage', 'insertVideo', 'table', 'undo', 'redo', 'html', 'insertHorizontalRule', 'uploadFile', 'removeFormat', 'fullscreen'],
-            imagesLoadURL: '{{ route('apiWysiwygCmsFile', ['type' => 'images']) }}',
-
-            imageDeleteURL: '{{ route('apiWysiwygDeleteCmsFile') }}',
-            imageDeleteParams: {_token: '{{ csrf_token() }}'},
-            imageUploadURL: '{{ route('apiWysiwygUploadCmsFile', ['type' => 'images']) }}',
-            imageUploadParams: {_token: '{{ csrf_token() }}'},
-            fileUploadURL: '{{ route('apiWysiwygUploadCmsFile', ['type' => 'files']) }}',
-            fileUploadParams: {_token: '{{ csrf_token() }}'},
-            minHeight: 250,
-            paragraphy: false
-        });
-        */
+        /*TODO: revisar funcionalidades froala */
         $('.wysiwyg').froalaEditor({
             language: '{{ config('app.locale') }}',
             placeholderText: '{{ trans('cms::pulsar.type_something') }}',
@@ -44,7 +24,7 @@
             key: 'PC-9eA-7arfC2zxF-10xv=='
         });
 
-
+        // on change section show families
         $("[name=section]").on('change', function(){
             if($("[name=section]").val())
             {
@@ -70,6 +50,7 @@
             }
         });
 
+        // on change family show fields and custom fields
         $("[name=family]").on('change', function(){
             if($("[name=family]").val())
             {
@@ -104,6 +85,50 @@
                         if(properties.tags){ $('#tagsContent').fadeIn();hasProperty=true; } else { $('#tagsContent').fadeOut(); }
                         if(properties.categories){ $('#categoriesContent').fadeIn();hasProperty=true; } else { $('#categoriesContent').fadeOut(); }
                         if(hasProperty){ $('#headerContent').fadeIn(); }
+
+                        // get html doing a request to controller to render the views
+                        if(properties.customFields){
+                            $.ajax({
+                                dataType:   'json',
+                                type:       'POST',
+                                url:        '{{ route('apiGetCustomFields') }}',
+                                data:       {customFields: properties.customFields},
+                                headers:    { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                                success:  function(data)
+                                {
+                                    // add html custom fields section
+                                    $('#wrapperCustomFields').prepend(data.html);
+
+                                    // if is a edit or new article lang load values from custom fields
+                                    @if(isset($action) && $action == 'edit' || isset($id))
+                                    var dataObject = JSON.parse($('[name=dataObject]').val());
+                                    $.each(dataObject.customFields, function(index, customField){
+                                        if($("[name=" + customField.name + "]").length)
+                                        {
+                                            if(customField.type == "pulsar::includes.html.form_text_group")
+                                            {
+                                                $("[name=" + customField.name + "]").val(customField.value);
+                                            }
+                                            else if(customField.type == "pulsar::includes.html.form_checkbox_group")
+                                            {
+                                                $("[name=" + customField.name + "]").prop('checked', customField.value);
+                                            }
+                                        }
+                                    });
+                                    @endif
+
+                                    $(".uniform").uniform();
+                                    $('#headerCustomFields').fadeIn();
+                                    $('#wrapperCustomFields').fadeIn();
+                               }
+                            });
+                        }
+                        else
+                        {
+                            $('#headerCustomFields').fadeOut();
+                            $('#wrapperCustomFields').fadeOut();
+                            $('#wrapperCustomFields').html('');
+                        }
                     }
                 });
             }
@@ -118,9 +143,13 @@
                 $('#sortingContent').fadeOut();
                 $('#tagsContent').fadeOut();
                 $('#categoriesContent').fadeOut();
+                $('#headerCustomFields').fadeOut();
+                $('#wrapperCustomFields').fadeOut();
+                $('#wrapperCustomFields').html('');
             }
         });
 
+        // launch slug function
         $("[name=title]").on('change', function(){
             $("[name=slug]").val(getSlug($("[name=title]").val(),{
                 separator: '-',
@@ -129,6 +158,7 @@
             $.checkSlug();
         });
 
+        // launch slug function
         $("[name=slug]").on('change', function(){
             $("[name=slug]").val(getSlug($("[name=slug]").val(),{
                 separator: '-',
@@ -137,11 +167,12 @@
             $.checkSlug();
         });
 
+        // on submit, get content from article, wysiwyg content builder or textarea
         $("#recordForm").on('submit', function(event){
             //event.preventDefault();
             if(contentArticle == 'wysiwyg')
             {
-                $("[name=article]").val($('[name=wysiwyg]').val());
+                $("[name=article]").val($('[name=wysiwyg]').froalaEditor('html.get'));
             }
             else if(contentArticle == 'contentbuilder')
             {
@@ -153,7 +184,7 @@
             }
         });
 
-        // elements to hide
+        // hide every elements
         $('.wysiwyg-container').hide();
         $('.contentbuilder-container').hide();
         $('#headerContent').hide();
@@ -163,6 +194,8 @@
         $('#sortingContent').hide();
         $('#tagsContent').hide();
         $('#categoriesContent').hide();
+        $('#wrapperCustomFields').hide();
+        $('#headerCustomFields').hide();
 
 
         // set tab active
@@ -172,7 +205,7 @@
         $('.tabbable li:eq(1) a').tab('show');
         @endif
 
-        // if we have family value, throw event
+        // if we have family value, throw event to show or hide elements
         if($("[name=family]").val())
         {
             $("[name=family]").trigger('change');
@@ -190,16 +223,20 @@
         });
         @endif
 
+
         //==========================
         // Start attachment scripts
         //==========================
         @if(isset($attachments) && count($attachments) > 0)
+            // if we have attachment, hide placehosder and
             $('#library-placeholder').hide();
             $.setAttachmentActions();
             $.setEventSaveAttachmentProperties();
         @endif
         $.dragDropEffects();
 
+        // we create a getFile object, on layer attachments
+        // all new attachments will go to the library folder and database
         $('#attachment-library-content').getFile(
             {
                 urlPlugin:          '/packages/syscover/pulsar/vendor',
@@ -259,9 +296,11 @@
                     var toStoreAttachmentDB = false;
                 @endif
 
-                // stored function
+                // stored function when is edit action
                 if(toStoreAttachmentDB)
                 {
+                    // Guardamos el adjunto en la base de datos, ya que es un artículo
+                    // que estamos editando y ya está registrado en la base de datos
                     $.storeAttachment(libraryDataStored.files);
                 }
                 else
@@ -357,6 +396,7 @@
             $(this).addClass('changed');
         });
 
+        // Booton to save properties from attachment
         $('.save-attachment').off('click').on('click', function(){
             if($(this).closest('li').find('select').val() != '' && $(this).closest('li').find('.attachment-family').hasClass('changed'))
             {

@@ -66,33 +66,34 @@ class ArticleController extends Controller {
         if(isset($parameters['id']))
         {
             $parameters['attachments'] = Attachment::getTranslationsAttachmentsArticle(['lang' => session('baseLang')->id_001, 'article' => $parameters['id']]);
+            // variable to contain json information with attachment
+            $attachmentsInput     = [];
 
             foreach($parameters['attachments'] as $attachment)
             {
-                File::copy(public_path() . config('cms.attachmentFolder') . '/' . $attachment->file_name_357, public_path() . config('cms.tmpFolder') . '/' . $attachment->file_name_357);
+                // Copy attachments base lang article to temp folder
+                File::copy(public_path() . config('cms.attachmentFolder') . '/' . $parameters['id'] . '/' . session('baseLang')->id_001 . '/' . $attachment->file_name_357, public_path() . config('cms.tmpFolder') . '/' . $attachment->file_name_357);
 
-                $attachmentsInput     = [];
+                // get json data from attachment
+                $attachmentData = json_decode($attachment->data_357);
 
-                foreach($parameters['attachments'] as $attachment)
-                {
-                    $attachmentsInput[] = [
-                        'id'                => $attachment->id_357,
-                        'family'            => $attachment->family_357,
-                        'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357],
-                        'mime'              => $attachment->mime_357,
-                        'name'              => $attachment->name_357,
-                        'folder'            => config('cms.tmpFolder'),
-                        'fileName'          => $attachment->file_name_357,
-                        'width'             => $attachment->width_357,
-                        'height'            => $attachment->height_357,
-                        'library'           => $attachment->library_357,
-                        'libraryFileName'   => $attachment->library_file_name_357,
-                        'sorting'           => $attachment->sorting_357
-                    ];
-                }
-
-                $parameters['attachmentsInput'] = json_encode($attachmentsInput);
+                $attachmentsInput[] = [
+                    'id'                => $attachment->id_357,
+                    'family'            => $attachment->family_357,
+                    'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357, 'icon' => $attachmentData->icon],
+                    'mime'              => $attachment->mime_357,
+                    'name'              => $attachment->name_357,
+                    'folder'            => config('cms.tmpFolder'),
+                    'fileName'          => $attachment->file_name_357,
+                    'width'             => $attachment->width_357,
+                    'height'            => $attachment->height_357,
+                    'library'           => $attachment->library_357,
+                    'libraryFileName'   => $attachment->library_file_name_357,
+                    'sorting'           => $attachment->sorting_357
+                ];
             }
+
+            $parameters['attachmentsInput'] = json_encode($attachmentsInput);
         }
 
         return $parameters;
@@ -135,7 +136,8 @@ class ArticleController extends Controller {
             'sorting_355'       => Request::input('sorting'),
             'tags_355'          => Request::input('tags'),
             'article_355'       => Request::input('article'),
-            'data_355'          => Article::addLangDataRecord($id, Request::input('lang'))
+            'data_lang_355'     => Article::addLangDataRecord($id, Request::input('lang')),
+            'data_355'          => json_encode($this->getCustomFields())
         ]);
 
         if(is_array(Request::input('categories')))
@@ -198,14 +200,17 @@ class ArticleController extends Controller {
         ];
 
         $parameters['attachments']          = $parameters['object']->attachments;
-        $attachmentsInput     = [];
+        $attachmentsInput                   = [];
 
         foreach($parameters['attachments'] as $attachment)
         {
+            // get json data from attachment
+            $attachmentData = json_decode($attachment->data_357);
+
             $attachmentsInput[] = [
                 'id'                => $attachment->id_357,
                 'family'            => $attachment->family_357,
-                'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357],
+                'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357, 'icon' => $attachmentData->icon],
                 'mime'              => $attachment->mime_357,
                 'name'              => $attachment->name_357,
                 'folder'            => config('cms.attachmentFolder') . '/' . $attachment->article_357 . '/' . $attachment->lang_357,
@@ -245,7 +250,8 @@ class ArticleController extends Controller {
             'slug_355'          => Request::input('slug') == "" || !Request::has('slug')? null : Request::input('slug'),
             'sorting_355'       => Request::input('sorting'),
             'tags_355'          => Request::input('tags'),
-            'article_355'       => Request::input('article')
+            'article_355'       => Request::input('article'),
+            'data_355'          => json_encode($this->getCustomFields())
         ]);
 
         $article = Article::getCustomTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
@@ -262,13 +268,16 @@ class ArticleController extends Controller {
 
     public function deleteCustomRecord($object)
     {
+        // delete object from all language
         $object->categories()->detach();
-        File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $object->id_355 . '/' . $object->lang_355);
+        // delete all attachments
+        File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $object->id_355 );
+    }
 
-        if(count(File::directories(public_path() . config('cms.attachmentFolder') . '/' . $object->id_355)) == 0)
-        {
-            File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $object->id_355);
-        }
+    public function deleteCustomTranslationRecord($object)
+    {
+        // this feature only objects other than basic language deleted
+        File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $object->id_355 . '/' . $object->lang_355);
     }
 
     public function deleteCustomRecords($ids)
@@ -315,5 +324,57 @@ class ArticleController extends Controller {
             'status'    => 'success',
             'slug'      => $slug
         ]);
+    }
+
+    public function apiGetCustomFields(HttpRequest $request)
+    {
+        $customFields = $request->input('customFields');
+
+        $html = '';
+        foreach($customFields as $customField)
+        {
+            if($customField['type'] == 'pulsar::includes.html.form_text_group')
+            {
+                $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => null, 'fieldSize' => $customField['size']])->render();
+            }
+            elseif($customField['type'] == 'pulsar::includes.html.form_checkbox_group')
+            {
+                $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => 1, 'fieldSize' => $customField['size']])->render();
+            }
+        }
+
+        return response()->json([
+            'status'    => 'success',
+            'html'      => $html
+        ]);
+    }
+
+    private function getCustomFields()
+    {
+        // check if has family to get custom fields
+        $customFields['customFields'] = [];
+        if(Request::has('family'))
+        {
+            $articleFamily      = ArticleFamily::find(Request::input('family'));
+            $dataArticleFamily  = json_decode($articleFamily->data_351);
+
+            foreach($dataArticleFamily->customFields as $customField)
+            {
+                // to text
+                if($customField->type == "pulsar::includes.html.form_text_group")
+                {
+                    $customField->value = Request::input($customField->name);
+                }
+                // to checkbox
+                if($customField->type == "pulsar::includes.html.form_checkbox_group")
+                {
+                    $customField->value = Request::has($customField->name);
+                }
+
+                $customFields['customFields'][] = $customField;
+            }
+        }
+
+        return $customFields;
     }
 }

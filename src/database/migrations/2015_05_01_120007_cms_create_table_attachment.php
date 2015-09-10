@@ -30,6 +30,8 @@ class CmsCreateTableAttachment extends Migration {
             $table->string('type_text_357', 50);
             $table->smallInteger('width_357')->unsigned()->nullable();
             $table->smallInteger('height_357')->unsigned()->nullable();
+
+            $table->text('data_lang_357')->nullable();
             $table->text('data_357')->nullable();
 
             $table->foreign('lang_357')->references('id_001')->on('001_001_lang')

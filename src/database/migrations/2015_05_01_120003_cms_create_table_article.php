@@ -30,6 +30,8 @@ class CmsCreateTableArticle extends Migration {
             $table->string('tags_355', 1020); // article tags
             $table->longText('article_355');
 
+
+            $table->text('data_lang_355')->nullable();
             // extract property inside data_355
             // SEO properties inside data_355
             $table->text('data_355')->nullable();

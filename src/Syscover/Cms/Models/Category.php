@@ -22,7 +22,7 @@ class Category extends Model {
     protected $primaryKey   = 'id_352';
     protected $sufix        = '352';
     public $timestamps      = false;
-    protected $fillable     = ['id_352', 'lang_352', 'name_352', 'sorting_352', 'data_352'];
+    protected $fillable     = ['id_352', 'lang_352', 'name_352', 'sorting_352', 'data_lang_352', 'data_352'];
     private static $rules   = [
         'name'  => 'required|between:2,100'
     ];

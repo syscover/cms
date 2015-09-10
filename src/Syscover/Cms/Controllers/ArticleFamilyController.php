@@ -36,8 +36,8 @@ class ArticleFamilyController extends Controller {
         ];
 
         $parameters['types'] = [
-            (object)['id' => 1, 'name' => 'Text'],
-            (object)['id' => 2, 'name' => 'Checkbox'],
+            (object)['id' => 'pulsar::includes.html.form_text_group', 'name' => 'Text'],
+            (object)['id' => 'pulsar::includes.html.form_checkbox_group', 'name' => 'Checkbox'],
         ];
 
         return $parameters;
@@ -68,8 +68,8 @@ class ArticleFamilyController extends Controller {
         ];
 
         $parameters['types'] = [
-            (object)['id' => 1, 'name' => 'Text'],
-            (object)['id' => 2, 'name' => 'Checkbox'],
+            (object)['id' => 'pulsar::includes.html.form_text_group', 'name' => 'Text'],
+            (object)['id' => 'pulsar::includes.html.form_checkbox_group', 'name' => 'Checkbox'],
         ];
 
         $parameters['data']         = json_decode($parameters['object']->data_351);
