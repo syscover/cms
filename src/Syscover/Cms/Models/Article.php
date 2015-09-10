@@ -90,6 +90,8 @@ class Article extends Model {
             ->where('lang_355', $parameters['lang'])
             ->where('publish_355', '<' , date('U'))
             ->where('status_355', 1)
+            ->orderBy('sorting_355')
+            ->orderBy('date_355')
             ->get();
     }
 
