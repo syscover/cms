@@ -1,7 +1,6 @@
 <?php namespace Syscover\Plantilla;
 
 use Illuminate\Support\ServiceProvider;
-use Syscover\Pulsar\Libraries\CustomValidator;
 
 class CmsServiceProvider extends ServiceProvider
 {
