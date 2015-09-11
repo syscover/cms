@@ -100,7 +100,7 @@
                                     $('#wrapperCustomFields').prepend(data.html);
 
                                     // if is a edit or new article lang load values from custom fields
-                                    @if(isset($action) && $action == 'edit' || isset($id))
+                                    @if($action == 'edit' || isset($id))
                                     var dataObject = JSON.parse($('[name=dataObject]').val());
                                     $.each(dataObject.customFields, function(index, customField){
                                         if($("[name=" + customField.name + "]").length)
@@ -290,14 +290,14 @@
             success: function(libraryDataStored)
             {
                 // Variable $action defined in edit.blade.php with a include
-                @if(isset($action) && $action == 'edit')
-                    var toStoreAttachmentDB = true;
+                @if($action == 'edit')
+                    var action = 'edit';
                 @else
-                    var toStoreAttachmentDB = false;
+                    var action = 'create';
                 @endif
 
                 // stored function when is edit action
-                if(toStoreAttachmentDB)
+                if(action == 'edit')
                 {
                     // Guardamos el adjunto en la base de datos, ya que es un artículo
                     // que estamos editando y ya está registrado en la base de datos
@@ -396,8 +396,9 @@
             $(this).addClass('changed');
         });
 
-        // Booton to save properties from attachment
-        $('.save-attachment').off('click').on('click', function(){
+        // Booton to save properties for attachment
+        $('.save-attachment').off('click').on('click', function() {
+            // comprovamos que hay una familia elegida y que ha cambiado algún valor del attachemnt
             if($(this).closest('li').find('select').val() != '' && $(this).closest('li').find('.attachment-family').hasClass('changed'))
             {
                 var url = '{{ route('apiShowCmsAttachmentFamily', ['id' => 'id', 'api' => 1]) }}';
@@ -412,14 +413,20 @@
                     dataType:	'json',
                     success: function(data)
                     {
-                        // check if element is a image to do a crop
+                        // check if element is a image to do a crop and the family attachment has width and height defined
                         if($(that).closest('li').find('img').hasClass('is-image') && data.width_353 != null && data.height_353 != null)
                         {
+                            @if($action == 'create')
+                                var action = 'create';
+                            @else
+                                var action = 'edit';
+                            @endif
+
                             // Throw get file plugin to crop anf create or overwrite image
                             $.getFile(
                                 {
                                     urlPlugin:  '/packages/syscover/pulsar/vendor',
-                                    folder:     $(that).closest('li').data('id') == undefined? '{{ config('cms.tmpFolder') }}' : '{{ config('cms.attachmentFolder') }}/{{ isset($object->id_355)? $object->id_355 : null }}/{{ $lang->id_001 }}',
+                                    folder:     $(that).closest('li').data('id') == undefined ||  action == 'create'? '{{ config('cms.tmpFolder') }}' : '{{ config('cms.attachmentFolder') }}/{{ isset($object->id_355)? $object->id_355 : null }}/{{ $lang->id_001 }}',
                                     srcFolder:  '{{ config('cms.libraryFolder') }}',
                                     srcFile:    $(that).closest('li').find('.file-name').html(),
                                     crop: {
@@ -495,8 +502,9 @@
                 },
                 data: {
                     _method: 'PUT',
-                    attachment: attachmentToUpdate
-                },
+                    attachment: attachmentToUpdate,
+                    action: '{{ $action }}'
+            },
                 type:		'POST',
                 dataType:	'json',
                 success: function(data){}
@@ -533,7 +541,7 @@
             }
         });
 
-        // remove li elements
+        // remove attachment element
         $('.remove-img').off('click').on('click', function() {
 
             $(this).closest('li').fadeOut( "slow", function() {

@@ -65,7 +65,9 @@ class AttachmentController extends Controller {
         $attachment = $request->input('attachment');
 
         // check that is a attachment stored
-        if(isset($attachment['id']))
+        // lso we control the edit action is because,
+        // when creating a new language id detects and assumes that the image is in the database
+        if(isset($attachment['id']) && $request->input('action') == 'edit')
         {
             $width = null; $height= null;
             if($attachment['type']['id'] == 1)
@@ -105,7 +107,9 @@ class AttachmentController extends Controller {
         foreach($attachments as $attachment)
         {
             // check that is a attachment stored
-            if(isset($attachment['id']))
+            // lso we control the edit action is because,
+            // when creating a new language id detects and assumes that the image is in the database
+            if(isset($attachment['id']) && $request->input('action') == 'edit')
             {
                 $width = null; $height= null;
                 if($attachment['type']['id'] == 1)

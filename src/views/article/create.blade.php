@@ -73,13 +73,13 @@
 
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/attachment/js/attachment-library.js') }}"></script>
 
-    @include('cms::article.includes.common_script')
+    @include('cms::article.includes.common_script', ['action' => 'create'])
 
     <script type="text/html" id="file">
         <li>
             <div class="attachment-item">
                 <div class="attachment-img">
-                    <img data-src="image" data-class="isImage"  />
+                    <img data-src="image" data-class="isImage" />
                 </div>
                 <div class="attachment-over">
                     <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
