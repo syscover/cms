@@ -7,11 +7,11 @@
                 @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-library', 'access'))
                     <li{!! Miscellaneous::setCurrentPage('cms-library') !!}><a href="{{ route('CmsLibrary') }}"><i class="fa fa-book"></i>{{ trans_choice('pulsar::pulsar.library', 2) }}</a></li>
                 @endif
-                @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-article-family', 'access'))
-                    <li{!! Miscellaneous::setCurrentPage('cms-article-family') !!}><a href="{{ route('CmsArticleFamily') }}"><i class="fa fa-align-justify"></i>{{ trans_choice('cms::pulsar.article_family', 2) }}</a></li>
-                @endif
                 @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-section', 'access'))
                     <li{!! Miscellaneous::setCurrentPage('cms-section') !!}><a href="{{ route('CmsSection') }}"><i class="sys-icon-magnet"></i>{{ trans_choice('pulsar::pulsar.section', 2) }}</a></li>
+                @endif
+                @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-article-family', 'access'))
+                    <li{!! Miscellaneous::setCurrentPage('cms-article-family') !!}><a href="{{ route('CmsArticleFamily') }}"><i class="fa fa-align-justify"></i>{{ trans_choice('cms::pulsar.article_family', 2) }}</a></li>
                 @endif
                 @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-category', 'access'))
                     <li{!! Miscellaneous::setCurrentPage('cms-category') !!}><a href="{{ route('CmsCategory', [session('baseLang')]) }}"><i class="fa fa-list-ol"></i>{{ trans_choice('pulsar::pulsar.category', 2) }}</a></li>
