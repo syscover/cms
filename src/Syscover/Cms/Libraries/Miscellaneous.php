@@ -25,7 +25,7 @@ class Miscellaneous
     public static function getExcerpt($str, $startPos=0, $maxLength=100, $stripTags=true)
     {
         if($stripTags)
-            $str = strip_tags($str);
+            $str = strip_tags($str, '<br>');
 
         if(strlen($str) > $maxLength)
         {
