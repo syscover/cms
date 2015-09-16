@@ -31,9 +31,7 @@ Route::group(['middleware' => ['auth.pulsar','permission.pulsar','locale.pulsar'
     Route::any(config('pulsar.appName') . '/cms/library/{offset?}',                 ['as'=>'CmsLibrary',                   'uses'=>'Syscover\Cms\Controllers\LibraryController@index',                  'resource' => 'cms-library',        'action' => 'access']);
     Route::any(config('pulsar.appName') . '/cms/library/json/data',                 ['as'=>'jsonDataCmsLibrary',           'uses'=>'Syscover\Cms\Controllers\LibraryController@jsonData',               'resource' => 'cms-library',        'action' => 'access']);
     Route::get(config('pulsar.appName') . '/cms/library/create/{offset}',           ['as'=>'createCmsLibrary',             'uses'=>'Syscover\Cms\Controllers\LibraryController@createRecord',           'resource' => 'cms-library',        'action' => 'create']);
-
     Route::post(config('pulsar.appName') . '/cms/library/store/api',                ['as'=>'storeCmsLibrary',              'uses'=>'Syscover\Cms\Controllers\LibraryController@storeLibrary',           'resource' => 'cms-library',        'action' => 'create']);
-
     Route::get(config('pulsar.appName') . '/cms/library/{id}/edit/{offset}',        ['as'=>'editCmsLibrary',               'uses'=>'Syscover\Cms\Controllers\LibraryController@editRecord',             'resource' => 'cms-library',        'action' => 'access']);
     Route::get(config('pulsar.appName') . '/cms/library/delete/{id}/{offset}',      ['as'=>'deleteCmsLibrary',             'uses'=>'Syscover\Cms\Controllers\LibraryController@deleteRecord',           'resource' => 'cms-library',        'action' => 'delete']);
     Route::delete(config('pulsar.appName') . '/cms/library/delete/select/records',  ['as'=>'deleteSelectCmsLibrary',       'uses'=>'Syscover\Cms\Controllers\LibraryController@deleteRecordsSelect',    'resource' => 'cms-library',        'action' => 'delete']);
