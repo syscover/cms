@@ -1,15 +1,97 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
+        // type editor to article
         var contentArticle = null;
 
         /*TODO: implementar tabla de etiquetas común para todos los artículos e insertarlas en el autocompletar */
-        $('.tags-autocomplete').tagsInput({
-            defaultText: '{{ trans('pulsar::pulsar.add_tag') }}',
-            width: '100%',
-            height: 'auto',
-            autocomplete_url: [ { "id": "Netta rufina", "label": "Red-crested Pochard", "value": "Red-crested Pochard" }, { "id": "Sterna sandvicensis", "label": "Sandwich Tern", "value": "Sandwich Tern" }]
+        /*
+        $('[name=tags]').tagsinput({
+            typeaheadjs: {
+                source: function (query, process) {
+                    states = [];
+                    map = {};
+
+                    var data = [
+                        {"stateCode": "CA", "stateName": "California"},
+                        {"stateCode": "AZ", "stateName": "Arizona"},
+                        {"stateCode": "NY", "stateName": "New York"},
+                        {"stateCode": "NV", "stateName": "Nevada"},
+                        {"stateCode": "OH", "stateName": "Ohio"}
+                    ];
+
+                    $.each(data, function (i, state) {
+                        map[state.stateName] = state;
+                        states.push(state.stateName);
+                    });
+
+                    //process(states);
+                }
+            }
         });
+*/
+        /*
+        // funciona OK!
+        $('[name=tags]').tagsinput({
+            typeahead: {
+                source: ["Amsterdam","Washington","Sydney","Beijing","Cairo"]
+            }
+        });
+        */
+        /*
+        $('[name=tags]').tagsinput({
+            itemValue: 'value',
+            itemText: 'label',
+            source: function(query) {
+                return [{ value: 1, label: "España" }, { value: 2, label: "Italia" }, { value: 3, label: "Francia" }];
+            }
+        });
+        */
+
+
+        $('[name=tags]').tokenfield({
+            autocomplete: {
+                source: [{ value: 1, label: "España" }, { value: 2, label: "Italia" }, { value: 3, label: "Francia" }],
+                delay: 100
+            },
+            showAutocompleteOnFocus: true
+        });
+
+        $('[name=tags]').on('tokenfield:createtoken', function (event) {
+            var existingTokens = $(this).tokenfield('getTokens');
+            var autocomplete = $(this).tokenfield('getAutocomplete');
+
+            // search if there is a object with the same label
+            if(event.attrs.value === 'null')
+            {
+                console.log('entra04');
+
+                $.each(autocomplete.source, function (index, object) {
+                    if(object.label === event.attrs.label)
+                    {
+                        event.preventDefault();
+                        $('[name=tags]').tokenfield('createToken', object);
+                        console.log('entra03');
+                    }
+                });
+            }
+
+            $.each(existingTokens, function(index, token) {
+
+                if (event.attrs.value === 'null' && token.label === event.attrs.label)
+                {
+                    console.log('entra01');
+                    event.preventDefault();
+                }
+                else if(event.attrs.value !== 'null' && token.value === event.attrs.value)
+                {
+
+                    console.log('entra02');
+                    event.preventDefault();
+                }
+            });
+        });
+
         /*TODO: revisar funcionalidades froala */
         $('.wysiwyg').froalaEditor({
             language: '{{ config('app.locale') }}',
@@ -149,18 +231,9 @@
             }
         });
 
-        // launch slug function
-        $("[name=title]").on('change', function(){
-            $("[name=slug]").val(getSlug($("[name=title]").val(),{
-                separator: '-',
-                lang: '{{ $lang->id_001 }}'
-            }));
-            $.checkSlug();
-        });
-
-        // launch slug function
-        $("[name=slug]").on('change', function(){
-            $("[name=slug]").val(getSlug($("[name=slug]").val(),{
+        // launch slug function when change title and slug
+        $("[name=title], [name=slug]").on('change', function(){
+            $("[name=slug]").val(getSlug($(this).val(),{
                 separator: '-',
                 lang: '{{ $lang->id_001 }}'
             }));
