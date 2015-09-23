@@ -59,6 +59,11 @@ class Article extends Model {
         return $this->belongsToMany('Syscover\Cms\Models\Category','013_356_articles_categories','article_356','category_356');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('Syscover\Cms\Models\Tag','013_359_articles_tags','article_359','tag_359');
+    }
+
     public static function getCustomRecordsLimit($parameters)
     {
         $query =  Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')

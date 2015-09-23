@@ -16,6 +16,7 @@ use Illuminate\Http\Request as HttpRequest;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\AttachmentFamily;
+use Syscover\Cms\Models\Tag;
 use Syscover\Cms\Models\Category;
 use Syscover\Cms\Models\Section;
 use Syscover\Cms\Models\ArticleFamily;
@@ -110,6 +111,24 @@ class ArticleController extends Controller {
 
     public function storeCustomRecord()
     {
+
+        // Tags
+        $tags       = json_decode(Request::input('jsonTags'));
+        $newTags    = [];
+        foreach($tags as $tag)
+        {
+            if($tag->value === 'null')
+            {
+                $newTags[] = [
+                    'lang_358' => Request::input('lang'),
+                    'name_358' => $tag->label
+                ];
+            }
+        }
+
+        $ids = Tag::insert($newTags);
+        dd($ids);
+
         // check if there is id
         if(Request::has('id'))
         {
@@ -139,6 +158,8 @@ class ArticleController extends Controller {
             'data_lang_355'     => Article::addLangDataRecord($id, Request::input('lang')),
             'data_355'          => json_encode($this->getCustomFields())
         ]);
+
+
 
         if(is_array(Request::input('categories')))
         {

@@ -5,31 +5,7 @@
         var contentArticle = null;
 
         /*TODO: implementar tabla de etiquetas común para todos los artículos e insertarlas en el autocompletar */
-        /*
-        $('[name=tags]').tagsinput({
-            typeaheadjs: {
-                source: function (query, process) {
-                    states = [];
-                    map = {};
 
-                    var data = [
-                        {"stateCode": "CA", "stateName": "California"},
-                        {"stateCode": "AZ", "stateName": "Arizona"},
-                        {"stateCode": "NY", "stateName": "New York"},
-                        {"stateCode": "NV", "stateName": "Nevada"},
-                        {"stateCode": "OH", "stateName": "Ohio"}
-                    ];
-
-                    $.each(data, function (i, state) {
-                        map[state.stateName] = state;
-                        states.push(state.stateName);
-                    });
-
-                    //process(states);
-                }
-            }
-        });
-*/
         /*
         // funciona OK!
         $('[name=tags]').tagsinput({
@@ -38,16 +14,6 @@
             }
         });
         */
-        /*
-        $('[name=tags]').tagsinput({
-            itemValue: 'value',
-            itemText: 'label',
-            source: function(query) {
-                return [{ value: 1, label: "España" }, { value: 2, label: "Italia" }, { value: 3, label: "Francia" }];
-            }
-        });
-        */
-
 
         $('[name=tags]').tokenfield({
             autocomplete: {
@@ -241,8 +207,10 @@
         });
 
         // on submit, get content from article, wysiwyg content builder or textarea
-        $("#recordForm").on('submit', function(event){
-            //event.preventDefault();
+        $("#recordForm").on('submit', function(event) {
+
+            $("[name=jsonTags]").val(JSON.stringify($('[name=tags]').tokenfield('getTokens')));
+
             if(contentArticle == 'wysiwyg')
             {
                 $("[name=article]").val($('[name=wysiwyg]').froalaEditor('html.get'));
