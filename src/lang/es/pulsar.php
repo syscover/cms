@@ -14,6 +14,7 @@ return [
     */
     'package_name'                          => 'CMS',
     'content'                               => 'Contenido',
+    'write_tag'                             => 'Escribe una etiqueta',
     'article_family'                        => 'Familia de artículo|Familias de artículos',
     'slug'                                  => 'Slug',
     'tags'                                  => 'Etiquetas',
