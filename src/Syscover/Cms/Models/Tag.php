@@ -20,6 +20,7 @@ class Tag extends Model {
 
 	protected $table        = '013_358_tag';
     protected $primaryKey   = 'id_358';
+    protected $sufix        = '358';
     public $timestamps      = false;
     protected $fillable     = ['id_358', 'lang_358', 'name_358'];
     private static $rules   = [

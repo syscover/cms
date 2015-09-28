@@ -57,6 +57,15 @@ class ArticleController extends Controller {
         $parameters['sections']             = Section::all();
         $parameters['families']             = ArticleFamily::all();
         $parameters['attachmentFamilies']   = AttachmentFamily::all();
+        $parameters['tags']                 = [];
+        $tags                               = Tag::getTranslationsRecords($parameters['lang']);
+        foreach($tags as $tag)
+        {
+            $parameters['tags'][] = [
+                'value' => $tag->id_358,
+                'label' => $tag->name_358
+            ];
+        }
         $parameters['categories']           = Category::getTranslationsRecords($parameters['lang']);
         $parameters['statuses']             = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
@@ -111,24 +120,6 @@ class ArticleController extends Controller {
 
     public function storeCustomRecord()
     {
-
-        // Tags
-        $tags       = json_decode(Request::input('jsonTags'));
-        $newTags    = [];
-        foreach($tags as $tag)
-        {
-            if($tag->value === 'null')
-            {
-                $newTags[] = [
-                    'lang_358' => Request::input('lang'),
-                    'name_358' => $tag->label
-                ];
-            }
-        }
-
-        $ids = Tag::insert($newTags);
-        dd($ids);
-
         // check if there is id
         if(Request::has('id'))
         {
@@ -159,14 +150,34 @@ class ArticleController extends Controller {
             'data_355'          => json_encode($this->getCustomFields())
         ]);
 
+        // tags
+        $tags = json_decode(Request::input('jsonTags'));
+        if(is_array($tags) && count($tags) > 0)
+        {
+            $idTags = [];
+            foreach ($tags as $tag)
+            {
+                if ($tag->value === 'null')
+                {
+                    $tagObj = Tag::create([
+                        'lang_358' => Request::input('lang'),
+                        'name_358' => $tag->label
+                    ]);
 
+                    $idTags[] = $tagObj->id_358;
+                }
+            }
 
+            $article->tags()->sync($idTags);
+        }
+
+        // categories
         if(is_array(Request::input('categories')))
         {
             $article->categories()->sync(Request::input('categories'));
         }
 
-        // Attachment
+        // attachment
         $attachments = json_decode(Request::input('attachments'));
 
         if(!File::exists(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 . '/'. Request::input('lang')))
@@ -214,12 +225,21 @@ class ArticleController extends Controller {
         $parameters['sections']             = Section::all();
         $parameters['families']             = ArticleFamily::all();
         $parameters['attachmentFamilies']   = AttachmentFamily::all();
+        $parameters['tags']                 = [];
+        $tags                               = Tag::getTranslationsRecords($parameters['lang']);
+        foreach($tags as $tag)
+        {
+            $parameters['tags'][] = [
+                'value' => $tag->id_358,
+                'label' => $tag->name_358
+            ];
+        }
         $parameters['categories']           = Category::getTranslationsRecords($parameters['lang']->id_001);
         $parameters['statuses']             = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
-
+dd($parameters['object']);
         $parameters['attachments']          = $parameters['object']->attachments;
         $attachmentsInput                   = [];
 

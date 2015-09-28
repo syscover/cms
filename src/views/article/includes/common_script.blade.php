@@ -17,7 +17,9 @@
 
         $('[name=tags]').tokenfield({
             autocomplete: {
-                source: [{ value: 1, label: "España" }, { value: 2, label: "Italia" }, { value: 3, label: "Francia" }],
+                //source: [{ value: 1, label: "España" }, { value: 2, label: "Italia" }, { value: 3, label: "Francia" }],
+
+                source: {!! json_encode($tags) !!},
                 delay: 100
             },
             showAutocompleteOnFocus: true
