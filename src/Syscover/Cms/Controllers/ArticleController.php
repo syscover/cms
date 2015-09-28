@@ -144,7 +144,6 @@ class ArticleController extends Controller {
             'title_355'         => Request::input('title'),
             'slug_355'          => Request::input('slug') == "" || !Request::has('slug')? null : Request::input('slug'),
             'sorting_355'       => Request::input('sorting'),
-            'tags_355'          => Request::input('tags'),
             'article_355'       => Request::input('article'),
             'data_lang_355'     => Article::addLangDataRecord($id, Request::input('lang')),
             'data_355'          => json_encode($this->getCustomFields())
@@ -165,6 +164,10 @@ class ArticleController extends Controller {
                     ]);
 
                     $idTags[] = $tagObj->id_358;
+                }
+                else
+                {
+                    $idTags[] = $tag->value;
                 }
             }
 
@@ -226,7 +229,7 @@ class ArticleController extends Controller {
         $parameters['families']             = ArticleFamily::all();
         $parameters['attachmentFamilies']   = AttachmentFamily::all();
         $parameters['tags']                 = [];
-        $tags                               = Tag::getTranslationsRecords($parameters['lang']);
+        $tags                               = Tag::getTranslationsRecords($parameters['lang']->id_001);
         foreach($tags as $tag)
         {
             $parameters['tags'][] = [
@@ -234,12 +237,22 @@ class ArticleController extends Controller {
                 'label' => $tag->name_358
             ];
         }
+        $objectTags = $parameters['object']->tags;
+        $parameters['selectTags'] = [];
+        foreach($objectTags as $objectTag)
+        {
+            $parameters['selectTags'][] = [
+                'value' => $objectTag->id_358,
+                'label' => $objectTag->name_358
+            ];
+        }
+
         $parameters['categories']           = Category::getTranslationsRecords($parameters['lang']->id_001);
         $parameters['statuses']             = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
-dd($parameters['object']);
+
         $parameters['attachments']          = $parameters['object']->attachments;
         $attachmentsInput                   = [];
 
@@ -290,13 +303,38 @@ dd($parameters['object']);
             'title_355'         => Request::input('title'),
             'slug_355'          => Request::input('slug') == "" || !Request::has('slug')? null : Request::input('slug'),
             'sorting_355'       => Request::input('sorting'),
-            'tags_355'          => Request::input('tags'),
             'article_355'       => Request::input('article'),
             'data_355'          => json_encode($this->getCustomFields())
         ]);
 
         $article = Article::getCustomTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
 
+        // tags
+        $tags = json_decode(Request::input('jsonTags'));
+        if(is_array($tags) && count($tags) > 0)
+        {
+            $idTags = [];
+            foreach ($tags as $tag)
+            {
+                if ($tag->value === 'null')
+                {
+                    $tagObj = Tag::create([
+                        'lang_358' => Request::input('lang'),
+                        'name_358' => $tag->label
+                    ]);
+
+                    $idTags[] = $tagObj->id_358;
+                }
+                else
+                {
+                    $idTags[] = $tag->value;
+                }
+            }
+
+            $article->tags()->sync($idTags);
+        }
+
+        // categories
         if(is_array(Request::input('categories')))
         {
             $article->categories()->sync(Request::input('categories'));

@@ -92,8 +92,9 @@ class AttachmentController extends Controller {
         }
 
         $response = [
-            'success' => true,
-            'message' => "Attachment updated"
+            'success'   => true,
+            'message'   => "Attachment updated",
+            'function'  => "apiUpdateAttachment"
         ];
 
         return response()->json($response);
@@ -106,12 +107,12 @@ class AttachmentController extends Controller {
 
         foreach($attachments as $attachment)
         {
-            // check that is a attachment stored
-            // lso we control the edit action is because,
+            // check that is a attachment stored also we control is a edit action because,
             // when creating a new language id detects and assumes that the image is in the database
             if(isset($attachment['id']) && $request->input('action') == 'edit')
             {
                 $width = null; $height= null;
+                // attachment type 1 = image, 2 = file, 3 = video
                 if($attachment['type']['id'] == 1)
                 {
                     list($width, $height) = getimagesize(public_path() . $attachment['folder'] . '/' . $attachment['fileName']);
@@ -135,8 +136,9 @@ class AttachmentController extends Controller {
         }
 
         $response = [
-            'success' => true,
-            'message' => "Attachments updated"
+            'success'   => true,
+            'message'   => "Attachments updated",
+            'function'  => "apiUpdatesAttachment"
         ];
 
         return response()->json($response);
@@ -156,8 +158,9 @@ class AttachmentController extends Controller {
         Attachment::deleteTranslationRecord($parameters['id'], $parameters['lang']);
 
         $response = [
-            'success' => true,
-            'message' => "Attachment deleted"
+            'success'   => true,
+            'message'   => "Attachment deleted",
+            'function'  => "apiDeleteAttachment"
         ];
 
         return response()->json($response);
@@ -168,8 +171,9 @@ class AttachmentController extends Controller {
         File::delete(public_path() . config('cms.tmpFolder') . '/' . $request->input('fileName'));
 
         $response = [
-            'success' => true,
-            'message' => "Temp attachment deleted"
+            'success'   => true,
+            'message'   => "Temp attachment deleted",
+            'function'  => "apiDeleteTmpAttachment"
         ];
 
         return response()->json($response);

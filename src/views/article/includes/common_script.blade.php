@@ -4,57 +4,39 @@
         // type editor to article
         var contentArticle = null;
 
-        /*TODO: implementar tabla de etiquetas común para todos los artículos e insertarlas en el autocompletar */
-
-        /*
-        // funciona OK!
-        $('[name=tags]').tagsinput({
-            typeahead: {
-                source: ["Amsterdam","Washington","Sydney","Beijing","Cairo"]
-            }
-        });
-        */
-
+        // tags element, on edit we load values across javascript
         $('[name=tags]').tokenfield({
             autocomplete: {
-                //source: [{ value: 1, label: "España" }, { value: 2, label: "Italia" }, { value: 3, label: "Francia" }],
-
                 source: {!! json_encode($tags) !!},
                 delay: 100
             },
             showAutocompleteOnFocus: true
-        });
+        })@if(isset($selectTags)).tokenfield('setTokens', {!! json_encode($selectTags) !!})@endif
 
         $('[name=tags]').on('tokenfield:createtoken', function (event) {
-            var existingTokens = $(this).tokenfield('getTokens');
-            var autocomplete = $(this).tokenfield('getAutocomplete');
+            var existingTokens = $(this).tokenfield('getTokens')
+            var autocomplete = $(this).tokenfield('getAutocomplete')
 
             // search if there is a object with the same label
             if(event.attrs.value === 'null')
             {
-                console.log('entra04');
-
                 $.each(autocomplete.source, function (index, object) {
                     if(object.label === event.attrs.label)
                     {
                         event.preventDefault();
                         $('[name=tags]').tokenfield('createToken', object);
-                        console.log('entra03');
                     }
                 });
             }
 
-            $.each(existingTokens, function(index, token) {
-
+            $.each(existingTokens, function(index, token)
+            {
                 if (event.attrs.value === 'null' && token.label === event.attrs.label)
                 {
-                    console.log('entra01');
                     event.preventDefault();
                 }
                 else if(event.attrs.value !== 'null' && token.value === event.attrs.value)
                 {
-
-                    console.log('entra02');
                     event.preventDefault();
                 }
             });
@@ -149,7 +131,7 @@
                                     // add html custom fields section
                                     $('#wrapperCustomFields').prepend(data.html);
 
-                                    // if is a edit or new article lang load values from custom fields
+                                    // if is a edit or new article lang, load values from custom fields
                                     @if($action == 'edit' || isset($id))
                                     var dataObject = JSON.parse($('[name=dataObject]').val());
                                     $.each(dataObject.customFields, function(index, customField){
@@ -669,7 +651,8 @@
                 },
                 data: {
                     _method: 'PUT',
-                    attachments: attachments
+                    attachments: attachments,
+                    action: '{{ $action }}'
                 },
                 type:		'POST',
                 dataType:	'json',
