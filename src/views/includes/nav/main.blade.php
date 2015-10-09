@@ -17,7 +17,7 @@
                     <li{!! Miscellaneous::setCurrentPage('cms-category') !!}><a href="{{ route('CmsCategory', [session('baseLang')]) }}"><i class="fa fa-list-ol"></i>{{ trans_choice('pulsar::pulsar.category', 2) }}</a></li>
                 @endif
                 @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-attachment-family', 'access'))
-                    <li{!! Miscellaneous::setCurrentPage('cms-attachment-family') !!}><a href="{{ route('CmsAttachmentFamily') }}"><i class="fa fa-picture-o"></i>{{ trans_choice('cms::pulsar.attachment_family', 2) }}</a></li>
+                    <li{!! Miscellaneous::setCurrentPage('cms-attachment-family') !!}><a href="{{ route('CmsAttachmentFamily') }}"><i class="fa fa-picture-o"></i>{{ trans_choice('pulsar::pulsar.attachment_family', 2) }}</a></li>
                 @endif
             </ul>
         </li>
