@@ -99,7 +99,7 @@
                         <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
                         <div class="col-md-12 col-sm-12 col-xs-12 covered">
                             <div class="form-group">
-                                <input type="text" class="form-control image-name" placeholder="{{ trans('cms::pulsar.image_name') }}" data-previous="">
+                                <input type="text" class="form-control image-name" placeholder="{{ trans('pulsar::pulsar.image_name') }}" data-previous="">
                             </div>
                             <div class="form-group">
                                 <select class="form-control attachment-family" name="attachmentFamily" data-previous="">
@@ -192,7 +192,7 @@
                                     <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
                                     <div class="col-md-12 col-sm-12 col-xs-12 covered">
                                         <div class="form-group">
-                                            <input type="text" class="form-control image-name" placeholder="{{ trans('cms::pulsar.image_name') }}" data-previous="{{ $attachment->name_357 }}" value="{{ $attachment->name_357 }}">
+                                            <input type="text" class="form-control image-name" placeholder="{{ trans('pulsar::pulsar.image_name') }}" data-previous="{{ $attachment->name_357 }}" value="{{ $attachment->name_357 }}">
                                         </div>
                                         <div class="form-group">
                                             <select class="form-control attachment-family" name="attachmentFamily" data-previous="{{ $attachment->family_357 }}">

@@ -25,7 +25,6 @@ return [
     'publish'                               => 'Publicado',
     'select_category'                       => 'Seleccione una categoría',
     'select_family'                         => 'Seleccione una familia',
-    'image_name'                            => 'Nombre de la imagen',
     'drag_files'                            => 'Arrastre aquí sus archivos',
     'type_something'                        => 'Escribe algo',
     'custom_fields'                         => 'Campos personalizados',

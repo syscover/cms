@@ -25,7 +25,6 @@ return [
     'publish'                               => 'Publish',
     'select_category'                       => 'Select a category',
     'select_family'                         => 'Select a family',
-    'image_name'                            => 'Image name',
     'drag_files'                            => 'Drag files here',
     'type_something'                        => 'Type something',
     'custom_fields'                         => 'Custom fields',
