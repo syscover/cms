@@ -115,8 +115,7 @@
             </div>
         </li>
     </script>
-    <script type="text/html" id="rowCustomFile">
-    </script>
+    <script type="text/html" id="rowCustomFile"></script>
     <!-- /cms::articles.create -->
 @stop
 
