@@ -49,9 +49,11 @@ class Article extends Model {
 
     public function attachments()
     {
-        return $this->hasMany('Syscover\Cms\Models\Attachment','article_357')->where('013_357_attachment.lang_357', $this->lang_355)
-            ->leftJoin('013_353_attachment_family', '013_357_attachment.family_357', '=', '013_353_attachment_family.id_353')
-            ->orderBy('013_357_attachment.sorting_357');
+        return $this->hasMany('Syscover\Pulsar\Models\Attachment','object_016')
+            ->where('001_016_attachment.lang_016', $this->lang_355)
+            ->where('001_016_attachment.resource_016', 'cms-article')
+            ->leftJoin('001_015_attachment_family', '001_016_attachment.family_016', '=', '001_015_attachment_family.id_015')
+            ->orderBy('001_016_attachment.sorting_016');
     }
 
     public function categories()

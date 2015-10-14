@@ -166,51 +166,51 @@
         <div class="widget-content no-padding">
             <div class="row" id="attachment-wrapper">
                 <div id="library-placeholder">
-                    <p>{{ trans('cms::pulsar.drag_files') }}</p>
+                    <p>{{ trans('pulsar::pulsar.drag_files') }}</p>
                 </div>
                 <ul class="sortable">
                     @foreach($attachments as $attachment)
-                    <?php $data = json_decode($attachment->data_357); ?>
-                    <li data-id="{{$attachment->id_357}}">
-                        <div class="attachment-item">
-                            <div class="attachment-img">
-                                <img{!! $attachment->type_357 == 1? ' class="is-image"' : ' class="no-image"' !!} src="{{ $attachment->type_357 == 1? config('cms.attachmentFolder') . '/' . $attachment->article_357 . '/' . $attachment->lang_357 . '/' . $attachment->file_name_357 : config('cms.iconsFolder') . '/' . $data->icon }}" />
-                            </div>
-                            <div class="attachment-over">
-                                <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
-                                    <h4 class="attachment-title family-name">{{ $attachment->name_353 }}</h4>
-                                    <p class="attachment-sub file-name">{{ $attachment->file_name_357 }}</p>
+                        <?php $data = json_decode($attachment->data_357); ?>
+                        <li data-id="{{$attachment->id_357}}">
+                            <div class="attachment-item">
+                                <div class="attachment-img">
+                                    <img{!! $attachment->type_357 == 1? ' class="is-image"' : ' class="no-image"' !!} src="{{ $attachment->type_357 == 1? config('cms.attachmentFolder') . '/' . $attachment->article_357 . '/' . $attachment->lang_357 . '/' . $attachment->file_name_357 : config('cms.iconsFolder') . '/' . $data->icon }}" />
                                 </div>
-                                <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
-                                    <h4 class="attachment-action"><span class="glyphicon glyphicon-pencil"></span></h4>
+                                <div class="attachment-over">
+                                    <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
+                                        <h4 class="attachment-title family-name">{{ $attachment->name_353 }}</h4>
+                                        <p class="attachment-sub file-name">{{ $attachment->file_name_357 }}</p>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
+                                        <h4 class="attachment-action"><span class="glyphicon glyphicon-pencil"></span></h4>
+                                    </div>
+                                    <form>
+                                        <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 covered">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control image-name" placeholder="{{ trans('pulsar::pulsar.image_name') }}" data-previous="{{ $attachment->name_357 }}" value="{{ $attachment->name_357 }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-control attachment-family" name="attachmentFamily" data-previous="{{ $attachment->family_357 }}">
+                                                    <option value="">{{ trans('cms::pulsar.select_family') }}</option>
+                                                    @foreach($attachmentFamilies as $attachmentFamily)
+                                                        <option value="{{ $attachmentFamily->id_353 }}"{{ $attachment->family_357 == $attachmentFamily->id_353? ' selected' : null }}>{{ $attachmentFamily->name_353 }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 covered">
+                                            <div class="form-group">
+                                                <button type="button" class="close-ov form-control save-attachment">{{ trans('pulsar::pulsar.save') }}</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <form>
-                                    <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 covered">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control image-name" placeholder="{{ trans('pulsar::pulsar.image_name') }}" data-previous="{{ $attachment->name_357 }}" value="{{ $attachment->name_357 }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <select class="form-control attachment-family" name="attachmentFamily" data-previous="{{ $attachment->family_357 }}">
-                                                <option value="">{{ trans('cms::pulsar.select_family') }}</option>
-                                                @foreach($attachmentFamilies as $attachmentFamily)
-                                                    <option value="{{ $attachmentFamily->id_353 }}"{{ $attachment->family_357 == $attachmentFamily->id_353? ' selected' : null }}>{{ $attachmentFamily->name_353 }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 covered">
-                                        <div class="form-group">
-                                            <button type="button" class="close-ov form-control save-attachment">{{ trans('pulsar::pulsar.save') }}</button>
-                                        </div>
-                                    </div>
-                                </form>
                             </div>
-                        </div>
-                        <div class="remove-img">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </div>
-                    </li>
+                            <div class="remove-img">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </div>
+                        </li>
                     @endforeach
                 </ul>
             </div>

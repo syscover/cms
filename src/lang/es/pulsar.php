@@ -24,7 +24,6 @@ return [
     'draft'                                 => 'Borrador',
     'publish'                               => 'Publicado',
     'select_category'                       => 'Seleccione una categoría',
-    'select_family'                         => 'Seleccione una familia',
     'type_something'                        => 'Escribe algo',
     'custom_fields'                         => 'Campos personalizados',
     'field'                                 => 'Campo|Campos',

@@ -24,7 +24,6 @@ return [
     'draft'                                 => 'Draft',
     'publish'                               => 'Publish',
     'select_category'                       => 'Select a category',
-    'select_family'                         => 'Select a family',
     'type_something'                        => 'Type something',
     'custom_fields'                         => 'Custom fields',
     'field'                                 => 'Field|Fields',
