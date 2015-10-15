@@ -253,6 +253,7 @@ class ArticleController extends Controller {
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
 
+
         $parameters['attachments']          = $parameters['object']->attachments;
         $attachmentsInput                   = [];
 
