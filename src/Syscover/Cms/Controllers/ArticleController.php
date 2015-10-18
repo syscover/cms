@@ -15,13 +15,14 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request as HttpRequest;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
-use Syscover\Cms\Models\AttachmentFamily;
+use Syscover\Pulsar\Models\AttachmentFamily;
+use Syscover\Pulsar\Libraries\AttachmentLibrary;
 use Syscover\Cms\Models\Tag;
 use Syscover\Cms\Models\Category;
 use Syscover\Cms\Models\Section;
 use Syscover\Cms\Models\ArticleFamily;
 use Syscover\Cms\Models\Article;
-use Syscover\Cms\Models\Attachment;
+
 
 class ArticleController extends Controller {
 
@@ -56,7 +57,6 @@ class ArticleController extends Controller {
     {
         $parameters['sections']             = Section::all();
         $parameters['families']             = ArticleFamily::all();
-        $parameters['attachmentFamilies']   = AttachmentFamily::all();
         $parameters['tags']                 = [];
         $tags                               = Tag::getTranslationsRecords($parameters['lang']);
         foreach($tags as $tag)
@@ -71,39 +71,16 @@ class ArticleController extends Controller {
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
+        $parameters['attachmentFamilies']   = AttachmentFamily::getAttachmentFamilies(['resource_015' => 'cms-article']);
         $parameters['attachmentsInput']     = json_encode([]);
 
         if(isset($parameters['id']))
         {
-            $parameters['attachments'] = Attachment::getTranslationsAttachmentsArticle(['lang' => session('baseLang')->id_001, 'article' => $parameters['id']]);
-            // variable to contain json information with attachment
-            $attachmentsInput     = [];
+            // get attachments from base lang
+            $attachments = AttachmentLibrary::getAttachments('cms', 'cms-article', $parameters['id'], session('baseLang')->id_001, true);
 
-            foreach($parameters['attachments'] as $attachment)
-            {
-                // Copy attachments base lang article to temp folder
-                File::copy(public_path() . config('cms.attachmentFolder') . '/' . $parameters['id'] . '/' . session('baseLang')->id_001 . '/' . $attachment->file_name_357, public_path() . config('cms.tmpFolder') . '/' . $attachment->file_name_357);
-
-                // get json data from attachment
-                $attachmentData = json_decode($attachment->data_357);
-
-                $attachmentsInput[] = [
-                    'id'                => $attachment->id_357,
-                    'family'            => $attachment->family_357,
-                    'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357, 'icon' => $attachmentData->icon],
-                    'mime'              => $attachment->mime_357,
-                    'name'              => $attachment->name_357,
-                    'folder'            => config('cms.tmpFolder'),
-                    'fileName'          => $attachment->file_name_357,
-                    'width'             => $attachment->width_357,
-                    'height'            => $attachment->height_357,
-                    'library'           => $attachment->library_357,
-                    'libraryFileName'   => $attachment->library_file_name_357,
-                    'sorting'           => $attachment->sorting_357
-                ];
-            }
-
-            $parameters['attachmentsInput'] = json_encode($attachmentsInput);
+            // merge parameters and attachments array
+            $parameters                         = array_merge($parameters, $attachments);
         }
 
         return $parameters;
@@ -180,54 +157,16 @@ class ArticleController extends Controller {
             $article->categories()->sync(Request::input('categories'));
         }
 
-        // attachment
+        // set attachments
         $attachments = json_decode(Request::input('attachments'));
 
-        if(!File::exists(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 . '/'. Request::input('lang')))
-        {
-            File::makeDirectory(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 . '/'. Request::input('lang'), 0755, true);
-        }
-
-        foreach($attachments as $attachment)
-        {
-            $idAttachment = Attachment::max('id_357');
-            $idAttachment++;
-
-            $width = null; $height= null;
-            if($attachment->type->id == 1)
-            {
-                list($width, $height) = getimagesize(public_path() . $attachment->folder . '/' . $attachment->fileName);
-            }
-
-            // move file fom temp file to attachment folder
-            File::move(public_path() . $attachment->folder . '/' . $attachment->fileName, public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 . '/'. Request::input('lang') .'/' . $attachment->fileName);
-
-            Attachment::create([
-                'id_357'                => $idAttachment,
-                'lang_357'              => Request::input('lang'),
-                'article_357'           => $article->id_355,
-                'family_357'            => $attachment->family == ""? null : $attachment->family,
-                'library_357'           => $attachment->library,
-                'library_file_name_357' => $attachment->libraryFileName == ""? null : $attachment->libraryFileName,
-                'sorting_357'           => $attachment->sorting,
-                'name_357'              => $attachment->name == ""? null : $attachment->name,
-                'file_name_357'         => $attachment->fileName == ""? null : $attachment->fileName,
-                'mime_357'              => $attachment->mime,
-                'size_357'              => filesize(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 .  '/' . Request::input('lang') . '/' . $attachment->fileName),
-                'type_357'              => $attachment->type->id,
-                'type_text_357'         => $attachment->type->name,
-                'width_357'             => $width,
-                'height_357'            => $height,
-                'data_357'              => json_encode(['icon' => $attachment->type->icon])
-            ]);
-        }
+        AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, Request::input('lang'));
     }
 
     public function editCustomRecord($parameters)
     {
         $parameters['sections']             = Section::all();
         $parameters['families']             = ArticleFamily::all();
-        $parameters['attachmentFamilies']   = AttachmentFamily::all();
         $parameters['tags']                 = [];
         $tags                               = Tag::getTranslationsRecords($parameters['lang']->id_001);
         foreach($tags as $tag)
@@ -253,32 +192,12 @@ class ArticleController extends Controller {
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
 
+        // get attachments elements
+        $attachments = AttachmentLibrary::getAttachments('cms', 'cms-article', $parameters['object']->id_355, $parameters['lang']->id_001);
 
-        $parameters['attachments']          = $parameters['object']->attachments;
-        $attachmentsInput                   = [];
-
-        foreach($parameters['attachments'] as $attachment)
-        {
-            // get json data from attachment
-            $attachmentData = json_decode($attachment->data_357);
-
-            $attachmentsInput[] = [
-                'id'                => $attachment->id_357,
-                'family'            => $attachment->family_357,
-                'type'              => ['id' => $attachment->type_357, 'name' => $attachment->type_text_357, 'icon' => $attachmentData->icon],
-                'mime'              => $attachment->mime_357,
-                'name'              => $attachment->name_357,
-                'folder'            => config('cms.attachmentFolder') . '/' . $attachment->article_357 . '/' . $attachment->lang_357,
-                'fileName'          => $attachment->file_name_357,
-                'width'             => $attachment->width_357,
-                'height'            => $attachment->height_357,
-                'library'           => $attachment->library_357,
-                'libraryFileName'   => $attachment->library_file_name_357,
-                'sorting'           => $attachment->sorting_357,
-            ];
-        }
-
-        $parameters['attachmentsInput'] = json_encode($attachmentsInput);
+        // merge parameters and attachments array
+        $parameters['attachmentFamilies']   = AttachmentFamily::getAttachmentFamilies(['resource_015' => 'cms-article']);
+        $parameters                         = array_merge($parameters, $attachments);
 
         return $parameters;
     }
@@ -350,14 +269,15 @@ class ArticleController extends Controller {
     {
         // delete object from all language
         $object->categories()->detach();
+
         // delete all attachments
-        File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $object->id_355 );
+        AttachmentLibrary::deleteAttachment('cms', 'cms-article', $object->id_355);
     }
 
     public function deleteCustomTranslationRecord($object)
     {
-        // this feature only objects other than basic language deleted
-        File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $object->id_355 . '/' . $object->lang_355);
+        // delete all attachments from lang object
+        AttachmentLibrary::deleteAttachment('cms', 'cms-article', $object->id_355, $object->lang_355);
     }
 
     public function deleteCustomRecords($ids)
@@ -368,12 +288,7 @@ class ArticleController extends Controller {
         {
             $article->categories()->detach();
 
-            File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355 . '/' . $article->lang_355);
-
-            if(count(File::directories(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355)) == 0)
-            {
-                File::deleteDirectory(public_path() . config('cms.attachmentFolder') . '/' . $article->id_355);
-            }
+            AttachmentLibrary::deleteAttachment('cms', 'cms-article', $article->id_355);
         }
     }
 

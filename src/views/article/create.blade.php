@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/tokenfield/css/tokenfield-typeahead.css') }}">
 
 
-    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.loadTemplate/jquery.loadTemplate-1.4.5.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/jquery.loadTemplate/jquery.loadTemplate-1.5.0.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/cropper/cropper.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/cssloader/js/jquery.cssloader.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/getfile/libs/mobiledetect/mdetect.min.js') }}"></script>
@@ -72,6 +72,10 @@
     <!-- /Froala -->
 
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/attachment/js/attachment-library.js') }}"></script>
+    @include('pulsar::includes.js.attachment', [
+        'action'            => 'create',
+        'resource'          => 'cms-article',
+        'routesConfigFile'  => 'cms'])
 
     @include('cms::article.includes.common_script', ['action' => 'create'])
 
@@ -121,102 +125,52 @@
     <!-- /cms::articles.create -->
 @stop
 
+@section('layoutTabHeader')
+    @include('pulsar::includes.html.form_record_header', ['action' => 'store'])
+@stop
+@section('layoutTabFooter')
+    @include('pulsar::includes.html.form_record_footer', ['action' => 'store'])
+@stop
+
 @section('box_tab1')
     <!-- cms::articles.create -->
-    @include('pulsar::includes.html.form_record_header', ['action' => 'store'])
-        <div class="row">
-            <div class="col-md-6">
-                @include('pulsar::includes.html.form_text_group', ['label' => 'ID', 'name' => 'id',  'value' => Input::old('name', isset($object->id_355)? $object->id_355 : null), 'readOnly' => true, 'labelSize' => 4, 'fieldSize' => 4])
-                @include('pulsar::includes.html.form_image_group', ['label' => trans_choice('pulsar::pulsar.language', 1), 'name' => 'lang', 'nameImage' => $lang->name_001, 'value' => $lang->id_001, 'url' => asset('/packages/syscover/pulsar/storage/langs/' . $lang->image_001), 'labelSize' => 4, 'fieldSize' => 8])
-                @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.section', 1), 'id' => 'section', 'name' => 'section', 'value' => Input::old('section', isset($object->section_355)? $object->section_355 : null), 'objects' => $sections, 'idSelect' => 'id_350', 'nameSelect' => 'name_350', 'class' => 'form-control select2', 'labelSize' => 4, 'fieldSize' => 8, 'required' => true, 'data' => ['language' => config('app.locale'), 'width' => '100%', 'error-placement' => 'select2-section-outer-container']])
-                @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.family', 1), 'id' => 'family', 'name' => 'family', 'value' => Input::old('family', isset($object->family_355)? $object->family_355 : null), 'objects' => $families, 'idSelect' => 'id_351', 'nameSelect' => 'name_351', 'class' => 'form-control select2', 'labelSize' => 4, 'fieldSize' => 8, 'data' => ['language' => config('app.locale'), 'width' => '100%', 'error-placement' => 'select2-family-outer-container']])
-            </div>
-            <div class="col-md-6">
-                @include('pulsar::includes.html.form_text_group', ['label' => trans('cms::pulsar.author'), 'name' => 'authorName',  'value' =>  Auth::user()->name_010 . ' ' . Auth::user()->surname_010, 'readOnly' => true, 'labelSize' => 4, 'fieldSize' => 8])
-                <input type="hidden" name="author" value="{{ Auth::user()->id_010 }}">
-                @include('pulsar::includes.html.form_select_group', ['label' => trans('cms::pulsar.status'), 'name' => 'status', 'value' => Input::old('status', isset($object->status_355)? $object->status_355 : null), 'objects' => $statuses, 'idSelect' => 'id', 'nameSelect' => 'name', 'class' => 'form-control', 'labelSize' => 4, 'fieldSize' => 8, 'required' => true])
-                @include('pulsar::includes.html.form_datetimepicker_group', ['label' => trans('cms::pulsar.publish'), 'name' => 'publish', 'id' => 'idPublish', 'value' => Input::old('publish', isset($object->publish_355)? date(config('pulsar.datePattern') . ' H:i', $object->publish_355) : null), 'labelSize' => 4, 'fieldSize' => 8, 'data' => ['format' => Miscellaneous::convertFormatDate(config('pulsar.datePattern')) . ' HH:mm', 'locale' => config('app.locale')]])
-            </div>
+    <div class="row">
+        <div class="col-md-6">
+            @include('pulsar::includes.html.form_text_group', ['label' => 'ID', 'name' => 'id',  'value' => Input::old('name', isset($object->id_355)? $object->id_355 : null), 'readOnly' => true, 'labelSize' => 4, 'fieldSize' => 4])
+            @include('pulsar::includes.html.form_image_group', ['label' => trans_choice('pulsar::pulsar.language', 1), 'name' => 'lang', 'nameImage' => $lang->name_001, 'value' => $lang->id_001, 'url' => asset('/packages/syscover/pulsar/storage/langs/' . $lang->image_001), 'labelSize' => 4, 'fieldSize' => 8])
+            @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.section', 1), 'id' => 'section', 'name' => 'section', 'value' => Input::old('section', isset($object->section_355)? $object->section_355 : null), 'objects' => $sections, 'idSelect' => 'id_350', 'nameSelect' => 'name_350', 'class' => 'form-control select2', 'labelSize' => 4, 'fieldSize' => 8, 'required' => true, 'data' => ['language' => config('app.locale'), 'width' => '100%', 'error-placement' => 'select2-section-outer-container']])
+            @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.family', 1), 'id' => 'family', 'name' => 'family', 'value' => Input::old('family', isset($object->family_355)? $object->family_355 : null), 'objects' => $families, 'idSelect' => 'id_351', 'nameSelect' => 'name_351', 'class' => 'form-control select2', 'labelSize' => 4, 'fieldSize' => 8, 'data' => ['language' => config('app.locale'), 'width' => '100%', 'error-placement' => 'select2-family-outer-container']])
         </div>
-        @include('pulsar::includes.html.form_section_header', ['label' => trans('cms::pulsar.content'), 'icon' => 'fa fa-inbox', 'containerId' => 'headerContent'])
-        @include('pulsar::includes.html.form_datetimepicker_group', ['label' => trans('pulsar::pulsar.date'), 'containerId' => 'dateContent', 'name' => 'date', 'id' => 'idDate', 'value' => Input::old('date', isset($object->date_355)? date(config('pulsar.datePattern'), $object->date_355) : date(config('pulsar.datePattern'))), 'required' => true, 'fieldSize' => 4, 'data' => ['format' => Miscellaneous::convertFormatDate(config('pulsar.datePattern')), 'locale' => config('app.locale')]])
-        @include('pulsar::includes.html.form_text_group', ['label' => trans('pulsar::pulsar.title'), 'containerId' => 'titleContent', 'name' => 'title', 'value' => Input::old('title', isset($object->title_355)? $object->title_355 : null), 'maxLength' => '510', 'rangeLength' => '2,510', 'required' => true])
-        @include('pulsar::includes.html.form_text_group', ['label' => trans('cms::pulsar.slug'), 'containerId' => 'slugContent', 'name' => 'slug', 'value' => Input::old('slug', isset($object->slug_355)? $object->slug_355 : null), 'maxLength' => '255', 'rangeLength' => '2,255', 'required' => true])
-        @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.category', 1), 'containerId' => 'categoriesContent', 'name' => 'categories[]', 'value' => Input::old('categories', isset($object)? $object->categories : null), 'objects' => $categories, 'idSelect' => 'id_352', 'nameSelect' => 'name_352', 'multiple' => true, 'class' => 'col-md-12 select2', 'fieldSize' => 10, 'data' => ['placeholder' => trans('cms::pulsar.select_category'), 'width' => '100%']])
-        @include('pulsar::includes.html.form_text_group', ['label' => trans('pulsar::pulsar.sorting'), 'containerId' => 'sortingContent', 'name' => 'sorting', 'type' => 'number', 'value' => Input::old('sorting', isset($object->sorting_355)? $object->sorting_355 : null), 'maxLength' => '3', 'rangeLength' => '1,3', 'min' => '0', 'fieldSize' => 2])
-        @include('pulsar::includes.html.form_text_group', ['label' => trans('cms::pulsar.tags'), 'containerId' => 'tagsContent', 'name' => 'tags', 'placeholder' => trans('cms::pulsar.write_tag')])
-        @include('pulsar::includes.html.form_wysiwyg_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'wysiwyg', 'labelSize' => 2, 'fieldSize' => 10])
-        @include('pulsar::includes.html.form_contentbuilder_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'contentbuilder', 'theme' => 'default', 'value' => Input::old('article', isset($object->article_355)? $object->article_355 : null), 'labelSize' => 2, 'fieldSize' => 10])
-        <textarea name="article" class="hidden">{{ Input::old('article', isset($object->article_355)? $object->article_355 : null) }}</textarea>
+        <div class="col-md-6">
+            @include('pulsar::includes.html.form_text_group', ['label' => trans('cms::pulsar.author'), 'name' => 'authorName',  'value' =>  Auth::user()->name_010 . ' ' . Auth::user()->surname_010, 'readOnly' => true, 'labelSize' => 4, 'fieldSize' => 8])
+            <input type="hidden" name="author" value="{{ Auth::user()->id_010 }}">
+            @include('pulsar::includes.html.form_select_group', ['label' => trans('cms::pulsar.status'), 'name' => 'status', 'value' => Input::old('status', isset($object->status_355)? $object->status_355 : null), 'objects' => $statuses, 'idSelect' => 'id', 'nameSelect' => 'name', 'class' => 'form-control', 'labelSize' => 4, 'fieldSize' => 8, 'required' => true])
+            @include('pulsar::includes.html.form_datetimepicker_group', ['label' => trans('cms::pulsar.publish'), 'name' => 'publish', 'id' => 'idPublish', 'value' => Input::old('publish', isset($object->publish_355)? date(config('pulsar.datePattern') . ' H:i', $object->publish_355) : null), 'labelSize' => 4, 'fieldSize' => 8, 'data' => ['format' => Miscellaneous::convertFormatDate(config('pulsar.datePattern')) . ' HH:mm', 'locale' => config('app.locale')]])
+        </div>
+    </div>
+    @include('pulsar::includes.html.form_section_header', ['label' => trans('cms::pulsar.content'), 'icon' => 'fa fa-inbox', 'containerId' => 'headerContent'])
+    @include('pulsar::includes.html.form_datetimepicker_group', ['label' => trans('pulsar::pulsar.date'), 'containerId' => 'dateContent', 'name' => 'date', 'id' => 'idDate', 'value' => Input::old('date', isset($object->date_355)? date(config('pulsar.datePattern'), $object->date_355) : date(config('pulsar.datePattern'))), 'required' => true, 'fieldSize' => 4, 'data' => ['format' => Miscellaneous::convertFormatDate(config('pulsar.datePattern')), 'locale' => config('app.locale')]])
+    @include('pulsar::includes.html.form_text_group', ['label' => trans('pulsar::pulsar.title'), 'containerId' => 'titleContent', 'name' => 'title', 'value' => Input::old('title', isset($object->title_355)? $object->title_355 : null), 'maxLength' => '510', 'rangeLength' => '2,510', 'required' => true])
+    @include('pulsar::includes.html.form_text_group', ['label' => trans('cms::pulsar.slug'), 'containerId' => 'slugContent', 'name' => 'slug', 'value' => Input::old('slug', isset($object->slug_355)? $object->slug_355 : null), 'maxLength' => '255', 'rangeLength' => '2,255', 'required' => true])
+    @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.category', 1), 'containerId' => 'categoriesContent', 'name' => 'categories[]', 'value' => Input::old('categories', isset($object)? $object->categories : null), 'objects' => $categories, 'idSelect' => 'id_352', 'nameSelect' => 'name_352', 'multiple' => true, 'class' => 'col-md-12 select2', 'fieldSize' => 10, 'data' => ['placeholder' => trans('cms::pulsar.select_category'), 'width' => '100%']])
+    @include('pulsar::includes.html.form_text_group', ['label' => trans('pulsar::pulsar.sorting'), 'containerId' => 'sortingContent', 'name' => 'sorting', 'type' => 'number', 'value' => Input::old('sorting', isset($object->sorting_355)? $object->sorting_355 : null), 'maxLength' => '3', 'rangeLength' => '1,3', 'min' => '0', 'fieldSize' => 2])
+    @include('pulsar::includes.html.form_text_group', ['label' => trans('cms::pulsar.tags'), 'containerId' => 'tagsContent', 'name' => 'tags', 'placeholder' => trans('cms::pulsar.write_tag')])
+    @include('pulsar::includes.html.form_wysiwyg_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'wysiwyg', 'labelSize' => 2, 'fieldSize' => 10])
+    @include('pulsar::includes.html.form_contentbuilder_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'contentbuilder', 'theme' => 'default', 'value' => Input::old('article', isset($object->article_355)? $object->article_355 : null), 'labelSize' => 2, 'fieldSize' => 10])
+    <textarea name="article" class="hidden">{{ Input::old('article', isset($object->article_355)? $object->article_355 : null) }}</textarea>
 
-        @include('pulsar::includes.html.form_section_header', ['label' => trans('cms::pulsar.custom_fields'), 'icon' => 'fa fa-align-left', 'containerId' => 'headerCustomFields'])
-        <div id="wrapperCustomFields"></div>
-        @include('pulsar::includes.html.form_hidden', ['name' => 'dataObject', 'value' => isset($object->data_355)? $object->data_355 : null])
+    @include('pulsar::includes.html.form_section_header', ['label' => trans('cms::pulsar.custom_fields'), 'icon' => 'fa fa-align-left', 'containerId' => 'headerCustomFields'])
+    <div id="wrapperCustomFields"></div>
+    @include('pulsar::includes.html.form_hidden', ['name' => 'dataObject', 'value' => isset($object->data_355)? $object->data_355 : null])
 
-        @include('pulsar::includes.html.form_hidden', ['name' => 'jsonTags'])
-        @include('pulsar::includes.html.form_hidden', ['name' => 'attachments', 'value' => $attachmentsInput])
-    @include('pulsar::includes.html.form_record_footer', ['action' => 'store'])
+    @include('pulsar::includes.html.form_hidden', ['name' => 'jsonTags'])
+    @include('pulsar::includes.html.form_hidden', ['name' => 'attachments', 'value' => $attachmentsInput])
     <!-- /cms::articles.create -->
 @stop
 
 @section('box_tab2')
-    <!-- cms::articles.create -->
-    <div id="attachment-library" class="widget box">
-        <div class="widget-content no-padding">
-            <div class="row" id="attachment-wrapper">
-                <div id="library-placeholder">
-                    <p>{{ trans('cms::pulsar.drag_files') }}</p>
-                </div>
-                <ul class="sortable">
-                    @if(isset($attachments))
-                        @foreach($attachments as $attachment)
-                            <li data-id="{{$attachment->id_357}}">
-                                <div class="attachment-item">
-                                    <div class="attachment-img">
-                                        <img{!! $attachment->type_357 == 1? ' class="is-image"' : ' class="no-image"' !!} src="{{ $attachment->type_357 == 1? config('cms.attachmentFolder') . '/' . $attachment->article_357 . '/' . $attachment->lang_357 . '/' . $attachment->file_name_357 : config('cms.iconsFolder') . '/' . $data->icon }}" />
-                                    </div>
-                                    <div class="attachment-over">
-                                        <div class="col-md-10 col-sm-10 col-xs-10 uncovered">
-                                            <h4 class="attachment-title family-name">{{ $attachment->name_353 }}</h4>
-                                            <p class="attachment-sub file-name">{{ $attachment->file_name_357 }}</p>
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2 uncovered">
-                                            <h4 class="attachment-action"><span class="glyphicon glyphicon-pencil"></span></h4>
-                                        </div>
-                                        <form>
-                                            <div class="close-icon covered"><span class="glyphicon glyphicon-remove"></span></div>
-                                            <div class="col-md-12 col-sm-12 col-xs-12 covered">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control image-name" placeholder="{{ trans('pulsar::pulsar.image_name') }}" data-previous="{{ $attachment->name_357 }}" value="{{ $attachment->name_357 }}">
-                                                </div>
-                                                <div class="form-group">
-                                                    <select class="form-control attachment-family" name="attachmentFamily" data-previous="{{ $attachment->family_357 }}">
-                                                        <option value="">{{ trans('cms::pulsar.select_family') }}</option>
-                                                        @foreach($attachmentFamilies as $attachmentFamily)
-                                                            <option value="{{ $attachmentFamily->id_353 }}"{{ $attachment->family_357 == $attachmentFamily->id_353? ' selected' : null }}>{{ $attachmentFamily->name_353 }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 col-sm-12 col-xs-12 covered">
-                                                <div class="form-group">
-                                                    <button type="button" class="close-ov form-control save-attachment">{{ trans('pulsar::pulsar.save') }}</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="remove-img">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </div>
-                            </li>
-                        @endforeach
-                    @endif
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!-- /cms::articles.create -->
+    @include('pulsar::includes.html.attachment', [
+        'routesConfigFile'  => 'cms'])
 @stop
 
 @section('endBody')
