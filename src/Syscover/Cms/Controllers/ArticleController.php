@@ -80,7 +80,7 @@ class ArticleController extends Controller {
             $attachments = AttachmentLibrary::getAttachments('cms', 'cms-article', $parameters['id'], session('baseLang')->id_001, true);
 
             // merge parameters and attachments array
-            $parameters                         = array_merge($parameters, $attachments);
+            $parameters  = array_merge($parameters, $attachments);
         }
 
         return $parameters;

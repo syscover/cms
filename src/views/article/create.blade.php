@@ -170,6 +170,7 @@
 
 @section('box_tab2')
     @include('pulsar::includes.html.attachment', [
+        'action'            => 'create',
         'routesConfigFile'  => 'cms'])
 @stop
 
