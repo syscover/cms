@@ -16,7 +16,7 @@
     @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.date'), 'name' => 'date', 'value' => 1, 'isChecked' => $data->date, 'fieldSize' => 4, 'inputs' => [
         ['label' => trans('pulsar::pulsar.title'), 'name' => 'title', 'value' => 1, 'isChecked' => $data->title, 'fieldSize' => 4]
     ]])
-    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('cms::pulsar.slug'), 'name' => 'slug', 'value' => 1, 'isChecked' => $data->slug, 'fieldSize' => 4, 'inputs' => [
+    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.slug'), 'name' => 'slug', 'value' => 1, 'isChecked' => $data->slug, 'fieldSize' => 4, 'inputs' => [
         ['label' => trans_choice('pulsar::pulsar.category', 1), 'name' => 'categories', 'value' => 1, 'isChecked' => $data->categories, 'fieldSize' => 4]
     ]])
     @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.sorting'), 'name' => 'sorting', 'value' => 1, 'isChecked' => $data->sorting, 'fieldSize' => 4, 'inputs' => [

@@ -295,23 +295,27 @@ class ArticleController extends Controller {
     public function apiCheckSlug(HttpRequest $request)
     {
         $slug = $request->input('slug');
-        $query = Article::where('lang_355', $request->input('lang'))->where('slug_355', $slug)->newQuery();
+        $query = Article::where('lang_355', $request->input('lang'))
+            ->where('slug_355', $slug)
+            ->newQuery();
 
         if($request->input('id'))
         {
             $query->whereNotIn('id_355', [$request->input('id')]);
         }
 
-        $nArticles = $query->count();
+        $nObjects = $query->count();
 
-        if($nArticles > 0)
+        if($nObjects > 0)
         {
             $sufix = 0;
-            while($nArticles > 0)
+            while($nObjects > 0)
             {
                 $sufix++;
                 $slug = $request->input('slug') . '-' . $sufix;
-                $nArticles = Article::where('lang_355', $request->input('lang'))->where('slug_355', $slug)->count();
+                $nObjects = Article::where('lang_355', $request->input('lang'))
+                    ->where('slug_355', $slug)
+                    ->count();
             }
         }
 
