@@ -13,14 +13,14 @@
     <!-- cms::article_family.create -->
     @include('pulsar::includes.html.form_text_group', ['label' => 'ID', 'name' => 'id', 'fieldSize' => 2, 'readOnly' => true])
     @include('pulsar::includes.html.form_text_group', ['label' => trans('pulsar::pulsar.name'), 'name' => 'name', 'value' => Input::old('name'), 'maxLength' => '100', 'rangeLength' => '2,100', 'required' => true])
-    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.date'), 'name' => 'date', 'value' => 1, 'isChecked' => Input::old('date'), 'fieldSize' => 4, 'inputs' => [
-        ['label' => trans('pulsar::pulsar.title'), 'name' => 'title', 'value' => 1, 'isChecked' => Input::old('title'), 'fieldSize' => 4]
+    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.date'), 'name' => 'date', 'value' => 1, 'checked' => Input::old('date'), 'fieldSize' => 4, 'inputs' => [
+        ['label' => trans('pulsar::pulsar.title'), 'name' => 'title', 'value' => 1, 'checked' => Input::old('title'), 'fieldSize' => 4]
     ]])
-    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.slug'), 'name' => 'slug', 'value' => 1, 'isChecked' => Input::old('slug'), 'fieldSize' => 4, 'inputs' => [
-        ['label' => trans_choice('pulsar::pulsar.category', 1), 'name' => 'categories', 'value' => 1, 'isChecked' => Input::old('categories'), 'fieldSize' => 4]
+    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.slug'), 'name' => 'slug', 'value' => 1, 'checked' => Input::old('slug'), 'fieldSize' => 4, 'inputs' => [
+        ['label' => trans_choice('pulsar::pulsar.category', 1), 'name' => 'categories', 'value' => 1, 'checked' => Input::old('categories'), 'fieldSize' => 4]
     ]])
-    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.sorting'), 'name' => 'sorting', 'value' => 1, 'isChecked' => Input::old('sorting'), 'fieldSize' => 4, 'inputs' => [
-        ['label' => trans('cms::pulsar.tags'), 'name' => 'tags', 'value' => 1, 'isChecked' => Input::old('tags'), 'fieldSize' => 4]
+    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.sorting'), 'name' => 'sorting', 'value' => 1, 'checked' => Input::old('sorting'), 'fieldSize' => 4, 'inputs' => [
+        ['label' => trans('cms::pulsar.tags'), 'name' => 'tags', 'value' => 1, 'checked' => Input::old('tags'), 'fieldSize' => 4]
     ]])
     @include('pulsar::includes.html.form_select_group', ['label' => trans('pulsar::pulsar.editor'), 'name' => 'editor', 'value' => Input::old('editor'), 'objects' => $editors, 'idSelect' => 'id', 'nameSelect' => 'name', 'class' => 'form-control', 'fieldSize' => 5])
     @include('pulsar::includes.html.form_section_header', ['label' => trans_choice('cms::pulsar.field', 2), 'icon' => 'fa fa-align-left'])
