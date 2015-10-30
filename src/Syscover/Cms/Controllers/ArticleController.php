@@ -330,15 +330,18 @@ class ArticleController extends Controller {
         $customFields = $request->input('customFields');
 
         $html = '';
-        foreach($customFields as $customField)
+        if(is_array($customFields))
         {
-            if($customField['type'] == 'pulsar::includes.html.form_text_group')
+            foreach($customFields as $customField)
             {
-                $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => null, 'fieldSize' => $customField['size']])->render();
-            }
-            elseif($customField['type'] == 'pulsar::includes.html.form_checkbox_group')
-            {
-                $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => 1, 'fieldSize' => $customField['size']])->render();
+                if($customField['type'] == 'pulsar::includes.html.form_text_group')
+                {
+                    $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => null, 'fieldSize' => $customField['size']])->render();
+                }
+                elseif($customField['type'] == 'pulsar::includes.html.form_checkbox_group')
+                {
+                    $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => 1, 'fieldSize' => $customField['size']])->render();
+                }
             }
         }
 

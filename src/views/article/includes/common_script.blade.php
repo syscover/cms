@@ -119,7 +119,7 @@
                         if(hasProperty){ $('#headerContent').fadeIn(); }
 
                         // get html doing a request to controller to render the views
-                        if(properties.customFields){
+                        if(properties.customFields.length > 0){
                             $.ajax({
                                 dataType:   'json',
                                 type:       'POST',
@@ -149,9 +149,12 @@
                                     });
                                     @endif
 
-                                    $(".uniform").uniform();
-                                    $('#headerCustomFields').fadeIn();
-                                    $('#wrapperCustomFields').fadeIn();
+                                    if(data.html != '')
+                                    {
+                                        $(".uniform").uniform();
+                                        $('#headerCustomFields').fadeIn();
+                                        $('#wrapperCustomFields').fadeIn();
+                                    }
                                }
                             });
                         }
