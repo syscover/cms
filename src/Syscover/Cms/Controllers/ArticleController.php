@@ -53,7 +53,7 @@ class ArticleController extends Controller {
         return $actionUrlParameters;
     }
 
-    public function createCustomRecord($parameters)
+    public function createCustomRecord($request, $parameters)
     {
         $parameters['sections']             = Section::all();
         $parameters['families']             = ArticleFamily::all();
@@ -95,7 +95,7 @@ class ArticleController extends Controller {
         return $parameters;
     }
 
-    public function storeCustomRecord()
+    public function storeCustomRecord($request, $parameters)
     {
         // check if there is id
         if(Request::has('id'))
@@ -163,7 +163,7 @@ class ArticleController extends Controller {
         AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, Request::input('lang'));
     }
 
-    public function editCustomRecord($parameters)
+    public function editCustomRecord($request, $parameters)
     {
         $parameters['sections']             = Section::all();
         $parameters['families']             = ArticleFamily::all();
@@ -202,7 +202,7 @@ class ArticleController extends Controller {
         return $parameters;
     }
 
-    public function checkSpecialRulesToUpdate($parameters)
+    public function checkSpecialRulesToUpdate($request, $parameters)
     {
         $nArticle = Article::where('lang_355', Request::input('lang'))->where('slug_355', Request::input('slug'))->whereNotIn('id_355', [$parameters['id']])->count();
 
@@ -211,7 +211,7 @@ class ArticleController extends Controller {
         return $parameters;
     }
 
-    public function updateCustomRecord($parameters)
+    public function updateCustomRecord($request, $parameters)
     {
         Article::where('id_355', $parameters['id'])->where('lang_355', Request::input('lang'))->update([
             'section_355'       => Request::input('section'),

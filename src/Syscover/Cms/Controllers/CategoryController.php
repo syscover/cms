@@ -35,7 +35,7 @@ class CategoryController extends Controller {
         return $parameters;
     }
 
-    public function storeCustomRecord()
+    public function storeCustomRecord($request, $parameters)
     {
         // check if there is id
         if(Request::has('id'))
@@ -57,7 +57,7 @@ class CategoryController extends Controller {
         ]);
     }
 
-    public function updateCustomRecord($parameters)
+    public function updateCustomRecord($request, $parameters)
     {
         Category::where('id_352', $parameters['id'])->where('lang_352', Request::input('lang'))->update([
             'name_352'      => Request::input('name'),

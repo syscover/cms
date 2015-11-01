@@ -27,7 +27,7 @@ class TagController extends Controller {
     protected $icon         = 'cut-icon-grid';
     protected $objectTrans  = 'tag';
 
-    public function storeCustomRecord($parameters)
+    public function storeCustomRecord($request, $parameters)
     {
         Tag::create([
             'name_038'      => Request::input('name'),
@@ -35,7 +35,7 @@ class TagController extends Controller {
         ]);
     }
 
-    public function updateCustomRecord($parameters)
+    public function updateCustomRecord($request, $parameters)
     {
         Tag::where('id_038', $parameters['id'])->update([
             'name_038'      => Request::input('name')

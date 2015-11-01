@@ -28,7 +28,7 @@ class ArticleFamilyController extends Controller {
     protected $icon         = 'fa fa-align-justify';
     protected $objectTrans  = 'article_family';
 
-    public function createCustomRecord($parameters)
+    public function createCustomRecord($request, $parameters)
     {
         $parameters['editors'] = [
             (object)['id' => 1, 'name' => 'Wysiwyg'],
@@ -43,7 +43,7 @@ class ArticleFamilyController extends Controller {
         return $parameters;
     }
 
-    public function storeCustomRecord()
+    public function storeCustomRecord($request, $parameters)
     {
         ArticleFamily::create([
             'name_351'          => Request::input('name'),
@@ -60,7 +60,7 @@ class ArticleFamilyController extends Controller {
         ]);
     }
 
-    public function editCustomRecord($parameters)
+    public function editCustomRecord($request, $parameters)
     {
         $parameters['editors'] = [
             (object)['id' => 1, 'name' => 'Wysiwyg'],
@@ -78,7 +78,7 @@ class ArticleFamilyController extends Controller {
         return $parameters;
     }
     
-    public function updateCustomRecord($parameters)
+    public function updateCustomRecord($request, $parameters)
     {
         ArticleFamily::where('id_351', $parameters['id'])->update([
             'name_351'          => Request::input('name'),

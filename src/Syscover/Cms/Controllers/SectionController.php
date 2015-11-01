@@ -29,14 +29,14 @@ class SectionController extends Controller {
     protected $icon         = 'sys-icon-magnet';
     protected $objectTrans  = 'section';
 
-    public function createCustomRecord($parameters)
+    public function createCustomRecord($request, $parameters)
     {
         $parameters['families']     = ArticleFamily::all();
 
         return $parameters;
     }
 
-    public function storeCustomRecord()
+    public function storeCustomRecord($request, $parameters)
     {
         Section::create([
             'id_350'                => Request::input('id'),
@@ -45,14 +45,14 @@ class SectionController extends Controller {
         ]);
     }
 
-    public function editCustomRecord($parameters)
+    public function editCustomRecord($request, $parameters)
     {
         $parameters['families']     = ArticleFamily::all();
 
         return $parameters;
     }
     
-    public function updateCustomRecord($parameters)
+    public function updateCustomRecord($request, $parameters)
     {
         Section::where('id_350', $parameters['id'])->update([
             'id_350'                => Request::input('id'),
