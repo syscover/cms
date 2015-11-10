@@ -23,7 +23,6 @@ return [
     'draft'                                 => 'Borrador',
     'publish'                               => 'Publicado',
     'select_category'                       => 'Seleccione una categoría',
-    'type_something'                        => 'Escribe algo',
     'custom_fields'                         => 'Campos personalizados',
     'field'                                 => 'Campo|Campos',
 ];

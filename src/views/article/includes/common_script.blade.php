@@ -45,7 +45,7 @@
         /*TODO: revisar funcionalidades froala */
         $('.wysiwyg').froalaEditor({
             language: '{{ config('app.locale') }}',
-            placeholderText: '{{ trans('cms::pulsar.type_something') }}',
+            placeholderText: '{{ trans('pulsar::pulsar.type_something') }}',
             toolbarInline: false,
             toolbarSticky: true,
             tabSpaces: true,
