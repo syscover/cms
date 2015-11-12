@@ -1,5 +1,5 @@
         <li{!! Miscellaneous::setCurrentOpenPage(['cms-article','cms-library','cms-article-family','cms-section','cms-category','cms-attachment-family']) !!}>
-            <a href="javascript:void(0);"><i class="sys-icon-edit-write"></i>CMS</a>
+            <a href="javascript:void(0)"><i class="sys-icon-edit-write"></i>CMS</a>
             <ul class="sub-menu">
                 @if(session('userAcl')->isAllowed(Auth::user()->profile_010, 'cms-article', 'access'))
                     <li{!! Miscellaneous::setCurrentPage('cms-article') !!}><a href="{{ route('CmsArticle', [session('baseLang')]) }}"><i class="fa fa-file-text-o"></i>{{ trans_choice('pulsar::pulsar.article', 2) }}</a></li>
