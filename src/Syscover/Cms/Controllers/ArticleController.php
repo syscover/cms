@@ -77,7 +77,7 @@ class ArticleController extends Controller {
         if(isset($parameters['id']))
         {
             // get attachments from base lang
-            $attachments = AttachmentLibrary::getAttachments('cms', 'cms-article', $parameters['id'], session('baseLang')->id_001, true);
+            $attachments = AttachmentLibrary::getAttachments($this->package, 'cms-article', $parameters['id'], session('baseLang')->id_001, true);
 
             // merge parameters and attachments array
             $parameters  = array_merge($parameters, $attachments);
@@ -265,22 +265,22 @@ class ArticleController extends Controller {
         }
     }
 
-    public function deleteCustomRecord($object)
+    public function deleteCustomRecord($request, $object)
     {
         // delete object from all language
         $object->categories()->detach();
 
         // delete all attachments
-        AttachmentLibrary::deleteAttachment('cms', 'cms-article', $object->id_355);
+        AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $object->id_355);
     }
 
-    public function deleteCustomTranslationRecord($object)
+    public function deleteCustomTranslationRecord($request, $object)
     {
         // delete all attachments from lang object
-        AttachmentLibrary::deleteAttachment('cms', 'cms-article', $object->id_355, $object->lang_355);
+        AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $object->id_355, $object->lang_355);
     }
 
-    public function deleteCustomRecords($ids)
+    public function deleteCustomRecords($request, $ids)
     {
         $articles = Article::getRecordsById($ids);
 
@@ -288,7 +288,7 @@ class ArticleController extends Controller {
         {
             $article->categories()->detach();
 
-            AttachmentLibrary::deleteAttachment('cms', 'cms-article', $article->id_355);
+            AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $article->id_355);
         }
     }
 
