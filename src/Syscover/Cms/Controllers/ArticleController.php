@@ -86,9 +86,9 @@ class ArticleController extends Controller {
         return $parameters;
     }
 
-    public function checkSpecialRulesToStore($parameters)
+    public function checkSpecialRulesToStore($request, $parameters)
     {
-        $nArticle = Article::where('lang_355', Request::input('lang'))->where('slug_355', Request::input('slug'))->count();
+        $nArticle = Article::where('lang_355', $request->input('lang'))->where('slug_355', $request->input('slug'))->count();
 
         if($nArticle > 0) $parameters['specialRules']['slugRule'] = true;
 
