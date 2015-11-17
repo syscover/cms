@@ -77,7 +77,7 @@ class ArticleController extends Controller {
         if(isset($parameters['id']))
         {
             // get attachments from base lang
-            $attachments = AttachmentLibrary::getAttachments($this->package, 'cms-article', $parameters['id'], session('baseLang')->id_001, true);
+            $attachments = AttachmentLibrary::getRecords($this->package, 'cms-article', $parameters['id'], session('baseLang')->id_001, true);
 
             // merge parameters and attachments array
             $parameters  = array_merge($parameters, $attachments);
@@ -193,7 +193,7 @@ class ArticleController extends Controller {
         ];
 
         // get attachments elements
-        $attachments = AttachmentLibrary::getAttachments('cms', 'cms-article', $parameters['object']->id_355, $parameters['lang']->id_001);
+        $attachments = AttachmentLibrary::getRecords('cms', 'cms-article', $parameters['object']->id_355, $parameters['lang']->id_001);
 
         // merge parameters and attachments array
         $parameters['attachmentFamilies']   = AttachmentFamily::getAttachmentFamilies(['resource_015' => 'cms-article']);
