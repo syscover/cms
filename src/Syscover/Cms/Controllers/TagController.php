@@ -30,15 +30,15 @@ class TagController extends Controller {
     public function storeCustomRecord($request, $parameters)
     {
         Tag::create([
-            'name_038'      => Request::input('name'),
-            'lang_038'      => Request::input('lang')
+            'name_038'      => $request->input('name'),
+            'lang_038'      => $request->input('lang')
         ]);
     }
 
     public function updateCustomRecord($request, $parameters)
     {
         Tag::where('id_038', $parameters['id'])->update([
-            'name_038'      => Request::input('name')
+            'name_038'      => $request->input('name')
         ]);
     }
 }

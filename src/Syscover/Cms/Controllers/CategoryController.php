@@ -38,30 +38,32 @@ class CategoryController extends Controller {
     public function storeCustomRecord($request, $parameters)
     {
         // check if there is id
-        if(Request::has('id'))
+        if($request->has('id'))
         {
-            $id = Request::get('id');
+            $id = $request->input('id');
+            $idLang = $id;
         }
         else
         {
             $id = Category::max('id_352');
             $id++;
+            $idLang = null;
         }
 
         Category::create([
             'id_352'        => $id,
-            'lang_352'      => Request::input('lang'),
-            'name_352'      => Request::input('name'),
-            'sorting_352'   => Request::has('sorting')? Request::input('sorting') : null,
-            'data_lang_352' => Category::addLangDataRecord($id, Request::input('lang'))
+            'lang_352'      => $request->input('lang'),
+            'name_352'      => $request->input('name'),
+            'sorting_352'   => $request->has('sorting')? $request->input('sorting') : null,
+            'data_lang_352' => Category::addLangDataRecord($request->input('lang'), $idLang)
         ]);
     }
 
     public function updateCustomRecord($request, $parameters)
     {
-        Category::where('id_352', $parameters['id'])->where('lang_352', Request::input('lang'))->update([
-            'name_352'      => Request::input('name'),
-            'sorting_352'   => Request::has('sorting')? Request::input('sorting') : null,
+        Category::where('id_352', $parameters['id'])->where('lang_352', $request->input('lang'))->update([
+            'name_352'      => $request->input('name'),
+            'sorting_352'   => $request->has('sorting')? $request->input('sorting') : null,
         ]);
     }
 }

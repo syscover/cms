@@ -46,16 +46,16 @@ class ArticleFamilyController extends Controller {
     public function storeCustomRecord($request, $parameters)
     {
         ArticleFamily::create([
-            'name_351'          => Request::input('name'),
-            'editor_type_351'   => Request::input('editor', false),
+            'name_351'          => $request->input('name'),
+            'editor_type_351'   => $request->input('editor', false),
             'data_351'          => json_encode([
-                'date'          => Request::has('date'),
-                'title'         => Request::has('title'),
-                'slug'          => Request::has('slug'),
-                'categories'    => Request::has('categories'),
-                'sorting'       => Request::has('sorting'),
-                'tags'          => Request::has('tags'),
-                'customFields'  => json_decode(Request::input('fieldsData'))
+                'date'          => $request->has('date'),
+                'title'         => $request->has('title'),
+                'slug'          => $request->has('slug'),
+                'categories'    => $request->has('categories'),
+                'sorting'       => $request->has('sorting'),
+                'tags'          => $request->has('tags'),
+                'customFields'  => json_decode($request->input('fieldsData'))
             ])
         ]);
     }
@@ -81,16 +81,16 @@ class ArticleFamilyController extends Controller {
     public function updateCustomRecord($request, $parameters)
     {
         ArticleFamily::where('id_351', $parameters['id'])->update([
-            'name_351'          => Request::input('name'),
-            'editor_type_351'   => Request::input('editor'),
+            'name_351'          => $request->input('name'),
+            'editor_type_351'   => $request->input('editor'),
             'data_351'          => json_encode([
-                'date'          => Request::has('date'),
-                'title'         => Request::has('title'),
-                'slug'          => Request::has('slug'),
-                'categories'    => Request::has('categories'),
-                'sorting'       => Request::has('sorting'),
-                'tags'          => Request::has('tags'),
-                'customFields'  => json_decode(Request::input('fieldsData'))
+                'date'          => $request->has('date'),
+                'title'         => $request->has('title'),
+                'slug'          => $request->has('slug'),
+                'categories'    => $request->has('categories'),
+                'sorting'       => $request->has('sorting'),
+                'tags'          => $request->has('tags'),
+                'customFields'  => json_decode($request->input('fieldsData'))
             ])
         ]);
     }

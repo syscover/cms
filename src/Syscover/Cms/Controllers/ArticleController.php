@@ -11,8 +11,7 @@
  */
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Http\Request;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Pulsar\Models\AttachmentFamily;
@@ -98,36 +97,38 @@ class ArticleController extends Controller {
     public function storeCustomRecord($request, $parameters)
     {
         // check if there is id
-        if(Request::has('id'))
+        if($request->has('id'))
         {
-            $id = Request::get('id');
+            $id = $request->input('id');
+            $idLang = $id;
         }
         else
         {
             $id = Article::max('id_355');
             $id++;
+            $idLang = null;
         }
 
         $article = Article::create([
             'id_355'            => $id,
-            'lang_355'          => Request::input('lang'),
-            'author_355'        => Request::input('author'),
-            'section_355'       => Request::input('section'),
-            'family_355'        => Request::has('family')? Request::input('family') : null,
-            'status_355'        => Request::input('status'),
-            'publish_355'       => Request::has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', Request::input('publish'))->getTimestamp() : (integer)date('U'),
-            'publish_text_355'  => Request::has('publish')?  Request::input('publish'): date(config('pulsar.datePattern') . ' H:i'),
-            'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), Request::input('date'))->getTimestamp(),
-            'title_355'         => Request::input('title'),
-            'slug_355'          => Request::input('slug') == "" || !Request::has('slug')? null : Request::input('slug'),
-            'sorting_355'       => Request::input('sorting'),
-            'article_355'       => Request::input('article'),
-            'data_lang_355'     => Article::addLangDataRecord($id, Request::input('lang')),
+            'lang_355'          => $request->input('lang'),
+            'author_355'        => $request->input('author'),
+            'section_355'       => $request->input('section'),
+            'family_355'        => $request->has('family')? $request->input('family') : null,
+            'status_355'        => $request->input('status'),
+            'publish_355'       => $request->has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i',$request->input('publish'))->getTimestamp() : (integer)date('U'),
+            'publish_text_355'  => $request->has('publish')?  $request->input('publish'): date(config('pulsar.datePattern') . ' H:i'),
+            'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), $request->input('date'))->getTimestamp(),
+            'title_355'         => $request->input('title'),
+            'slug_355'          => $request->input('slug') == "" || !$request->has('slug')? null : $request->input('slug'),
+            'sorting_355'       => $request->input('sorting'),
+            'article_355'       => $request->input('article'),
+            'data_lang_355'     => Article::addLangDataRecord($request->input('lang'), $idLang),
             'data_355'          => json_encode($this->getCustomFields())
         ]);
 
         // tags
-        $tags = json_decode(Request::input('jsonTags'));
+        $tags = json_decode($request->input('jsonTags'));
         if(is_array($tags) && count($tags) > 0)
         {
             $idTags = [];
@@ -136,7 +137,7 @@ class ArticleController extends Controller {
                 if ($tag->value === 'null')
                 {
                     $tagObj = Tag::create([
-                        'lang_358' => Request::input('lang'),
+                        'lang_358' => $request->input('lang'),
                         'name_358' => $tag->label
                     ]);
 
@@ -152,15 +153,15 @@ class ArticleController extends Controller {
         }
 
         // categories
-        if(is_array(Request::input('categories')))
+        if(is_array($request->input('categories')))
         {
-            $article->categories()->sync(Request::input('categories'));
+            $article->categories()->sync($request->input('categories'));
         }
 
         // set attachments
-        $attachments = json_decode(Request::input('attachments'));
+        $attachments = json_decode($request->input('attachments'));
 
-        AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, Request::input('lang'));
+        AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, $request->input('lang'));
     }
 
     public function editCustomRecord($request, $parameters)
@@ -204,7 +205,7 @@ class ArticleController extends Controller {
 
     public function checkSpecialRulesToUpdate($request, $parameters)
     {
-        $nArticle = Article::where('lang_355', Request::input('lang'))->where('slug_355', Request::input('slug'))->whereNotIn('id_355', [$parameters['id']])->count();
+        $nArticle = Article::where('lang_355', $request->input('lang'))->where('slug_355', $request->input('slug'))->whereNotIn('id_355', [$parameters['id']])->count();
 
         if($nArticle > 0) $parameters['specialRules']['slugRule'] = true;
 
@@ -213,24 +214,24 @@ class ArticleController extends Controller {
 
     public function updateCustomRecord($request, $parameters)
     {
-        Article::where('id_355', $parameters['id'])->where('lang_355', Request::input('lang'))->update([
-            'section_355'       => Request::input('section'),
-            'family_355'        => Request::has('family')? Request::input('family') : null,
-            'status_355'        => Request::input('status'),
-            'publish_355'       => Request::has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', Request::input('publish'))->getTimestamp() : (integer)date('U'),
-            'publish_text_355'  => Request::has('publish')? Request::input('publish') : date(config('pulsar.datePattern') . ' H:i'),
-            'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), Request::input('date'))->getTimestamp(),
-            'title_355'         => Request::input('title'),
-            'slug_355'          => Request::input('slug') == "" || !Request::has('slug')? null : Request::input('slug'),
-            'sorting_355'       => Request::input('sorting'),
-            'article_355'       => Request::input('article'),
+        Article::where('id_355', $parameters['id'])->where('lang_355', $request->input('lang'))->update([
+            'section_355'       => $request->input('section'),
+            'family_355'        => $request->has('family')? $request->input('family') : null,
+            'status_355'        => $request->input('status'),
+            'publish_355'       => $request->has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', $request->input('publish'))->getTimestamp() : (integer)date('U'),
+            'publish_text_355'  => $request->has('publish')? $request->input('publish') : date(config('pulsar.datePattern') . ' H:i'),
+            'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), $request->input('date'))->getTimestamp(),
+            'title_355'         => $request->input('title'),
+            'slug_355'          => $request->input('slug') == "" || !$request->has('slug')? null : $request->input('slug'),
+            'sorting_355'       => $request->input('sorting'),
+            'article_355'       => $request->input('article'),
             'data_355'          => json_encode($this->getCustomFields())
         ]);
 
         $article = Article::getCustomTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
 
         // tags
-        $tags = json_decode(Request::input('jsonTags'));
+        $tags = json_decode($request->input('jsonTags'));
         if(is_array($tags) && count($tags) > 0)
         {
             $idTags = [];
@@ -239,7 +240,7 @@ class ArticleController extends Controller {
                 if ($tag->value === 'null')
                 {
                     $tagObj = Tag::create([
-                        'lang_358' => Request::input('lang'),
+                        'lang_358' => $request->input('lang'),
                         'name_358' => $tag->label
                     ]);
 
@@ -255,9 +256,9 @@ class ArticleController extends Controller {
         }
 
         // categories
-        if(is_array(Request::input('categories')))
+        if(is_array($request->input('categories')))
         {
-            $article->categories()->sync(Request::input('categories'));
+            $article->categories()->sync($request->input('categories'));
         }
         else
         {
@@ -292,7 +293,7 @@ class ArticleController extends Controller {
         }
     }
 
-    public function apiCheckSlug(HttpRequest $request)
+    public function apiCheckSlug(Request $request)
     {
         $slug = $request->input('slug');
         $query = Article::where('lang_355', $request->input('lang'))
@@ -325,7 +326,7 @@ class ArticleController extends Controller {
         ]);
     }
 
-    public function apiGetCustomFields(HttpRequest $request)
+    public function apiGetCustomFields(Request $request)
     {
         $customFields = $request->input('customFields');
 
@@ -355,9 +356,9 @@ class ArticleController extends Controller {
     {
         // check if has family to get custom fields
         $customFields['customFields'] = [];
-        if(Request::has('family'))
+        if($request->has('family'))
         {
-            $articleFamily      = ArticleFamily::find(Request::input('family'));
+            $articleFamily      = ArticleFamily::find($request->input('family'));
             $dataArticleFamily  = json_decode($articleFamily->data_351);
 
             foreach($dataArticleFamily->customFields as $customField)
@@ -365,12 +366,12 @@ class ArticleController extends Controller {
                 // to text
                 if($customField->type == "pulsar::includes.html.form_text_group")
                 {
-                    $customField->value = Request::input($customField->name);
+                    $customField->value = $request->input($customField->name);
                 }
                 // to checkbox
                 if($customField->type == "pulsar::includes.html.form_checkbox_group")
                 {
-                    $customField->value = Request::has($customField->name);
+                    $customField->value = $request->has($customField->name);
                 }
 
                 $customFields['customFields'][] = $customField;

@@ -39,9 +39,9 @@ class SectionController extends Controller {
     public function storeCustomRecord($request, $parameters)
     {
         Section::create([
-            'id_350'                => Request::input('id'),
-            'name_350'              => Request::input('name'),
-            'article_family_350'    => Request::has('family')? Request::input('family') : null
+            'id_350'                => $request->input('id'),
+            'name_350'              => $request->input('name'),
+            'article_family_350'    => $request->has('family')? $request->input('family') : null
         ]);
     }
 
@@ -55,9 +55,9 @@ class SectionController extends Controller {
     public function updateCustomRecord($request, $parameters)
     {
         Section::where('id_350', $parameters['id'])->update([
-            'id_350'                => Request::input('id'),
-            'name_350'              => Request::input('name'),
-            'article_family_350'    => Request::has('family')? Request::input('family') : null
+            'id_350'                => $request->input('id'),
+            'name_350'              => $request->input('name'),
+            'article_family_350'    => $request->has('family')? $request->input('family') : null
         ]);
     }
 }
