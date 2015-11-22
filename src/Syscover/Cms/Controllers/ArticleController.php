@@ -228,7 +228,7 @@ class ArticleController extends Controller {
             'data_355'          => json_encode($this->getCustomFields())
         ]);
 
-        $article = Article::getCustomTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
+        $article = Article::getTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
 
         // tags
         $tags = json_decode($request->input('jsonTags'));
