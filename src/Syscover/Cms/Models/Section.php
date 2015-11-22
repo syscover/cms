@@ -34,7 +34,7 @@ class Section extends Model {
         return Validator::make($data, static::$rules);
 	}
 
-    public static function getCustomRecordsLimit($parameters)
+    public static function addToGetRecordsLimit($parameters)
     {
         $query =  Section::leftJoin('013_351_article_family', '013_350_section.article_family_350', '=', '013_351_article_family.id_351')->newQuery();
 

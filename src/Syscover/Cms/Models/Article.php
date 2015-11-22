@@ -66,7 +66,7 @@ class Article extends Model {
         return $this->belongsToMany('Syscover\Cms\Models\Tag','013_359_articles_tags','article_359','tag_359');
     }
 
-    public static function getCustomRecordsLimit($parameters)
+    public static function addToGetRecordsLimit($parameters)
     {
         $query =  Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')
             ->join('013_350_section', '013_355_article.section_355', '=', '013_350_section.id_350')
