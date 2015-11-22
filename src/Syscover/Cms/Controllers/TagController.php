@@ -10,7 +10,6 @@
  * @filesource
  */
 
-use Illuminate\Support\Facades\Request;
 use Syscover\Cms\Models\Tag;
 use Syscover\Pulsar\Traits\TraitController;
 
