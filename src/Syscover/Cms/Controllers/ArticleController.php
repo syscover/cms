@@ -275,7 +275,7 @@ class ArticleController extends Controller {
         AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $object->id_355);
     }
 
-    public function deleteCustomTranslationRecord($request, $object)
+    public function addToDeleteTranslationRecord($request, $object)
     {
         // delete all attachments from lang object
         AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $object->id_355, $object->lang_355);
