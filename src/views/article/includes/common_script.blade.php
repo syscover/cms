@@ -119,15 +119,19 @@
                         if(hasProperty){ $('#headerContent').fadeIn(); }
 
                         // get html doing a request to controller to render the views
-                        if(properties.customFields.length > 0){
+                        if(data.custom_field_family_351 != null){
                             $.ajax({
                                 dataType:   'json',
                                 type:       'POST',
-                                url:        '{{ route('apiGetCustomFields') }}',
-                                data:       {customFields: properties.customFields},
                                 headers:    { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                                url:        '{{ route('apiGetCustomFields') }}',
+                                data:       {
+                                    customFieldFamily: data.custom_field_family_351,
+                                    lang: '{{ $lang->id_001 }}'
+                                },
                                 success:  function(data)
                                 {
+                                    console.log(data);
                                     // add html custom fields section
                                     $('#wrapperCustomFields').prepend(data.html);
 
@@ -178,6 +182,7 @@
                 $('#sortingContent').fadeOut();
                 $('#tagsContent').fadeOut();
                 $('#categoriesContent').fadeOut();
+
                 $('#headerCustomFields').fadeOut();
                 $('#wrapperCustomFields').fadeOut();
                 $('#wrapperCustomFields').html('');
@@ -223,6 +228,7 @@
         $('#tagsContent').hide();
         $('#categoriesContent').hide();
         $('#wrapperCustomFields').hide();
+
         $('#headerCustomFields').hide();
 
 
@@ -252,6 +258,7 @@
         @endif
     });
 
+    <!-- Check slug -->
     $.checkSlug = function() {
         $.ajax({
             dataType:   'json',

@@ -10,7 +10,6 @@ return [
     |
     */
 
-    //
     'libraryFolder'         => '/packages/syscover/cms/storage/library',
     'tmpFolder'             => '/packages/syscover/cms/storage/tmp',
     'attachmentFolder'      => '/packages/syscover/cms/storage/attachment',
@@ -26,4 +25,12 @@ return [
     */
 
     'themesFolder'          => '/packages/syscover/cms/themes/',
+
+    //******************************************************************************************************************
+    //***   Type fields to select on fields section
+    //******************************************************************************************************************
+    'editors'                => [
+        (object)['id' => 1, 'name' => 'Wysiwyg'],
+        (object)['id' => 2, 'name' => 'Contentbuilder'],
+    ],
 ];

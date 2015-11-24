@@ -11,6 +11,7 @@
  */
 
 use Syscover\Pulsar\Controllers\Controller;
+use Syscover\Pulsar\Models\CustomFieldFamily;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\ArticleFamily;
 
@@ -21,7 +22,7 @@ class ArticleFamilyController extends Controller {
     protected $routeSuffix  = 'CmsArticleFamily';
     protected $folder       = 'article_family';
     protected $package      = 'cms';
-    protected $aColumns     = ['id_351', 'name_351'];
+    protected $aColumns     = ['id_351', 'name_351', 'name_025'];
     protected $nameM        = 'name_351';
     protected $model        = '\Syscover\Cms\Models\ArticleFamily';
     protected $icon         = 'fa fa-align-justify';
@@ -29,15 +30,8 @@ class ArticleFamilyController extends Controller {
 
     public function createCustomRecord($request, $parameters)
     {
-        $parameters['editors'] = [
-            (object)['id' => 1, 'name' => 'Wysiwyg'],
-            (object)['id' => 2, 'name' => 'Contentbuilder'],
-        ];
-
-        $parameters['types'] = [
-            (object)['id' => 'pulsar::includes.html.form_text_group', 'name' => 'Text'],
-            (object)['id' => 'pulsar::includes.html.form_checkbox_group', 'name' => 'Checkbox'],
-        ];
+        $parameters['editors']              = config('cms.editors');
+        $parameters['familiesCustomFields'] = CustomFieldFamily::getRecords(['resource_025' => 'cms-article-family']);
 
         return $parameters;
     }
@@ -45,34 +39,25 @@ class ArticleFamilyController extends Controller {
     public function storeCustomRecord($request, $parameters)
     {
         ArticleFamily::create([
-            'name_351'          => $request->input('name'),
-            'editor_type_351'   => $request->input('editor', false),
-            'data_351'          => json_encode([
-                'date'          => $request->has('date'),
-                'title'         => $request->has('title'),
-                'slug'          => $request->has('slug'),
-                'categories'    => $request->has('categories'),
-                'sorting'       => $request->has('sorting'),
-                'tags'          => $request->has('tags'),
-                'customFields'  => json_decode($request->input('fieldsData'))
+            'name_351'                  => $request->input('name'),
+            'editor_type_351'           => $request->input('editor', false),
+            'custom_field_family_351'   => $request->input('familyCustomField', null),
+            'data_351'                  => json_encode([
+                'date'                  => $request->has('date'),
+                'title'                 => $request->has('title'),
+                'slug'                  => $request->has('slug'),
+                'categories'            => $request->has('categories'),
+                'sorting'               => $request->has('sorting'),
+                'tags'                  => $request->has('tags'),
             ])
         ]);
     }
 
     public function editCustomRecord($request, $parameters)
     {
-        $parameters['editors'] = [
-            (object)['id' => 1, 'name' => 'Wysiwyg'],
-            (object)['id' => 2, 'name' => 'Contentbuilder']
-        ];
-
-        $parameters['types'] = [
-            (object)['id' => 'pulsar::includes.html.form_text_group', 'name' => 'Text'],
-            (object)['id' => 'pulsar::includes.html.form_checkbox_group', 'name' => 'Checkbox'],
-        ];
-
-        $parameters['data']         = json_decode($parameters['object']->data_351);
-        $parameters['customFields'] = json_encode($parameters['data']->customFields);
+        $parameters['editors']              = config('cms.editors');
+        $parameters['familiesCustomFields'] = CustomFieldFamily::getRecords(['resource_025' => 'cms-article-family']);
+        $parameters['data']                 = json_decode($parameters['object']->data_351);
 
         return $parameters;
     }
@@ -80,16 +65,16 @@ class ArticleFamilyController extends Controller {
     public function updateCustomRecord($request, $parameters)
     {
         ArticleFamily::where('id_351', $parameters['id'])->update([
-            'name_351'          => $request->input('name'),
-            'editor_type_351'   => $request->input('editor'),
-            'data_351'          => json_encode([
-                'date'          => $request->has('date'),
-                'title'         => $request->has('title'),
-                'slug'          => $request->has('slug'),
-                'categories'    => $request->has('categories'),
-                'sorting'       => $request->has('sorting'),
-                'tags'          => $request->has('tags'),
-                'customFields'  => json_decode($request->input('fieldsData'))
+            'name_351'                  => $request->input('name'),
+            'editor_type_351'           => $request->input('editor'),
+            'custom_field_family_351'   => empty($request->input('familyCustomField'))? null : $request->input('familyCustomField'),
+            'data_351'                  => json_encode([
+                'date'                  => $request->has('date'),
+                'title'                 => $request->has('title'),
+                'slug'                  => $request->has('slug'),
+                'categories'            => $request->has('categories'),
+                'sorting'               => $request->has('sorting'),
+                'tags'                  => $request->has('tags'),
             ])
         ]);
     }

@@ -13,6 +13,7 @@
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Syscover\Pulsar\Controllers\Controller;
+use Syscover\Pulsar\Models\CustomField;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Pulsar\Models\AttachmentFamily;
 use Syscover\Pulsar\Libraries\AttachmentLibrary;
@@ -124,7 +125,7 @@ class ArticleController extends Controller {
             'sorting_355'       => $request->input('sorting'),
             'article_355'       => $request->input('article'),
             'data_lang_355'     => Article::addLangDataRecord($request->input('lang'), $idLang),
-            'data_355'          => json_encode($this->getCustomFields())
+            'data_355'          => null
         ]);
 
         // tags
@@ -225,7 +226,7 @@ class ArticleController extends Controller {
             'slug_355'          => $request->input('slug') == "" || !$request->has('slug')? null : $request->input('slug'),
             'sorting_355'       => $request->input('sorting'),
             'article_355'       => $request->input('article'),
-            'data_355'          => json_encode($this->getCustomFields())
+            'data_355'          => null
         ]);
 
         $article = Article::getTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
@@ -328,56 +329,28 @@ class ArticleController extends Controller {
 
     public function apiGetCustomFields(Request $request)
     {
-        $customFields = $request->input('customFields');
+        $customFields = CustomField::getRecords(['lang_026' => $request->input('lang'), 'family_026' => $request->input('customFieldFamily')]);
 
         $html = '';
-        if(is_array($customFields))
+        foreach($customFields as $customField)
         {
-            foreach($customFields as $customField)
+            $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => null, 'fieldSize' => $customField['size']])->render();
+
+
+            if($customField['type'] == 'pulsar::includes.html.form_text_group')
             {
-                if($customField['type'] == 'pulsar::includes.html.form_text_group')
-                {
-                    $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => null, 'fieldSize' => $customField['size']])->render();
-                }
-                elseif($customField['type'] == 'pulsar::includes.html.form_checkbox_group')
-                {
-                    $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => 1, 'fieldSize' => $customField['size']])->render();
-                }
+                $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => null, 'fieldSize' => $customField['size']])->render();
+            }
+            elseif($customField['type'] == 'pulsar::includes.html.form_checkbox_group')
+            {
+                $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => 1, 'fieldSize' => $customField['size']])->render();
             }
         }
+
 
         return response()->json([
             'status'    => 'success',
             'html'      => $html
         ]);
-    }
-
-    private function getCustomFields()
-    {
-        // check if has family to get custom fields
-        $customFields['customFields'] = [];
-        if($request->has('family'))
-        {
-            $articleFamily      = ArticleFamily::find($request->input('family'));
-            $dataArticleFamily  = json_decode($articleFamily->data_351);
-
-            foreach($dataArticleFamily->customFields as $customField)
-            {
-                // to text
-                if($customField->type == "pulsar::includes.html.form_text_group")
-                {
-                    $customField->value = $request->input($customField->name);
-                }
-                // to checkbox
-                if($customField->type == "pulsar::includes.html.form_checkbox_group")
-                {
-                    $customField->value = $request->has($customField->name);
-                }
-
-                $customFields['customFields'][] = $customField;
-            }
-        }
-
-        return $customFields;
     }
 }

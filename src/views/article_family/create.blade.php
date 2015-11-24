@@ -23,18 +23,6 @@
         ['label' => trans('cms::pulsar.tags'), 'name' => 'tags', 'value' => 1, 'checked' => Input::old('tags'), 'fieldSize' => 4]
     ]])
     @include('pulsar::includes.html.form_select_group', ['label' => trans('pulsar::pulsar.editor'), 'name' => 'editor', 'value' => Input::old('editor'), 'objects' => $editors, 'idSelect' => 'id', 'nameSelect' => 'name', 'class' => 'form-control', 'fieldSize' => 5])
-    @include('pulsar::includes.html.form_section_header', ['label' => trans_choice('cms::pulsar.field', 2), 'icon' => 'fa fa-align-left'])
-    @include('pulsar::includes.html.form_element_table_group', [
-        'id'        => 'fields',
-        'label'     => trans_choice('cms::pulsar.field', 1),
-        'icon'      => 'fa fa-align-left',
-        'thead'     => [(object)['class' => null, 'data' => trans_choice('pulsar::pulsar.label', 1)], (object)['class' => null, 'data' => trans('pulsar::pulsar.name')], (object)['class' => null, 'data' => trans('pulsar::pulsar.type')], (object)['class' => null, 'data' => trans_choice('pulsar::pulsar.size', 2)]],
-        'tbody'     => [
-                (object)['include' => 'pulsar::includes.html.form_text_group', 'properties' => ['label' => trans_choice('pulsar::pulsar.label', 1), 'name' => 'label', 'required' => true, 'maxLength' => '50', 'rangeLength' => '2,50']],
-                (object)['include' => 'pulsar::includes.html.form_text_group', 'properties' => ['label' => trans('pulsar::pulsar.name'), 'name' => 'name', 'required' => true, 'maxLength' => '15', 'rangeLength' => '2,15']],
-                (object)['include' => 'pulsar::includes.html.form_select_group', 'properties' => ['label' => trans('pulsar::pulsar.type'), 'name' => 'type', 'value' => Input::old('editor'), 'objects' => $types, 'idSelect' => 'id', 'nameSelect' => 'name', 'class' => 'form-control', 'fieldSize' => 5, 'required' => true]],
-                (object)['include' => 'pulsar::includes.html.form_text_group', 'properties' => ['label' => trans_choice('pulsar::pulsar.size', 1), 'name' => 'size', 'required' => true, 'maxLength' => '2', 'fieldSize' => 2, 'type' => 'number', 'min' => "1", 'max'=> "10"]],
-            ]
-        ])
+    @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.field_family', 1), 'name' => 'familyCustomField', 'value' => Input::old('familyCustomField'), 'objects' => $familiesCustomFields, 'idSelect' => 'id_025', 'nameSelect' => 'name_025', 'class' => 'form-control', 'fieldSize' => 5])
     <!-- /cms::article_family.create -->
 @stop
