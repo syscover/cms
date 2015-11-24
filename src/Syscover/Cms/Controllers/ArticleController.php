@@ -281,7 +281,7 @@ class ArticleController extends Controller {
         AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $object->id_355, $object->lang_355);
     }
 
-    public function deleteCustomRecords($request, $ids)
+    public function addToDeleteRecordsSelect($request, $ids)
     {
         $articles = Article::getRecordsById($ids);
 
