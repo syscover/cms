@@ -13,7 +13,9 @@
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Syscover\Pulsar\Controllers\Controller;
+use Syscover\Pulsar\Libraries\CustomFieldResultLibrary;
 use Syscover\Pulsar\Models\CustomField;
+use Syscover\Pulsar\Models\CustomFieldResult;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Pulsar\Models\AttachmentFamily;
 use Syscover\Pulsar\Libraries\AttachmentLibrary;
@@ -39,7 +41,7 @@ class ArticleController extends Controller {
 
     public function indexCustom($parameters)
     {
-        $parameters['urlParameters']['lang']    = session('baseLang');
+        $parameters['urlParameters']['lang']    = session('baseLang')->id_001;
         // init record on tap 1
         $parameters['urlParameters']['tab']     = 1;
 
@@ -153,7 +155,7 @@ class ArticleController extends Controller {
             $article->tags()->sync($idTags);
         }
 
-        // categories
+        // set categories
         if(is_array($request->input('categories')))
         {
             $article->categories()->sync($request->input('categories'));
@@ -162,40 +164,10 @@ class ArticleController extends Controller {
         // set attachments
         $attachments = json_decode($request->input('attachments'));
 
-        // custom fields
-        $customFieldFamily  = $article->family->customFieldFamily;
-        $customFields       = CustomField::getRecords(['lang_026' => $request->input('lang'), 'family_026' => $customFieldFamily->id_025]);
-        $customFieldResults = [];
-
-        foreach($customFields as $customField)
-        {
-            $customFieldResult = [
-                'object_028'        => $article->id_355,
-                'lang_028'          => $request->input('lang'),
-                'resource_028'      => 'cms-article-family',
-                'field_028'         => $customField->id_026,
-            ];
-
-            // get value and record in your field data type
-            if( config('pulsar.dataTypes')[$customField->data_type_026]->name == 'Integer' ||
-                config('pulsar.dataTypes')[$customField->data_type_026]->name == 'Text' ||
-                config('pulsar.dataTypes')[$customField->data_type_026]->name == 'Decimal' ||
-                config('pulsar.dataTypes')[$customField->data_type_026]->name == 'Timestamp')
-                $customFieldResult[config('pulsar.dataTypes')[$customField->data_type_026]->column] = $request->input($customField->name_026);
-
-            // get value and record in your field data type
-            if(config('pulsar.dataTypes')[$customField->data_type_026]->name == 'Boolean')
-                $customFieldResult[config('pulsar.dataTypes')[$customField->data_type_026]->column] = $request->has($customField->name_026);
-
-
-            $customFieldResults[]  = $customFieldResult;
-
-
-
-            //$html .= view(collect(config('pulsar.fieldTypes'))->keyBy('id')[$customField->field_type_026]->view, ['label' => $customField['label_026'], 'name' => $customField['name_026'], 'value' => null, 'fieldSize' => empty($customField['field_size_026'])? 10 : $customField['field_size_026']])->render();
-        }
-
         AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, $request->input('lang'));
+
+        // set custom fields
+        CustomFieldResultLibrary::storeCustomFieldResults($request, $article->family->custom_field_family_351, 'cms-article-family', $article->id_355, $request->input('lang'));
     }
 
     public function editCustomRecord($request, $parameters)
@@ -298,21 +270,27 @@ class ArticleController extends Controller {
         {
             $article->categories()->detach();
         }
+
+        // set custom fields
+        CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $article->id_355, $request->input('lang'));
+        CustomFieldResultLibrary::storeCustomFieldResults($request, $article->family->custom_field_family_351, 'cms-article-family', $article->id_355, $request->input('lang'));
     }
 
-    public function deleteCustomRecord($request, $object)
+    public function addToDeleteRecord($request, $object)
     {
         // delete object from all language
         $object->categories()->detach();
 
         // delete all attachments
         AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $object->id_355);
+        CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $object->id_355);
     }
 
     public function addToDeleteTranslationRecord($request, $object)
     {
         // delete all attachments from lang object
         AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $object->id_355, $object->lang_355);
+        CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $object->id_355, $object->lang_355);
     }
 
     public function addToDeleteRecordsSelect($request, $ids)
@@ -324,6 +302,7 @@ class ArticleController extends Controller {
             $article->categories()->detach();
 
             AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $article->id_355);
+            CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $article->id_355);
         }
     }
 
@@ -362,12 +341,38 @@ class ArticleController extends Controller {
 
     public function apiGetCustomFields(Request $request)
     {
-        $customFields = CustomField::getRecords(['lang_026' => $request->input('lang'), 'family_026' => $request->input('customFieldFamily')]);
+        // get custom fields
+        $customFields   = CustomField::getRecords(['lang_026' => $request->input('lang'), 'family_026' => $request->input('customFieldFamily')]);
+        $setValues      = false;
+        if($request->has('object'))
+        {
+            if($request->has('action') && $request->input('action') == 'create')
+                $langFieldResults = session('baseLang')->id_001;
+            else
+                $langFieldResults = $request->input('lang');
+
+            // get results if there is a object
+            $customFieldResults = CustomFieldResult::getRecords(['lang_028' => $langFieldResults, 'object_028' => $request->input('object'), 'resource_028' => $request->input('resource')])->keyBy('field_028');
+            $setValues = true;
+            $dataTypes = collect(config('pulsar.dataTypes'))->keyBy('id');
+        }
 
         $html = '';
         foreach($customFields as $customField)
         {
-            $html .= view(collect(config('pulsar.fieldTypes'))->keyBy('id')[$customField->field_type_026]->view, ['label' => $customField['label_026'], 'name' => $customField['name_026'], 'value' => null, 'fieldSize' => empty($customField['field_size_026'])? 10 : $customField['field_size_026']])->render();
+            if(collect(config('pulsar.fieldTypes'))->keyBy('id')[$customField->field_type_026]->view == 'pulsar::includes.html.form_select_group')
+            {
+                $customFieldValues = $customField->values;
+                $html .= view(collect(config('pulsar.fieldTypes'))->keyBy('id')[$customField->field_type_026]->view, ['label' => $customField['label_026'], 'name' => $customField['name_026'], 'value' => null, 'fieldSize' => empty($customField['field_size_026'])? 10 : $customField['field_size_026'], 'objects' => $customFieldValues, 'idSelect' => 'id_027', 'nameSelect' => 'name_027', 'required' => $customField->required_026, 'value' => $setValues? $customFieldResults[$customField->id_026]->{$dataTypes[$customField->data_type_026]->column} : null])->render();
+            }
+            elseif(collect(config('pulsar.fieldTypes'))->keyBy('id')[$customField->field_type_026]->view == 'pulsar::includes.html.form_checkbox_group')
+            {
+                $html .= view(collect(config('pulsar.fieldTypes'))->keyBy('id')[$customField->field_type_026]->view, ['label' => $customField['label_026'], 'name' => $customField['name_026'], 'fieldSize' => empty($customField['field_size_026'])? 10 : $customField['field_size_026'], 'required' => $customField->required_026, 'checked' => $setValues? $customFieldResults[$customField->id_026]->{$dataTypes[$customField->data_type_026]->column} : null])->render();
+            }
+            else
+            {
+                $html .= view(collect(config('pulsar.fieldTypes'))->keyBy('id')[$customField->field_type_026]->view, ['label' => $customField['label_026'], 'name' => $customField['name_026'], 'fieldSize' => empty($customField['field_size_026'])? 10 : $customField['field_size_026'], 'required' => $customField->required_026, 'value' => $setValues? $customFieldResults[$customField->id_026]->{$dataTypes[$customField->data_type_026]->column} : null])->render();
+            }
         }
 
         return response()->json([

@@ -119,39 +119,32 @@
                         if(hasProperty){ $('#headerContent').fadeIn(); }
 
                         // get html doing a request to controller to render the views
+                        @if($action == 'edit' || isset($id))
+                            var request =  {
+                                customFieldFamily: data.custom_field_family_351,
+                                lang:   '{{ $lang->id_001 }}',
+                                object: '{{ $id }}',
+                                resource: 'cms-article-family',
+                                action: '{{ $action }}'
+                            }
+                        @else
+                            var request =  {
+                                customFieldFamily: data.custom_field_family_351,
+                                lang: '{{ $lang->id_001 }}'
+                            }
+                        @endif
+
                         if(data.custom_field_family_351 != null){
                             $.ajax({
                                 dataType:   'json',
                                 type:       'POST',
                                 headers:    { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                                 url:        '{{ route('apiGetCustomFields') }}',
-                                data:       {
-                                    customFieldFamily: data.custom_field_family_351,
-                                    lang: '{{ $lang->id_001 }}'
-                                },
+                                data:       request,
                                 success:  function(data)
                                 {
-                                    console.log(data);
                                     // add html custom fields section
                                     $('#wrapperCustomFields').prepend(data.html);
-
-                                    // if is a edit or new article lang, load values from custom fields
-                                    @if($action == 'edit' || isset($id))
-                                    var dataObject = JSON.parse($('[name=dataObject]').val());
-                                    $.each(dataObject.customFields, function(index, customField){
-                                        if($("[name=" + customField.name + "]").length)
-                                        {
-                                            if(customField.type == "pulsar::includes.html.form_text_group")
-                                            {
-                                                $("[name=" + customField.name + "]").val(customField.value);
-                                            }
-                                            else if(customField.type == "pulsar::includes.html.form_checkbox_group")
-                                            {
-                                                $("[name=" + customField.name + "]").prop('checked', customField.value);
-                                            }
-                                        }
-                                    });
-                                    @endif
 
                                     if(data.html != '')
                                     {

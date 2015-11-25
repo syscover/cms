@@ -22,7 +22,7 @@
     @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.sorting'), 'name' => 'sorting', 'value' => 1, 'checked' => $data->sorting, 'fieldSize' => 4, 'inputs' => [
         ['label' => trans('cms::pulsar.tags'), 'name' => 'tags', 'value' => 1, 'checked' => $data->tags, 'fieldSize' => 4]
     ]])
-    @include('pulsar::includes.html.form_select_group', ['label' => trans('pulsar::pulsar.editor'), 'name' => 'editor', 'value' => $object->editor_type_351, 'objects' => $editors, 'idSelect' => 'id', 'nameSelect' => 'name', 'class' => 'form-control', 'fieldSize' => 5])
-    @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.field_family', 1), 'name' => 'familyCustomField', 'value' => $object->custom_field_family_351, 'objects' => $familiesCustomFields, 'idSelect' => 'id_025', 'nameSelect' => 'name_025', 'class' => 'form-control', 'fieldSize' => 5])
+    @include('pulsar::includes.html.form_select_group', ['label' => trans('pulsar::pulsar.editor'), 'name' => 'editor', 'value' => $object->editor_type_351, 'objects' => $editors, 'idSelect' => 'id', 'nameSelect' => 'name', 'fieldSize' => 5])
+    @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.field_family', 1), 'name' => 'familyCustomField', 'value' => $object->custom_field_family_351, 'objects' => $familiesCustomFields, 'idSelect' => 'id_025', 'nameSelect' => 'name_025', 'fieldSize' => 5])
     <!-- /cms::article_family.edit -->
 @stop
