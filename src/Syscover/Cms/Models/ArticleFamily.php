@@ -31,6 +31,11 @@ class ArticleFamily extends Model {
         return Validator::make($data, static::$rules);
 	}
 
+    public function customFieldFamily()
+    {
+        return $this->belongsTo('Syscover\Pulsar\Models\CustomFieldFamily', 'custom_field_family_351');
+    }
+
     public static function addToGetRecordsLimit()
     {
         $query =  ArticleFamily::leftJoin('001_025_field_family', '013_351_article_family.custom_field_family_351', '=', '001_025_field_family.id_025')

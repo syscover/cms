@@ -47,6 +47,11 @@ class Article extends Model {
         return $this->belongsTo('Syscover\Pulsar\Models\User', 'author_355');
     }
 
+    public function family()
+    {
+        return $this->belongsTo('Syscover\Cms\Models\ArticleFamily', 'family_355');
+    }
+
     public function attachments()
     {
         return $this->hasMany('Syscover\Pulsar\Models\Attachment','object_016')

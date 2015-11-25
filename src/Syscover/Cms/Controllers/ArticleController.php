@@ -162,6 +162,39 @@ class ArticleController extends Controller {
         // set attachments
         $attachments = json_decode($request->input('attachments'));
 
+        // custom fields
+        $customFieldFamily  = $article->family->customFieldFamily;
+        $customFields       = CustomField::getRecords(['lang_026' => $request->input('lang'), 'family_026' => $customFieldFamily->id_025]);
+        $customFieldResults = [];
+
+        foreach($customFields as $customField)
+        {
+            $customFieldResult = [
+                'object_028'        => $article->id_355,
+                'lang_028'          => $request->input('lang'),
+                'resource_028'      => 'cms-article-family',
+                'field_028'         => $customField->id_026,
+            ];
+
+            // get value and record in your field data type
+            if( config('pulsar.dataTypes')[$customField->data_type_026]->name == 'Integer' ||
+                config('pulsar.dataTypes')[$customField->data_type_026]->name == 'Text' ||
+                config('pulsar.dataTypes')[$customField->data_type_026]->name == 'Decimal' ||
+                config('pulsar.dataTypes')[$customField->data_type_026]->name == 'Timestamp')
+                $customFieldResult[config('pulsar.dataTypes')[$customField->data_type_026]->column] = $request->input($customField->name_026);
+
+            // get value and record in your field data type
+            if(config('pulsar.dataTypes')[$customField->data_type_026]->name == 'Boolean')
+                $customFieldResult[config('pulsar.dataTypes')[$customField->data_type_026]->column] = $request->has($customField->name_026);
+
+
+            $customFieldResults[]  = $customFieldResult;
+
+
+
+            //$html .= view(collect(config('pulsar.fieldTypes'))->keyBy('id')[$customField->field_type_026]->view, ['label' => $customField['label_026'], 'name' => $customField['name_026'], 'value' => null, 'fieldSize' => empty($customField['field_size_026'])? 10 : $customField['field_size_026']])->render();
+        }
+
         AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, $request->input('lang'));
     }
 
@@ -334,19 +367,8 @@ class ArticleController extends Controller {
         $html = '';
         foreach($customFields as $customField)
         {
-            $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => null, 'fieldSize' => $customField['size']])->render();
-
-
-            if($customField['type'] == 'pulsar::includes.html.form_text_group')
-            {
-                $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => null, 'fieldSize' => $customField['size']])->render();
-            }
-            elseif($customField['type'] == 'pulsar::includes.html.form_checkbox_group')
-            {
-                $html .= view($customField['type'], ['label' => $customField['label'], 'name' => $customField['name'],  'value' => 1, 'fieldSize' => $customField['size']])->render();
-            }
+            $html .= view(collect(config('pulsar.fieldTypes'))->keyBy('id')[$customField->field_type_026]->view, ['label' => $customField['label_026'], 'name' => $customField['name_026'], 'value' => null, 'fieldSize' => empty($customField['field_size_026'])? 10 : $customField['field_size_026']])->render();
         }
-
 
         return response()->json([
             'status'    => 'success',
