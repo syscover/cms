@@ -167,7 +167,7 @@ class ArticleController extends Controller {
         AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, $request->input('lang'));
 
         // set custom fields
-        CustomFieldResultLibrary::storeCustomFieldResults($request, $article->family->custom_field_family_351, 'cms-article-family', $article->id_355, $request->input('lang'));
+        CustomFieldResultLibrary::storeCustomFieldResults($request, $article->family->custom_field_group_351, 'cms-article-family', $article->id_355, $request->input('lang'));
     }
 
     public function editCustomRecord($request, $parameters)
@@ -273,7 +273,7 @@ class ArticleController extends Controller {
 
         // set custom fields
         CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $article->id_355, $request->input('lang'));
-        CustomFieldResultLibrary::storeCustomFieldResults($request, $article->family->custom_field_family_351, 'cms-article-family', $article->id_355, $request->input('lang'));
+        CustomFieldResultLibrary::storeCustomFieldResults($request, $article->family->custom_field_group_351, 'cms-article-family', $article->id_355, $request->input('lang'));
     }
 
     public function addToDeleteRecord($request, $object)

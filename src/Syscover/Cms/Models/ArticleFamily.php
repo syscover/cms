@@ -21,7 +21,7 @@ class ArticleFamily extends Model {
 	protected $table        = '013_351_article_family';
     protected $primaryKey   = 'id_351';
     public $timestamps      = false;
-    protected $fillable     = ['id_351', 'name_351', 'editor_type_351', 'custom_field_family_351', 'data_351'];
+    protected $fillable     = ['id_351', 'name_351', 'editor_type_351', 'custom_field_group_351', 'data_351'];
     private static $rules   = [
         'name'  => 'required|between:2,100'
     ];
@@ -31,14 +31,14 @@ class ArticleFamily extends Model {
         return Validator::make($data, static::$rules);
 	}
 
-    public function customFieldFamily()
+    public function customFieldGroup()
     {
-        return $this->belongsTo('Syscover\Pulsar\Models\CustomFieldFamily', 'custom_field_family_351');
+        return $this->belongsTo('Syscover\Pulsar\Models\CustomFieldGroup', 'custom_field_group_351');
     }
 
     public static function addToGetRecordsLimit()
     {
-        $query =  ArticleFamily::leftJoin('001_025_field_family', '013_351_article_family.custom_field_family_351', '=', '001_025_field_family.id_025')
+        $query =  ArticleFamily::leftJoin('001_025_field_group', '013_351_article_family.custom_field_group_351', '=', '001_025_field_group.id_025')
             ->newQuery();
 
         return $query;
@@ -46,7 +46,7 @@ class ArticleFamily extends Model {
 
     public static function showRecord()
     {
-        ArticleFamily::leftJoin('001_025_field_family', '013_351_article_family.custom_field_family_351', '=', '001_025_field_family.id_025')
+        ArticleFamily::leftJoin('001_025_field_group', '013_351_article_family.custom_field_group_351', '=', '001_025_field_group.id_025')
             ->get()
             ->first();
     }
