@@ -75,6 +75,7 @@ class Article extends Model {
     {
         $query =  Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')
             ->join('013_350_section', '013_355_article.section_355', '=', '013_350_section.id_350')
+            ->orderBy('id_355', 'desc')
             ->newQuery();
 
         if(isset($parameters['lang'])) $query->where('lang_355', $parameters['lang']);
