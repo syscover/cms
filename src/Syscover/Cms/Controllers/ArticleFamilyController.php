@@ -41,7 +41,7 @@ class ArticleFamilyController extends Controller {
         ArticleFamily::create([
             'name_351'                  => $request->input('name'),
             'editor_type_351'           => $request->input('editor', false),
-            'custom_field_group_351'   => $request->input('familyCustomField', null),
+            'custom_field_group_351'    => empty($request->input('familyCustomField'))? null : $request->input('familyCustomField'),
             'data_351'                  => json_encode([
                 'date'                  => $request->has('date'),
                 'title'                 => $request->has('title'),
@@ -67,7 +67,7 @@ class ArticleFamilyController extends Controller {
         ArticleFamily::where('id_351', $parameters['id'])->update([
             'name_351'                  => $request->input('name'),
             'editor_type_351'           => $request->input('editor'),
-            'custom_field_group_351'   => empty($request->input('familyCustomField'))? null : $request->input('familyCustomField'),
+            'custom_field_group_351'    => empty($request->input('familyCustomField'))? null : $request->input('familyCustomField'),
             'data_351'                  => json_encode([
                 'date'                  => $request->has('date'),
                 'title'                 => $request->has('title'),

@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Libraries\CustomFieldResultLibrary;
-use Syscover\Pulsar\Models\CustomField;
-use Syscover\Pulsar\Models\CustomFieldResult;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Pulsar\Models\AttachmentFamily;
 use Syscover\Pulsar\Libraries\AttachmentLibrary;
@@ -119,7 +117,7 @@ class ArticleController extends Controller {
             'section_355'       => $request->input('section'),
             'family_355'        => $request->has('family')? $request->input('family') : null,
             'status_355'        => $request->input('status'),
-            'publish_355'       => $request->has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i',$request->input('publish'))->getTimestamp() : (integer)date('U'),
+            'publish_355'       => $request->has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', $request->input('publish'))->getTimestamp() : (integer)date('U'),
             'publish_text_355'  => $request->has('publish')?  $request->input('publish'): date(config('pulsar.datePattern') . ' H:i'),
             'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), $request->input('date'))->getTimestamp(),
             'title_355'         => $request->input('title'),
