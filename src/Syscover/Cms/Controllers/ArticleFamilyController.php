@@ -31,7 +31,7 @@ class ArticleFamilyController extends Controller {
     public function createCustomRecord($request, $parameters)
     {
         $parameters['editors']              = config('cms.editors');
-        $parameters['familiesCustomFields'] = CustomFieldGroup::getRecords(['resource_025' => 'cms-article-family']);
+        $parameters['customFieldGroups']    = CustomFieldGroup::getRecords(['resource_025' => 'cms-article-family']);
 
         return $parameters;
     }
@@ -41,7 +41,7 @@ class ArticleFamilyController extends Controller {
         ArticleFamily::create([
             'name_351'                  => $request->input('name'),
             'editor_type_351'           => $request->input('editor', false),
-            'custom_field_group_351'    => empty($request->input('familyCustomField'))? null : $request->input('familyCustomField'),
+            'custom_field_group_351'    => empty($request->input('customFieldGroup'))? null : $request->input('customFieldGroup'),
             'data_351'                  => json_encode([
                 'date'                  => $request->has('date'),
                 'title'                 => $request->has('title'),
@@ -56,7 +56,7 @@ class ArticleFamilyController extends Controller {
     public function editCustomRecord($request, $parameters)
     {
         $parameters['editors']              = config('cms.editors');
-        $parameters['familiesCustomFields'] = CustomFieldGroup::getRecords(['resource_025' => 'cms-article-family']);
+        $parameters['customFieldGroups']    = CustomFieldGroup::getRecords(['resource_025' => 'cms-article-family']);
         $parameters['data']                 = json_decode($parameters['object']->data_351);
 
         return $parameters;
@@ -67,7 +67,7 @@ class ArticleFamilyController extends Controller {
         ArticleFamily::where('id_351', $parameters['id'])->update([
             'name_351'                  => $request->input('name'),
             'editor_type_351'           => $request->input('editor'),
-            'custom_field_group_351'    => empty($request->input('familyCustomField'))? null : $request->input('familyCustomField'),
+            'custom_field_group_351'    => empty($request->input('customFieldGroup'))? null : $request->input('customFieldGroup'),
             'data_351'                  => json_encode([
                 'date'                  => $request->has('date'),
                 'title'                 => $request->has('title'),

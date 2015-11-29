@@ -161,7 +161,6 @@ class ArticleController extends Controller {
 
         // set attachments
         $attachments = json_decode($request->input('attachments'));
-
         AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, $request->input('lang'));
 
         // set custom fields

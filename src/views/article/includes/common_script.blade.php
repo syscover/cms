@@ -211,18 +211,18 @@
         });
 
         // hide every elements
-        $('.wysiwyg-container').hide();
-        $('.contentbuilder-container').hide();
-        $('#headerContent').hide();
-        $('#dateContent').hide();
-        $('#titleContent').hide();
-        $('#slugContent').hide();
-        $('#sortingContent').hide();
-        $('#tagsContent').hide();
-        $('#categoriesContent').hide();
-        $('#wrapperCustomFields').hide();
+        $('.wysiwyg-container').hide()
+        $('.contentbuilder-container').hide()
+        $('#headerContent').hide()
+        $('#dateContent').hide()
+        $('#titleContent').hide()
+        $('#slugContent').hide()
+        $('#sortingContent').hide()
+        $('#tagsContent').hide()
+        $('#categoriesContent').hide()
 
-        $('#headerCustomFields').hide();
+        $('#headerCustomFields').hide()
+        $('#wrapperCustomFields').hide()
 
 
         // set tab active
