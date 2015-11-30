@@ -72,12 +72,12 @@ class Article extends Model {
 
     public function categories()
     {
-        return $this->belongsToMany('Syscover\Cms\Models\Category','013_356_articles_categories','article_356','category_356');
+        return $this->belongsToMany('Syscover\Cms\Models\Category', '013_356_articles_categories', 'article_356', 'category_356');
     }
 
     public function tags()
     {
-        return $this->belongsToMany('Syscover\Cms\Models\Tag','013_359_articles_tags','article_359','tag_359');
+        return $this->belongsToMany('Syscover\Cms\Models\Tag', '013_359_articles_tags', 'article_359', 'tag_359');
     }
 
     public static function addToGetRecordsLimit($parameters)
@@ -91,14 +91,6 @@ class Article extends Model {
         return $query;
     }
 
-//    public static function getTranslationRecord($parameters)
-//    {
-//        return Article::builder()
-//            ->where('id_355', $parameters['id'])
-//            ->where('lang_355', $parameters['lang'])
-//            ->first();
-//    }
-
     public static function getTranslationPublishArticles($parameters)
     {
         return Article::builder()
@@ -108,15 +100,5 @@ class Article extends Model {
             ->orderBy('sorting_355')
             ->orderBy('date_355', 'desc')
             ->get();
-    }
-
-    public static function getArticleBySlug($parameters)
-    {
-        return Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')
-            ->join('001_010_user', '013_355_article.author_355', '=', '001_010_user.id_010')
-            ->join('013_350_section', '013_355_article.section_355', '=', '013_350_section.id_350')
-            ->leftJoin('013_351_article_family', '013_355_article.family_355', '=', '013_351_article_family.id_351')
-            ->where('slug_355', $parameters['slug'])
-            ->first();
     }
 }
