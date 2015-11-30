@@ -1,7 +1,7 @@
 <?php namespace Syscover\Cms\Models;
 
 /**
- * @package	    Cms
+ * @package	    Syscover\Cms\Models
  * @author	    Jose Carlos Rodríguez Palacín
  * @copyright   Copyright (c) 2015, SYSCOVER, SL
  * @license
@@ -36,6 +36,15 @@ class Article extends Model {
 
         return Validator::make($data, static::$rules);
 	}
+
+    public function scopeBuilder()
+    {
+        return Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')
+            ->join('001_010_user', '013_355_article.author_355', '=', '001_010_user.id_010')
+            ->join('013_350_section', '013_355_article.section_355', '=', '013_350_section.id_350')
+            ->leftJoin('013_351_article_family', '013_355_article.family_355', '=', '013_351_article_family.id_351')
+            ->newQuery();
+    }
 
     public function lang()
     {
@@ -73,8 +82,7 @@ class Article extends Model {
 
     public static function addToGetRecordsLimit($parameters)
     {
-        $query =  Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')
-            ->join('013_350_section', '013_355_article.section_355', '=', '013_350_section.id_350')
+        $query =  Article::builder()
             ->orderBy('id_355', 'desc')
             ->newQuery();
 
@@ -83,23 +91,17 @@ class Article extends Model {
         return $query;
     }
 
-    public static function getTranslationRecord($parameters)
-    {
-        return Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')
-            ->join('001_010_user', '013_355_article.author_355', '=', '001_010_user.id_010')
-            ->join('013_350_section', '013_355_article.section_355', '=', '013_350_section.id_350')
-            ->leftJoin('013_351_article_family', '013_355_article.family_355', '=', '013_351_article_family.id_351')
-            ->where('id_355', $parameters['id'])
-            ->where('lang_355', $parameters['lang'])
-            ->first();
-    }
+//    public static function getTranslationRecord($parameters)
+//    {
+//        return Article::builder()
+//            ->where('id_355', $parameters['id'])
+//            ->where('lang_355', $parameters['lang'])
+//            ->first();
+//    }
 
     public static function getTranslationPublishArticles($parameters)
     {
-        return Article::join('001_001_lang', '013_355_article.lang_355', '=', '001_001_lang.id_001')
-            ->join('001_010_user', '013_355_article.author_355', '=', '001_010_user.id_010')
-            ->join('013_350_section', '013_355_article.section_355', '=', '013_350_section.id_350')
-            ->leftJoin('013_351_article_family', '013_355_article.family_355', '=', '013_351_article_family.id_351')
+        return Article::builder()
             ->where('lang_355', $parameters['lang'])
             ->where('publish_355', '<' , date('U'))
             ->where('status_355', 1)

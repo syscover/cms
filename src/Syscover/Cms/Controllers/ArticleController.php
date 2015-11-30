@@ -234,6 +234,11 @@ class ArticleController extends Controller {
 
         $article = Article::getTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
 
+        $article = Article::builder()
+            ->where('id_355', $parameters['id'])
+            ->where('lang_355', $parameters['lang'])
+            ->first();
+
         // tags
         $tags = json_decode($request->input('jsonTags'));
         if(is_array($tags) && count($tags) > 0)
