@@ -2,9 +2,9 @@
 
 use Syscover\Pulsar\Models\Model;
 use Illuminate\Support\Facades\Validator;
+use Syscover\Pulsar\Traits\TraitModel;
 use Sofa\Eloquence\Eloquence;
 use Sofa\Eloquence\Mappable;
-use Syscover\Pulsar\Models\User;
 
 /**
  * Class Article
@@ -15,8 +15,9 @@ use Syscover\Pulsar\Models\User;
  * @package     Syscover\Cms\Models
  */
 
-class Article extends Model {
-
+class Article extends Model
+{
+    use TraitModel;
     use Eloquence, Mappable;
 
 	protected $table        = '013_355_article';
@@ -103,22 +104,22 @@ class Article extends Model {
             ->leftJoin('013_351_article_family', '013_355_article.family_355', '=', '013_351_article_family.id_351');
     }
 
-    public function lang()
+    public function getLang()
     {
         return $this->belongsTo('Syscover\Pulsar\Models\Lang', 'lang_355');
     }
 
-    public function author()
+    public function getAuthor()
     {
         return $this->belongsTo('Syscover\Pulsar\Models\User', 'author_355');
     }
 
-    public function family()
+    public function getFamily()
     {
         return $this->belongsTo('Syscover\Cms\Models\ArticleFamily', 'family_355');
     }
 
-    public function attachments()
+    public function getAttachments()
     {
         return $this->hasMany('Syscover\Pulsar\Models\Attachment','object_016')
             ->where('001_016_attachment.lang_016', $this->lang_355)
@@ -127,12 +128,12 @@ class Article extends Model {
             ->orderBy('001_016_attachment.sorting_016');
     }
 
-    public function categories()
+    public function getCategories()
     {
         return $this->belongsToMany('Syscover\Cms\Models\Category', '013_356_articles_categories', 'article_356', 'category_356');
     }
 
-    public function tags()
+    public function getTags()
     {
         return $this->belongsToMany('Syscover\Cms\Models\Tag', '013_359_articles_tags', 'article_359','tag_359');
     }

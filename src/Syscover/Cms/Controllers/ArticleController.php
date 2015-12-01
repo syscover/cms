@@ -12,7 +12,6 @@
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
-use Syscover\Cms\Models\ArticlesCategories;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Libraries\CustomFieldResultLibrary;
 use Syscover\Pulsar\Traits\TraitController;
@@ -174,7 +173,7 @@ class ArticleController extends Controller {
         $parameters['sections']             = Section::all();
         $parameters['families']             = ArticleFamily::all();
         $parameters['tags']                 = [];
-        $tags                               = Tag::getTranslationsRecords($parameters['lang']->id_001);
+        $tags                               = Tag::getTranslationsRecords($parameters['object']->lang_id);
         foreach($tags as $tag)
         {
             $parameters['tags'][] = [
@@ -192,14 +191,14 @@ class ArticleController extends Controller {
             ];
         }
 
-        $parameters['categories']           = Category::getTranslationsRecords($parameters['lang']->id_001);
+        $parameters['categories']           = Category::getTranslationsRecords($parameters['object']->lang_id);
         $parameters['statuses']             = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
 
         // get attachments elements
-        $attachments = AttachmentLibrary::getRecords('cms', 'cms-article', $parameters['object']->id_355, $parameters['lang']->id_001);
+        $attachments = AttachmentLibrary::getRecords('cms', 'cms-article', $parameters['object']->id_355, $parameters['object']->lang_id);
 
         // merge parameters and attachments array
         $parameters['attachmentFamilies']   = AttachmentFamily::getAttachmentFamilies(['resource_015' => 'cms-article']);
@@ -317,8 +316,7 @@ class ArticleController extends Controller {
     {
         $slug = $request->input('slug');
         $query = Article::where('lang_355', $request->input('lang'))
-            ->where('slug_355', $slug)
-            ->newQuery();
+            ->where('slug_355', $slug);
 
         if($request->input('id'))
         {

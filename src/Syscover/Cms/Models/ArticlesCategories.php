@@ -2,6 +2,7 @@
 
 use Syscover\Pulsar\Models\Model;
 use Illuminate\Support\Facades\Validator;
+use Syscover\Pulsar\Traits\TraitModel;
 use Sofa\Eloquence\Eloquence;
 use Sofa\Eloquence\Mappable;
 
@@ -14,8 +15,9 @@ use Sofa\Eloquence\Mappable;
  * @package     Syscover\Cms\Models
  */
 
-class ArticlesCategories extends Model {
-
+class ArticlesCategories extends Model
+{
+    use TraitModel;
     use Eloquence, Mappable;
 
 	protected $table        = '013_356_articles_categories';
