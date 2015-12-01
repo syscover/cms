@@ -1,22 +1,22 @@
 <?php namespace Syscover\Cms\Models;
 
-/**
- * @package	    Syscover\Cms\Models
- * @author	    Jose Carlos Rodríguez Palacín
- * @copyright   Copyright (c) 2015, SYSCOVER, SL
- * @license
- * @link		http://www.syscover.com
- * @since		Version 2.0
- * @filesource
- */
-
-use Illuminate\Database\Eloquent\Model;
+use Syscover\Pulsar\Models\Model;
 use Illuminate\Support\Facades\Validator;
-use Syscover\Pulsar\Traits\TraitModel;
+use Sofa\Eloquence\Eloquence;
+use Sofa\Eloquence\Mappable;
+
+/**
+ * Class Article
+ *
+ * Model with properties
+ * <br><b>[id, lang, section, family, author, date, publish, publish_text, status, title, slug, sorting, article, data_lan, data]</b>
+ *
+ * @package     Syscover\Cms\Models
+ */
 
 class Article extends Model {
 
-    use TraitModel;
+    use Eloquence, Mappable;
 
 	protected $table        = '013_355_article';
     protected $primaryKey   = 'id_355';
@@ -24,6 +24,23 @@ class Article extends Model {
     public $timestamps      = false;
     public $incrementing    = false;
     protected $fillable     = ['id_355', 'lang_355', 'section_355', 'family_355', 'author_355', 'date_355', 'publish_355', 'publish_text_355', 'status_355', 'title_355', 'slug_355', 'sorting_355', 'article_355', 'data_lang_355', 'data_355'];
+    protected $maps = [
+        'id'                => 'id_351',
+        'lang'              => 'lang_355',
+        'section'           => 'section_355',
+        'family'            => 'family_355',
+        'author'            => 'author_355',
+        'date'              => 'date_355',
+        'publish'           => 'publish_355',
+        'publish_text'      => 'publish_text_355',
+        'status'            => 'status_355',
+        'title'             => 'title_355',
+        'slug'              => 'slug_355',
+        'sorting'           => 'sorting_355',
+        'article'           => 'article_355',
+        'data_lan'          => 'data_lang_355',
+        'data'              => 'data_355',
+    ];
     private static $rules   = [
         'title'     => 'between:2,510',
         'section'   => 'required',
@@ -77,7 +94,7 @@ class Article extends Model {
 
     public function tags()
     {
-        return $this->belongsToMany('Syscover\Cms\Models\Tag', '013_359_articles_tags', 'article_359', 'tag_359');
+        return $this->belongsToMany('Syscover\Cms\Models\Tag', '013_359_articles_tags', 'article_359','tag_359');
     }
 
     public static function addToGetRecordsLimit($parameters)

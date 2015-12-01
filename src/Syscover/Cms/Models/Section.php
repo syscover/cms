@@ -1,27 +1,32 @@
 <?php namespace Syscover\Cms\Models;
 
-/**
- * @package	    Pulsar
- * @author	    Jose Carlos Rodríguez Palacín
- * @copyright   Copyright (c) 2015, SYSCOVER, SL
- * @license
- * @link		http://www.syscover.com
- * @since		Version 2.0
- * @filesource
- */
-
-use Illuminate\Database\Eloquent\Model;
+use Syscover\Pulsar\Models\Model;
 use Illuminate\Support\Facades\Validator;
-use Syscover\Pulsar\Traits\TraitModel;
+use Sofa\Eloquence\Eloquence;
+use Sofa\Eloquence\Mappable;
+
+/**
+ * Class Section
+ *
+ * Model with properties
+ * <br><b>[id, name, article_family]</b>
+ *
+ * @package     Syscover\Cms\Models
+ */
 
 class Section extends Model {
 
-    use TraitModel;
+    use Eloquence, Mappable;
 
 	protected $table        = '013_350_section';
     protected $primaryKey   = 'id_350';
     public $timestamps      = false;
     protected $fillable     = ['id_350', 'name_350', 'article_family_350'];
+    protected $maps = [
+        'id'                => 'id_350',
+        'name'              => 'name_350',
+        'article_family'    => 'article_family_350',
+    ];
     private static $rules   = [
         'id'    => 'required|between:2,30|unique:013_350_section,id_350',
         'name'  => 'required|between:2,50'
