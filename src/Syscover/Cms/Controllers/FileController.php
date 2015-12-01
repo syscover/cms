@@ -1,19 +1,14 @@
 <?php namespace Syscover\Cms\Controllers;
 
-/**
- * @package	    Cms
- * @author	    Jose Carlos Rodríguez Palacín
- * @copyright   Copyright (c) 2015, SYSCOVER, SL
- * @license
- * @link		http://www.syscover.com
- * @since		Version 2.0
- * @filesource
- */
-
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\File as FileFacade;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Libraries\Miscellaneous;
+
+/**
+ * Class FileController
+ * @package Syscover\Cms\Controllers
+ */
 
 class FileController extends Controller {
 

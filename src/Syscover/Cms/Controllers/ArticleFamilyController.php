@@ -1,19 +1,14 @@
 <?php namespace Syscover\Cms\Controllers;
 
-/**
- * @package	    Cms
- * @author	    Jose Carlos Rodríguez Palacín
- * @copyright   Copyright (c) 2015, SYSCOVER, SL
- * @license
- * @link		http://www.syscover.com
- * @since		Version 2.0
- * @filesource
- */
-
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Models\CustomFieldGroup;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\ArticleFamily;
+
+/**
+ * Class ArticleFamilyController
+ * @package Syscover\Cms\Controllers
+ */
 
 class ArticleFamilyController extends Controller {
 
@@ -24,7 +19,7 @@ class ArticleFamilyController extends Controller {
     protected $package      = 'cms';
     protected $aColumns     = ['id_351', 'name_351', 'name_025'];
     protected $nameM        = 'name_351';
-    protected $model        = '\Syscover\Cms\Models\ArticleFamily';
+    protected $model        = \Syscover\Cms\Models\ArticleFamily::class;
     protected $icon         = 'fa fa-align-justify';
     protected $objectTrans  = 'article_family';
 

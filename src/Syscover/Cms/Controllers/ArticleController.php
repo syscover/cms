@@ -1,15 +1,5 @@
 <?php namespace Syscover\Cms\Controllers;
 
-/**
- * @package	    Cms
- * @author	    Jose Carlos Rodríguez Palacín
- * @copyright   Copyright (c) 2015, SYSCOVER, SL
- * @license
- * @link		http://www.syscover.com
- * @since		Version 2.0
- * @filesource
- */
-
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Syscover\Pulsar\Controllers\Controller;
@@ -23,6 +13,10 @@ use Syscover\Cms\Models\Section;
 use Syscover\Cms\Models\ArticleFamily;
 use Syscover\Cms\Models\Article;
 
+/**
+ * Class ArticleController
+ * @package Syscover\Cms\Controllers
+ */
 
 class ArticleController extends Controller {
 
@@ -33,7 +27,7 @@ class ArticleController extends Controller {
     protected $package      = 'cms';
     protected $aColumns     = ['id_355', 'publish_355', 'publish_text_355', 'name_001', 'name_350', 'title_355'];
     protected $nameM        = 'name_355';
-    protected $model        = '\Syscover\Cms\Models\Article';
+    protected $model        = \Syscover\Cms\Models\Article::class;
     protected $icon         = 'fa fa-file-text-o';
     protected $objectTrans  = 'article';
 

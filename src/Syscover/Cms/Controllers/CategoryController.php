@@ -1,18 +1,13 @@
 <?php namespace Syscover\Cms\Controllers;
 
-/**
- * @package	    Cms
- * @author	    Jose Carlos Rodríguez Palacín
- * @copyright   Copyright (c) 2015, SYSCOVER, SL
- * @license
- * @link		http://www.syscover.com
- * @since		Version 2.0
- * @filesource
- */
-
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\Category;
+
+/**
+ * Class CategoryController
+ * @package Syscover\Cms\Controllers
+ */
 
 class CategoryController extends Controller {
 
@@ -23,7 +18,7 @@ class CategoryController extends Controller {
     protected $package      = 'cms';
     protected $aColumns     = ['id_352', 'name_001', 'name_352'];
     protected $nameM        = 'name_352';
-    protected $model        = '\Syscover\Cms\Models\Category';
+    protected $model        = \Syscover\Cms\Models\Category::class;
     protected $icon         = 'fa fa-list-ol';
     protected $objectTrans  = 'category';
 

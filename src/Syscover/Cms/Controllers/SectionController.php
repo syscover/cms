@@ -1,19 +1,14 @@
 <?php namespace Syscover\Cms\Controllers;
 
-/**
- * @package	    Cms
- * @author	    Jose Carlos Rodríguez Palacín
- * @copyright   Copyright (c) 2015, SYSCOVER, SL
- * @license
- * @link		http://www.syscover.com
- * @since		Version 2.0
- * @filesource
- */
-
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\ArticleFamily;
 use Syscover\Cms\Models\Section;
+
+/**
+ * Class SectionController
+ * @package Syscover\Cms\Controllers
+ */
 
 class SectionController extends Controller {
 
@@ -24,7 +19,7 @@ class SectionController extends Controller {
     protected $package      = 'cms';
     protected $aColumns     = ['id_350', 'name_350', 'name_351'];
     protected $nameM        = 'name_350';
-    protected $model        = '\Syscover\Cms\Models\Section';
+    protected $model        = \Syscover\Cms\Models\Section::class;
     protected $icon         = 'sys-icon-magnet';
     protected $objectTrans  = 'section';
 

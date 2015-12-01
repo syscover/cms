@@ -1,17 +1,12 @@
 <?php namespace Syscover\Cms\Controllers;
 
-/**
- * @package	    Cms
- * @author	    Jose Carlos Rodríguez Palacín
- * @copyright   Copyright (c) 2015, SYSCOVER, SL
- * @license
- * @link		http://www.syscover.com
- * @since		Version 2.0
- * @filesource
- */
-
 use Syscover\Cms\Models\Tag;
 use Syscover\Pulsar\Traits\TraitController;
+
+/**
+ * Class TagController
+ * @package Syscover\Cms\Controllers
+ */
 
 class TagController extends Controller {
 
@@ -22,7 +17,7 @@ class TagController extends Controller {
     protected $package      = 'cms';
     protected $aColumns     = ['id_038', 'name_002', 'name_038'];
     protected $nameM        = 'name_038';
-    protected $model        = '\Syscover\Cms\Models\Tag';
+    protected $model        = \Syscover\Cms\Models\Tag::class;
     protected $icon         = 'cut-icon-grid';
     protected $objectTrans  = 'tag';
 
