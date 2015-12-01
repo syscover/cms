@@ -22,15 +22,10 @@ class ArticleFamily extends Model
 
 	protected $table        = '013_351_article_family';
     protected $primaryKey   = 'id_351';
+    protected $suffix       = '351';
     public $timestamps      = false;
     protected $fillable     = ['id_351', 'name_351', 'editor_type_351', 'custom_field_group_351', 'data_351'];
-    protected $maps = [
-        'id'                    => 'id_351',
-        'name'                  => 'name_351',
-        'editor_type'           => 'editor_type_351',
-        'custom_field_group'    => 'custom_field_group_351',
-        'data'                  => 'data_351',
-    ];
+    protected $maps         = [];
     private static $rules   = [
         'name'  => 'required|between:2,100'
     ];
@@ -40,7 +35,7 @@ class ArticleFamily extends Model
         return Validator::make($data, static::$rules);
 	}
 
-    public function customFieldGroup()
+    public function getCustomFieldGroup()
     {
         return $this->belongsTo('Syscover\Pulsar\Models\CustomFieldGroup', 'custom_field_group_351');
     }

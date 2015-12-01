@@ -22,17 +22,10 @@ class Category extends Model
 
 	protected $table        = '013_352_category';
     protected $primaryKey   = 'id_352';
-    protected $sufix        = '352';
+    protected $suffix       = '352';
     public $timestamps      = false;
     protected $fillable     = ['id_352', 'lang_352', 'name_352', 'sorting_352', 'data_lang_352', 'data_352'];
-    protected $maps = [
-        'id'                => 'id_352',
-        'lang'              => 'lang_352',
-        'name'              => 'name_352',
-        'sorting'           => 'sorting_352',
-        'data_lang'         => 'data_lang_352',
-        'data'              => 'data_352',
-    ];
+    protected $maps         = [];
     private static $rules   = [
         'name'  => 'required|between:2,100'
     ];
@@ -42,14 +35,19 @@ class Category extends Model
         return Validator::make($data, static::$rules);
 	}
 
-    public function lang()
+    public function scopeBuilder($query)
+    {
+        return $query->join('001_001_lang', '013_352_category.lang_352', '=', '001_001_lang.id_001');
+    }
+
+    public function getLang()
     {
         return $this->belongsTo('Syscover\Pulsar\Models\Lang', 'lang_352');
     }
 
     public static function addToGetRecordsLimit($parameters)
     {
-        $query =  Category::join('001_001_lang', '013_352_category.lang_352', '=', '001_001_lang.id_001');
+        $query =  Category::builder();
 
         if(isset($parameters['lang'])) $query->where('lang_352', $parameters['lang']);
 

@@ -22,13 +22,10 @@ class ArticlesCategories extends Model
 
 	protected $table        = '013_356_articles_categories';
     protected $primaryKey   = 'article_356';
-    protected $sufix        = '356';
+    protected $suffix       = '356';
     public $timestamps      = false;
     protected $fillable     = ['article_356', 'category_356'];
-    protected $maps = [
-        'article'           => 'article_356',
-        'category'          => 'category_356',
-    ];
+    protected $maps         = [];
     private static $rules   = [];
 
     public static function validate($data)

@@ -22,14 +22,10 @@ class Tag extends Model
 
 	protected $table        = '013_358_tag';
     protected $primaryKey   = 'id_358';
-    protected $sufix        = '358';
+    protected $suffix       = '358';
     public $timestamps      = false;
     protected $fillable     = ['id_358', 'lang_358', 'name_358'];
-    protected $maps = [
-        'id'                => 'id_358',
-        'lang'              => 'lang_358',
-        'name'              => 'name_358',
-    ];
+    protected $maps         = [];
     private static $rules   = [
         'name'  => 'required|between:1,100'
     ];
@@ -39,7 +35,7 @@ class Tag extends Model
         return Validator::make($data, static::$rules);
 	}
 
-    public function lang()
+    public function getLang()
     {
         return $this->belongsTo('Syscover\Pulsar\Models\Lang', 'lang_358');
     }

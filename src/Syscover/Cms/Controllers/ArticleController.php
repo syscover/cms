@@ -33,6 +33,8 @@ class ArticleController extends Controller {
 
     public function indexCustom($parameters)
     {
+        $article = Article::getTranslationRecord(['id' => 8, 'lang' => 'es']);
+
         $parameters['urlParameters']['lang']    = session('baseLang')->id_001;
         // init record on tap 1
         $parameters['urlParameters']['tab']     = 1;
@@ -122,6 +124,9 @@ class ArticleController extends Controller {
             'data_355'          => null
         ]);
 
+        // get object with builder, to get every relations
+        $article = Article::getTranslationRecord(['id' => $article->id_355, 'lang' => $article->lang_355]);
+
         // tags
         $tags = json_decode($request->input('jsonTags'));
         if(is_array($tags) && count($tags) > 0)
@@ -144,13 +149,13 @@ class ArticleController extends Controller {
                 }
             }
 
-            $article->tags()->sync($idTags);
+            $article->getTags()->sync($idTags);
         }
 
         // set categories
         if(is_array($request->input('categories')))
         {
-            $article->categories()->sync($request->input('categories'));
+            $article->getCategories()->sync($request->input('categories'));
         }
 
         // set attachments
@@ -158,8 +163,8 @@ class ArticleController extends Controller {
         AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, $request->input('lang'));
 
         // set custom fields
-        if($article->family->custom_field_group_351 !== null)
-            CustomFieldResultLibrary::storeCustomFieldResults($request, $article->family->custom_field_group_351, 'cms-article-family', $article->id_355, $request->input('lang'));
+        if($article->custom_field_group_351 !== null)
+            CustomFieldResultLibrary::storeCustomFieldResults($request, $article->custom_field_group_351, 'cms-article-family', $article->id_355, $request->input('lang'));
     }
 
     public function editCustomRecord($request, $parameters)
@@ -175,7 +180,7 @@ class ArticleController extends Controller {
                 'label' => $tag->name_358
             ];
         }
-        $objectTags = $parameters['object']->tags;
+        $objectTags = $parameters['object']->getTags;
         $parameters['selectTags'] = [];
         foreach($objectTags as $objectTag)
         {
@@ -228,11 +233,6 @@ class ArticleController extends Controller {
 
         $article = Article::getTranslationRecord(['id' => $parameters['id'], 'lang' => $parameters['lang']]);
 
-        $article = Article::builder()
-            ->where('id_355', $parameters['id'])
-            ->where('lang_355', $parameters['lang'])
-            ->first();
-
         // tags
         $tags = json_decode($request->input('jsonTags'));
         if(is_array($tags) && count($tags) > 0)
@@ -261,18 +261,18 @@ class ArticleController extends Controller {
         // categories
         if(is_array($request->input('categories')))
         {
-            $article->categories()->sync($request->input('categories'));
+            $article->getCategories()->sync($request->input('categories'));
         }
         else
         {
-            $article->categories()->detach();
+            $article->getCategories()->detach();
         }
 
         // set custom fields
-        if($article->family->custom_field_group_351 !== null)
+        if($article->custom_field_group_351 !== null)
         {
             CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $article->id_355, $request->input('lang'));
-            CustomFieldResultLibrary::storeCustomFieldResults($request, $article->family->custom_field_group_351, 'cms-article-family', $article->id_355, $request->input('lang'));
+            CustomFieldResultLibrary::storeCustomFieldResults($request, $article->custom_field_group_351, 'cms-article-family', $article->id_355, $request->input('lang'));
         }
     }
 
@@ -321,11 +321,11 @@ class ArticleController extends Controller {
 
         if($nObjects > 0)
         {
-            $sufix = 0;
+            $suffix = 0;
             while($nObjects > 0)
             {
-                $sufix++;
-                $slug = $request->input('slug') . '-' . $sufix;
+                $suffix++;
+                $slug = $request->input('slug') . '-' . $suffix;
                 $nObjects = Article::where('lang_355', $request->input('lang'))
                     ->where('slug_355', $slug)
                     ->count();

@@ -22,13 +22,10 @@ class Section extends Model
 
 	protected $table        = '013_350_section';
     protected $primaryKey   = 'id_350';
+    protected $suffix       = '350';
     public $timestamps      = false;
     protected $fillable     = ['id_350', 'name_350', 'article_family_350'];
-    protected $maps = [
-        'id'                => 'id_350',
-        'name'              => 'name_350',
-        'article_family'    => 'article_family_350',
-    ];
+    protected $maps         = [];
     private static $rules   = [
         'id'    => 'required|between:2,30|unique:013_350_section,id_350',
         'name'  => 'required|between:2,50'
