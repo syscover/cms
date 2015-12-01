@@ -26,6 +26,7 @@ class Section extends Model
     public $timestamps      = false;
     protected $fillable     = ['id_350', 'name_350', 'article_family_350'];
     protected $maps         = [];
+    protected $relationMaps = [];
     private static $rules   = [
         'id'    => 'required|between:2,30|unique:013_350_section,id_350',
         'name'  => 'required|between:2,50'

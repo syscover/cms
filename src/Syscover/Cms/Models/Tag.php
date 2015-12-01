@@ -26,6 +26,7 @@ class Tag extends Model
     public $timestamps      = false;
     protected $fillable     = ['id_358', 'lang_358', 'name_358'];
     protected $maps         = [];
+    protected $relationMaps = [];
     private static $rules   = [
         'name'  => 'required|between:1,100'
     ];

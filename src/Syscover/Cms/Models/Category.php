@@ -26,6 +26,9 @@ class Category extends Model
     public $timestamps      = false;
     protected $fillable     = ['id_352', 'lang_352', 'name_352', 'sorting_352', 'data_lang_352', 'data_352'];
     protected $maps         = [];
+    protected $relationMaps = [
+        'lang'  => \Syscover\Pulsar\Models\Lang::class
+    ];
     private static $rules   = [
         'name'  => 'required|between:2,100'
     ];
