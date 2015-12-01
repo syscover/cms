@@ -45,8 +45,7 @@ class ArticleFamily extends Model {
 
     public static function addToGetRecordsLimit()
     {
-        $query =  ArticleFamily::leftJoin('001_025_field_group', '013_351_article_family.custom_field_group_351', '=', '001_025_field_group.id_025')
-            ->newQuery();
+        $query =  ArticleFamily::leftJoin('001_025_field_group', '013_351_article_family.custom_field_group_351', '=', '001_025_field_group.id_025');
 
         return $query;
     }

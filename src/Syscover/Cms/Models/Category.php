@@ -47,7 +47,7 @@ class Category extends Model {
 
     public static function addToGetRecordsLimit($parameters)
     {
-        $query =  Category::join('001_001_lang', '013_352_category.lang_352', '=', '001_001_lang.id_001')->newQuery();
+        $query =  Category::join('001_001_lang', '013_352_category.lang_352', '=', '001_001_lang.id_001');
 
         if(isset($parameters['lang'])) $query->where('lang_352', $parameters['lang']);
 

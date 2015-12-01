@@ -12,6 +12,7 @@
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Syscover\Cms\Models\ArticlesCategories;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Libraries\CustomFieldResultLibrary;
 use Syscover\Pulsar\Traits\TraitController;

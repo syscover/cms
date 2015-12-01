@@ -36,7 +36,6 @@ class ArticlesCategories extends Model {
 
     public function scopeBuilder()
     {
-        return ArticlesCategories::join('013_352_category', '013_356_articles_categories.category_356', '=', '013_352_category.id_352')
-            ->newQuery();
+        return ArticlesCategories::join('013_352_category', '013_356_articles_categories.category_356', '=', '013_352_category.id_352');
     }
 }

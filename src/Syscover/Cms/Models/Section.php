@@ -41,7 +41,7 @@ class Section extends Model {
 
     public static function addToGetRecordsLimit($parameters)
     {
-        $query =  Section::leftJoin('013_351_article_family', '013_350_section.article_family_350', '=', '013_351_article_family.id_351')->newQuery();
+        $query =  Section::leftJoin('013_351_article_family', '013_350_section.article_family_350', '=', '013_351_article_family.id_351');
 
         return $query;
     }
