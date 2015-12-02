@@ -33,8 +33,6 @@ class ArticleController extends Controller {
 
     public function indexCustom($parameters)
     {
-        $article = Article::getTranslationRecord(['id' => 8, 'lang' => 'es']);
-
         $parameters['urlParameters']['lang']    = session('baseLang')->id_001;
         // init record on tap 1
         $parameters['urlParameters']['tab']     = 1;
