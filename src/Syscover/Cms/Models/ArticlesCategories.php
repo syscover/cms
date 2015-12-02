@@ -27,7 +27,7 @@ class ArticlesCategories extends Model
     protected $fillable     = ['article_356', 'category_356'];
     protected $maps         = [];
     protected $relationMaps = [
-        'custom_field_group'  => \Syscover\Cms\Models\Category::class
+        'category'  => \Syscover\Cms\Models\Category::class
     ];
     private static $rules   = [];
 
