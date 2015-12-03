@@ -297,7 +297,7 @@ class ArticleController extends Controller {
 
         foreach($articles as $article)
         {
-            $article->categories()->detach();
+            $article->getCategories()->detach();
 
             AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $article->id_355);
             CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $article->id_355);
