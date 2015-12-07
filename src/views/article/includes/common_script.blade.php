@@ -143,8 +143,8 @@
                                 data:       request,
                                 success:  function(data)
                                 {
-                                    // add html custom fields section
-                                    $('#wrapperCustomFields').prepend(data.html);
+                                    // set html custom fields section
+                                    $('#wrapperCustomFields').html(data.html);
 
                                     if(data.html != '')
                                     {
