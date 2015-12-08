@@ -36,7 +36,6 @@ Route::group(['middleware' => ['auth.pulsar','permission.pulsar','locale.pulsar'
     Route::get(config('pulsar.appName') . '/cms/articles/delete/translation/{lang}/{id}/{offset}/{tab}', ['as'=>'deleteTranslationCmsArticle',    'uses'=>'Syscover\Cms\Controllers\ArticleController@deleteTranslationRecord',    'resource' => 'cms-article',        'action' => 'delete']);
     Route::delete(config('pulsar.appName') . '/cms/articles/delete/select/records/{lang}',               ['as'=>'deleteSelectCmsArticle',         'uses'=>'Syscover\Cms\Controllers\ArticleController@deleteRecordsSelect',        'resource' => 'cms-article',        'action' => 'delete']);
     Route::post(config('pulsar.appName') . '/cms/articles/check/article/slug',                           ['as'=>'apiCheckSlugCmsArticle',         'uses'=>'Syscover\Cms\Controllers\ArticleController@apiCheckSlug',               'resource' => 'cms-article',        'action' => 'access']);
-    Route::post(config('pulsar.appName') . '/cms/articles/get/custom/fields',                            ['as'=>'apiGetCustomFields',             'uses'=>'Syscover\Cms\Controllers\ArticleController@apiGetCustomFields',         'resource' => 'cms-article',        'action' => 'access']);
 
     /*
     |--------------------------------------------------------------------------

@@ -1,6 +1,5 @@
 <?php namespace Syscover\Cms\Controllers;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Libraries\CustomFieldResultLibrary;
@@ -334,10 +333,5 @@ class ArticleController extends Controller {
             'status'    => 'success',
             'slug'      => $slug
         ]);
-    }
-
-    public function apiGetCustomFields(Request $request)
-    {
-        return CustomFieldResultLibrary::apiGetCustomFields($request);
     }
 }
