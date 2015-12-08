@@ -115,7 +115,7 @@
     @include('pulsar::includes.html.form_contentbuilder_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'contentbuilder', 'package' => 'cms', 'theme' => 'default', 'value' => Input::old('article', isset($object->article_355)? $object->article_355 : null), 'labelSize' => 2, 'fieldSize' => 10])
     <textarea name="article" class="hidden">{{ Input::old('article', isset($object->article_355)? $object->article_355 : null) }}</textarea>
 
-    @include('pulsar::includes.html.form_section_header', ['label' => trans_choice('pulsar::pulsar.custom_fields', 2), 'icon' => 'fa fa-align-left', 'containerId' => 'headerCustomFields'])
+    @include('pulsar::includes.html.form_section_header', ['label' => trans_choice('pulsar::pulsar.custom_field', 2), 'icon' => 'fa fa-align-left', 'containerId' => 'headerCustomFields'])
     <div id="wrapperCustomFields"></div>
 
     @include('pulsar::includes.html.form_hidden', ['name' => 'dataObject', 'value' => isset($object->data_355)? $object->data_355 : null])
