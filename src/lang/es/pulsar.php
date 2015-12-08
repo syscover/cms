@@ -23,6 +23,5 @@ return [
     'draft'                                 => 'Borrador',
     'publish'                               => 'Publicado',
     'select_category'                       => 'Seleccione una categoría',
-    'custom_fields'                         => 'Campos personalizados',
     'field'                                 => 'Campo|Campos',
 ];

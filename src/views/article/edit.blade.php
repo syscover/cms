@@ -121,7 +121,7 @@
     @include('pulsar::includes.html.form_contentbuilder_group', ['label' => trans_choice('pulsar::pulsar.article', 1), 'name' => 'contentbuilder', 'theme' => 'default', 'labelSize' => 2, 'fieldSize' => 10])
     <textarea name="article" class="hidden">{{ $object->article_355 }}</textarea>
 
-    @include('pulsar::includes.html.form_section_header', ['label' => trans('cms::pulsar.custom_fields'), 'icon' => 'fa fa-align-left', 'containerId' => 'headerCustomFields'])
+    @include('pulsar::includes.html.form_section_header', ['label' => trans_choice('pulsar::pulsar.custom_fields', 2), 'icon' => 'fa fa-align-left', 'containerId' => 'headerCustomFields'])
     <div id="wrapperCustomFields"></div>
 
     @include('pulsar::includes.html.form_hidden', ['name' => 'dataObject', 'value' => $object->data_355])

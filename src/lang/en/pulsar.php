@@ -23,6 +23,5 @@ return [
     'draft'                                 => 'Draft',
     'publish'                               => 'Publish',
     'select_category'                       => 'Select a category',
-    'custom_fields'                         => 'Custom fields',
     'field'                                 => 'Field|Fields',
 ];
