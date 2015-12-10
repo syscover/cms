@@ -22,6 +22,6 @@ return new Sami($iterator, [
     'title'                => 'CMS API',
     'build_dir'            => __DIR__.'/docs/api',
     'cache_dir'            => __DIR__.'/docs/cache',
-    'remote_repository'    => new GitHubRemoteRepository('syscover/pulsar', 'src'),
+    'remote_repository'    => new GitHubRemoteRepository('syscover/cms', 'src'),
     'default_opened_level' => 2,
 ]);
