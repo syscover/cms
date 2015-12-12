@@ -22,6 +22,5 @@ return [
     'status'                                => 'Estado',
     'draft'                                 => 'Borrador',
     'publish'                               => 'Publicado',
-    'select_category'                       => 'Seleccione una categoría',
     'field'                                 => 'Campo|Campos',
 ];

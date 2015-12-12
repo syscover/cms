@@ -22,6 +22,5 @@ return [
     'status'                                => 'Status',
     'draft'                                 => 'Draft',
     'publish'                               => 'Publish',
-    'select_category'                       => 'Select a category',
     'field'                                 => 'Field|Fields',
 ];
