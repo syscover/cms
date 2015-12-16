@@ -264,7 +264,7 @@ class ArticleController extends Controller {
         {
             $article->getCategories()->detach();
         }
-        
+
         // set custom fields
         if($article->custom_field_group_351 !== null)
         {
