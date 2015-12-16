@@ -122,7 +122,7 @@ class ArticleController extends Controller {
         ]);
 
         // get object with builder, to get every relations
-        $article = Article::where('id_355', $article->id_355)->where('lang_355', $article->lang_355)->first();
+        $article = Article::builder()->where('id_355', $article->id_355)->where('lang_355', $article->lang_355)->first();
 
         // tags
         $tags = json_decode($request->input('jsonTags'));
@@ -228,7 +228,7 @@ class ArticleController extends Controller {
             'data_355'          => null
         ]);
 
-        $article = Article::where('id_355', $parameters['id'])->where('lang_355', $parameters['lang'])->first();
+        $article = Article::builder()->where('id_355', $parameters['id'])->where('lang_355', $parameters['lang'])->first();
 
         // tags
         $tags = json_decode($request->input('jsonTags'));
@@ -264,7 +264,7 @@ class ArticleController extends Controller {
         {
             $article->getCategories()->detach();
         }
-
+        
         // set custom fields
         if($article->custom_field_group_351 !== null)
         {
