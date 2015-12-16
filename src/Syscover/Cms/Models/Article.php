@@ -90,8 +90,7 @@ class Article extends Model
 
     public static function addToGetRecordsLimit($parameters)
     {
-        $query =  Article::builder()
-            ->orderBy('id_355', 'desc');
+        $query =  Article::builder();
 
         if(isset($parameters['lang'])) $query->where('lang_355', $parameters['lang']);
 
