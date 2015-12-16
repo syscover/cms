@@ -13,9 +13,9 @@
                     'aoColumnDefs': [
                         { 'visible': false, "bSearchable": false, 'aTargets': [1]}, // hidden column 1 and prevents search on column 1
                         { "iDataSort": 1, "aTargets": [2] }, // sort column 2 according hidden column 1 data
-                        { 'bSortable': false, 'aTargets': [6,7]},
-                        { 'sClass': 'checkbox-column', 'aTargets': [6]},
-                        { 'sClass': 'align-center', 'aTargets': [7]}
+                        { 'bSortable': false, 'aTargets': [7,8]},
+                        { 'sClass': 'checkbox-column', 'aTargets': [7]},
+                        { 'sClass': 'align-center', 'aTargets': [6,8]}
                     ],
                     "bProcessing": true,
                     "bServerSide": true,
@@ -36,6 +36,7 @@
         <th data-hide="phone,tablet">{{ trans_choice('pulsar::pulsar.language', 1) }}</th>
         <th>{{ trans_choice('pulsar::pulsar.section', 1) }}</th>
         <th>{{ trans('pulsar::pulsar.name') }}</th>
+        <th data-hide="phone">{{ trans_choice('pulsar::pulsar.sorting', 1) }}</th>
         <th class="checkbox-column"><input type="checkbox" class="uniform"></th>
         <th>{{ trans_choice('pulsar::pulsar.action', 2) }}</th>
     </tr>
