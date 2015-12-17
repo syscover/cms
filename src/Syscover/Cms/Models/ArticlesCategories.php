@@ -36,8 +36,8 @@ class ArticlesCategories extends Model
         return Validator::make($data, static::$rules);
 	}
 
-    public function scopeBuilder()
+    public function scopeBuilder($query)
     {
-        return ArticlesCategories::join('013_352_category', '013_356_articles_categories.category_356', '=', '013_352_category.id_352');
+        return $query->join('013_352_category', '013_356_articles_categories.category_356', '=', '013_352_category.id_352');
     }
 }
