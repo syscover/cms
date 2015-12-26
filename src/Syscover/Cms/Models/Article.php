@@ -88,7 +88,7 @@ class Article extends Model
         return $this->belongsToMany('Syscover\Cms\Models\Tag', '013_359_articles_tags', 'article_359','tag_359');
     }
 
-    public static function addToGetRecordsLimit($parameters)
+    public static function addToGetIndexRecords($parameters)
     {
         $query =  Article::builder();
 
