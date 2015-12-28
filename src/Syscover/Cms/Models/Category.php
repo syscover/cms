@@ -56,4 +56,9 @@ class Category extends Model
 
         return $query;
     }
+
+    public static function customCount($parameters)
+    {
+        return Category::where('lang_352', $parameters['lang'])->getQuery();
+    }
 }

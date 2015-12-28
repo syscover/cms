@@ -97,6 +97,11 @@ class Article extends Model
         return $query;
     }
 
+    public static function customCount($parameters)
+    {
+        return Article::where('lang_355', $parameters['lang'])->getQuery();
+    }
+
     public static function getTranslationPublishArticles($parameters)
     {
         return Article::builder()
