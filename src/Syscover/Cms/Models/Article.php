@@ -10,7 +10,7 @@ use Sofa\Eloquence\Mappable;
  * Class Article
  *
  * Model with properties
- * <br><b>[id, lang, section, family, author, date, publish, publish_text, status, title, slug, sorting, article, data_lan, data]</b>
+ * <br><b>[id, lang, section, family, author, date, publish, publish_text, status, title, slug, link, sorting, article, data_lan, data]</b>
  *
  * @package     Syscover\Cms\Models
  */
@@ -25,7 +25,7 @@ class Article extends Model
     protected $suffix       = '355';
     public $timestamps      = false;
     public $incrementing    = false;
-    protected $fillable     = ['id_355', 'lang_355', 'section_355', 'family_355', 'author_355', 'date_355', 'publish_355', 'publish_text_355', 'status_355', 'title_355', 'slug_355', 'sorting_355', 'article_355', 'data_lang_355', 'data_355'];
+    protected $fillable     = ['id_355', 'lang_355', 'section_355', 'family_355', 'author_355', 'date_355', 'publish_355', 'publish_text_355', 'status_355', 'title_355', 'slug_355', 'link_355', 'sorting_355', 'article_355', 'data_lang_355', 'data_355'];
     protected $maps         = [];
     protected $relationMaps = [
         'lang'      => \Syscover\Pulsar\Models\Lang::class,

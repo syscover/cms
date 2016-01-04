@@ -114,6 +114,7 @@
                         if(properties.title){ $('#titleContent').fadeIn();hasProperty=true; } else { $('#titleContent').fadeOut(); }
                         if(properties.slug){ $('#slugContent').fadeIn();hasProperty=true; } else { $('#slugContent').fadeOut(); }
                         if(properties.sorting){ $('#sortingContent').fadeIn();hasProperty=true; } else { $('#sortingContent').fadeOut(); }
+                        if(properties.link){ $('#linkContent').fadeIn();hasProperty=true; } else { $('#linkContent').fadeOut(); }
                         if(properties.tags){ $('#tagsContent').fadeIn();hasProperty=true; } else { $('#tagsContent').fadeOut(); }
                         if(properties.categories){ $('#categoriesContent').fadeIn();hasProperty=true; } else { $('#categoriesContent').fadeOut(); }
                         if(hasProperty){ $('#headerContent').fadeIn(); }
@@ -172,6 +173,7 @@
                 $('#dateContent').fadeOut();
                 $('#titleContent').fadeOut();
                 $('#slugContent').fadeOut();
+                $('#linkContent').fadeOut()
                 $('#sortingContent').fadeOut();
                 $('#tagsContent').fadeOut();
                 $('#categoriesContent').fadeOut();
@@ -218,6 +220,7 @@
         $('#titleContent').hide()
         $('#slugContent').hide()
         $('#sortingContent').hide()
+        $('#linkContent').hide()
         $('#tagsContent').hide()
         $('#categoriesContent').hide()
 

@@ -22,6 +22,7 @@
     @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.sorting'), 'name' => 'sorting', 'value' => 1, 'checked' => Input::old('sorting'), 'fieldSize' => 4, 'inputs' => [
         ['label' => trans('cms::pulsar.tags'), 'name' => 'tags', 'value' => 1, 'checked' => Input::old('tags'), 'fieldSize' => 4]
     ]])
+    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.link'), 'name' => 'link', 'value' => 1, 'checked' => Input::old('link'), 'fieldSize' => 4])
     @include('pulsar::includes.html.form_select_group', ['label' => trans('pulsar::pulsar.editor'), 'name' => 'editor', 'value' => Input::old('editor'), 'objects' => $editors, 'idSelect' => 'id', 'nameSelect' => 'name', 'fieldSize' => 5])
     @include('pulsar::includes.html.form_select_group', ['label' => trans_choice('pulsar::pulsar.field_group', 1), 'name' => 'customFieldGroup', 'value' => Input::old('customFieldGroup'), 'objects' => $customFieldGroups, 'idSelect' => 'id_025', 'nameSelect' => 'name_025', 'fieldSize' => 5])
     <!-- /cms::article_family.create -->

@@ -115,6 +115,7 @@ class ArticleController extends Controller {
             'date_355'          => $request->has('date')? \DateTime::createFromFormat(config('pulsar.datePattern'), $request->input('date'))->getTimestamp() : null,
             'title_355'         => $request->has('title')? $request->input('title') : null,
             'slug_355'          => empty($request->has('slug'))? null : $request->input('slug'),
+            'link_355'          => empty($request->has('link'))? null : $request->input('link'),
             'sorting_355'       => empty($request->input('sorting'))? null : $request->input('sorting'),
             'article_355'       => $request->input('article'),
             'data_lang_355'     => Article::addLangDataRecord($request->input('lang'), $idLang),
@@ -223,6 +224,7 @@ class ArticleController extends Controller {
             'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), $request->input('date'))->getTimestamp(),
             'title_355'         => $request->input('title'),
             'slug_355'          => $request->input('slug') == "" || !$request->has('slug')? null : $request->input('slug'),
+            'link_355'          => empty($request->has('link'))? null : $request->input('link'),
             'sorting_355'       => empty($request->input('sorting'))? null : $request->input('sorting'),
             'article_355'       => $request->input('article'),
             'data_355'          => null
