@@ -116,6 +116,7 @@ class ArticleController extends Controller {
             'title_355'         => $request->has('title')? $request->input('title') : null,
             'slug_355'          => empty($request->has('slug'))? null : $request->input('slug'),
             'link_355'          => empty($request->has('link'))? null : $request->input('link'),
+            'blank_355'         => $request->has('blank'),
             'sorting_355'       => empty($request->input('sorting'))? null : $request->input('sorting'),
             'article_355'       => $request->input('article'),
             'data_lang_355'     => Article::addLangDataRecord($request->input('lang'), $idLang),
@@ -225,6 +226,7 @@ class ArticleController extends Controller {
             'title_355'         => $request->input('title'),
             'slug_355'          => $request->input('slug') == "" || !$request->has('slug')? null : $request->input('slug'),
             'link_355'          => empty($request->has('link'))? null : $request->input('link'),
+            'blank_355'         => $request->has('blank'),
             'sorting_355'       => empty($request->input('sorting'))? null : $request->input('sorting'),
             'article_355'       => $request->input('article'),
             'data_355'          => null
