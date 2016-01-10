@@ -59,7 +59,7 @@ class ArticleController extends Controller {
                 'label' => $tag->name_358
             ];
         }
-        $parameters['categories']           = Category::getTranslationsRecords($parameters['lang']);
+        $parameters['categories']           = Category::builder()->where('lang_352', $parameters['lang'])->get();
         $parameters['statuses']             = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
@@ -189,7 +189,7 @@ class ArticleController extends Controller {
             ];
         }
 
-        $parameters['categories']           = Category::getTranslationsRecords($parameters['object']->lang_id);
+        $parameters['categories']           = Category::builder()->where('lang_352', $parameters['object']->lang_id)->get();
         $parameters['statuses']             = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
