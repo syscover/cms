@@ -26,7 +26,7 @@ class ArticleFamilyController extends Controller {
     public function createCustomRecord($request, $parameters)
     {
         $parameters['editors']              = config('cms.editors');
-        $parameters['customFieldGroups']    = CustomFieldGroup::getRecords(['resource_025' => 'cms-article-family']);
+        $parameters['customFieldGroups']    = CustomFieldGroup::builder()->where('resource_025', 'cms-article-family')->get();
 
         return $parameters;
     }
@@ -52,7 +52,7 @@ class ArticleFamilyController extends Controller {
     public function editCustomRecord($request, $parameters)
     {
         $parameters['editors']              = config('cms.editors');
-        $parameters['customFieldGroups']    = CustomFieldGroup::getRecords(['resource_025' => 'cms-article-family']);
+        $parameters['customFieldGroups']    = CustomFieldGroup::builder()->where('resource_025', 'cms-article-family')->get();
         $parameters['data']                 = json_decode($parameters['object']->data_351);
 
         return $parameters;
