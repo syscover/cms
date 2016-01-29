@@ -22,6 +22,7 @@ class Section extends Model
 
 	protected $table        = '013_350_section';
     protected $primaryKey   = 'id_350';
+    public $incrementing    = false;
     protected $suffix       = '350';
     public $timestamps      = false;
     protected $fillable     = ['id_350', 'name_350', 'article_family_350'];
