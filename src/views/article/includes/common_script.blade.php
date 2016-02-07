@@ -60,7 +60,11 @@
                 _token: '{{ csrf_token() }}'
             },
             imageManagerLoadURL: '{{ route('froalaLoadImages', ['package' => 'cms']) }}',
-            imageManagerDeleteURL: '{{ route('froalaDeleteImage') }}'
+            imageManagerDeleteURL: '{{ route('froalaDeleteImage') }}',
+            imageManagerDeleteParams: {
+                package: 'cms',
+                _token: '{{ csrf_token() }}'
+            },
         }).on('froalaEditor.image.removed', function (e, editor, $img) {
 
             $.ajax({
