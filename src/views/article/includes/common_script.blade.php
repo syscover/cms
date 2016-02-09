@@ -89,12 +89,12 @@
         $("[name=section]").on('change', function(){
             if($("[name=section]").val())
             {
-                var url = '{{ route('apiShowCmsSection', ['id' => 'id', 'api' => 1]) }}';
+                var url = '{{ route('apiShowCmsSection', ['id' => '$id$', 'api' => 1]) }}';
 
                 $.ajax({
                     dataType:   'json',
                     type:       'POST',
-                    url:        url.replace('id', $("[name=section]").val()),
+                    url:        url.replace('$id$', $("[name=section]").val()),
                     headers:    { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                     success:  function(data)
                     {
