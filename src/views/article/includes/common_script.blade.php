@@ -42,7 +42,6 @@
             });
         });
 
-        /*TODO: revisar funcionalidades froala */
         $('.wysiwyg').froalaEditor({
             language: '{{ config('app.locale') }}',
             placeholderText: '{{ trans('pulsar::pulsar.type_something') }}',
@@ -115,12 +114,12 @@
         $("[name=family]").on('change', function(){
             if($("[name=family]").val())
             {
-                var url = '{{ route('apiShowCmsArticleFamily', ['id' => 'id', 'api' => 1]) }}';
+                var url = '{{ route('apiShowCmsArticleFamily', ['id' => '%id%', 'api' => 1]) }}';
 
                 $.ajax({
                     dataType:   'json',
                     type:       'POST',
-                    url:        url.replace('id', $("[name=family]").val()),
+                    url:        url.replace('%id%', $("[name=family]").val()),
                     headers:    { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                     success:  function(data)
                     {
