@@ -35,7 +35,7 @@
         <th data-class="expand">{{ trans('cms::pulsar.publish') }}</th>
         <th data-hide="phone,tablet">{{ trans_choice('pulsar::pulsar.language', 1) }}</th>
         <th>{{ trans_choice('pulsar::pulsar.section', 1) }}</th>
-        <th>{{ trans('pulsar::pulsar.name') }}</th>
+        <th>{{ trans('pulsar::pulsar.title') }}</th>
         <th data-hide="phone">{{ trans_choice('pulsar::pulsar.sorting', 1) }}</th>
         <th class="checkbox-column"><input type="checkbox" class="uniform"></th>
         <th>{{ trans_choice('pulsar::pulsar.action', 2) }}</th>
