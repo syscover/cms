@@ -10,7 +10,7 @@ use Sofa\Eloquence\Mappable;
  * Class Category
  *
  * Model with properties
- * <br><b>[id, lang, name, sorting, data_lang, data]</b>
+ * <br><b>[id, lang, name, slug, sorting, data_lang, data]</b>
  *
  * @package     Syscover\Cms\Models
  */
@@ -24,7 +24,7 @@ class Category extends Model
     protected $primaryKey   = 'id_352';
     protected $suffix       = '352';
     public $timestamps      = false;
-    protected $fillable     = ['id_352', 'lang_352', 'name_352', 'sorting_352', 'data_lang_352', 'data_352'];
+    protected $fillable     = ['id_352', 'lang_352', 'name_352', 'slug_352', 'sorting_352', 'data_lang_352', 'data_352'];
     protected $maps         = [];
     protected $relationMaps = [
         'lang'  => \Syscover\Pulsar\Models\Lang::class

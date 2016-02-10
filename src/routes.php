@@ -51,6 +51,7 @@ Route::group(['middleware' => ['web', 'pulsar']], function() {
     Route::get(config('pulsar.appName') . '/cms/categories/delete/{lang}/{id}/{offset}',                   ['as'=>'deleteCmsCategory',               'uses'=>'Syscover\Cms\Controllers\CategoryController@deleteRecord',               'resource' => 'cms-category',        'action' => 'delete']);
     Route::get(config('pulsar.appName') . '/cms/categories/delete/translation/{lang}/{id}/{offset}',       ['as'=>'deleteTranslationCmsCategory',    'uses'=>'Syscover\Cms\Controllers\CategoryController@deleteTranslationRecord',    'resource' => 'cms-category',        'action' => 'delete']);
     Route::delete(config('pulsar.appName') . '/cms/categories/delete/select/records/{lang}',               ['as'=>'deleteSelectCmsCategory',         'uses'=>'Syscover\Cms\Controllers\CategoryController@deleteRecordsSelect',        'resource' => 'cms-category',        'action' => 'delete']);
+    Route::post(config('pulsar.appName') . '/cms/categories/check/category/slug',                          ['as'=>'apiCheckSlugCmsCategory',         'uses'=>'Syscover\Cms\Controllers\CategoryController@apiCheckSlug',               'resource' => 'cms-category',        'action' => 'access']);
 
     /*
     |--------------------------------------------------------------------------

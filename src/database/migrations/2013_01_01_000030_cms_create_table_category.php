@@ -17,7 +17,8 @@ class CmsCreateTableCategory extends Migration {
             $table->engine = 'InnoDB';
             $table->integer('id_352')->unsigned();
             $table->string('lang_352',2);
-            $table->string('name_352', 100);
+            $table->string('name_352');
+            $table->string('slug_352')->nullable();
             $table->integer('sorting_352')->unsigned()->nullable();
 
             $table->text('data_lang_352')->nullable();
