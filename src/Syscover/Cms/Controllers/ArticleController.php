@@ -277,7 +277,7 @@ class ArticleController extends Controller {
         }
     }
 
-    public function addToDeleteRecord($request, $object)
+    public function deleteCustomRecord($request, $object)
     {
         // delete object from all language
         $object->getCategories()->detach();
@@ -287,14 +287,14 @@ class ArticleController extends Controller {
         CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $object->id_355);
     }
 
-    public function addToDeleteTranslationRecord($request, $object)
+    public function deleteCustomTranslationRecord($request, $object)
     {
         // delete all attachments from lang object
         AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $object->id_355, $object->lang_355);
         CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $object->id_355, $object->lang_355);
     }
 
-    public function addToDeleteRecordsSelect($request, $ids)
+    public function deleteCustomRecordsSelect($request, $ids)
     {
         $articles = Article::getRecordsById($ids);
 
