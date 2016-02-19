@@ -140,4 +140,17 @@
             {{ trans('pulsar::pulsar.drag_files') }}
         </div>
     </div>
+    <div id="attachment-library-progress-bar">
+        <div class="valign-wrapper">
+            <div class="container valign">
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-10">
+                        <div class="progress">
+                            <div id="upload-progress-bar" class="progress-bar progress-bar-success"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @stop
