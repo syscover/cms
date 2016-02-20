@@ -19,7 +19,7 @@ class SectionController extends Controller {
     protected $package      = 'cms';
     protected $aColumns     = ['id_350', 'name_350', 'name_351'];
     protected $nameM        = 'name_350';
-    protected $model        = \Syscover\Cms\Models\Section::class;
+    protected $model        = Section::class;
     protected $icon         = 'sys-icon-magnet';
     protected $objectTrans  = 'section';
 

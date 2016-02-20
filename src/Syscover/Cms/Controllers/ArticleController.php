@@ -26,7 +26,7 @@ class ArticleController extends Controller {
     protected $package      = 'cms';
     protected $aColumns     = ['id_355', 'publish_355', 'publish_text_355', 'name_001', 'name_350', 'title_355', 'sorting_355'];
     protected $nameM        = 'name_355';
-    protected $model        = \Syscover\Cms\Models\Article::class;
+    protected $model        = Article::class;
     protected $icon         = 'fa fa-file-text-o';
     protected $objectTrans  = 'article';
 

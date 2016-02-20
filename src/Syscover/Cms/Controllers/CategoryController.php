@@ -19,7 +19,7 @@ class CategoryController extends Controller {
     protected $package      = 'cms';
     protected $aColumns     = ['id_352', 'name_001', 'name_352'];
     protected $nameM        = 'name_352';
-    protected $model        = \Syscover\Cms\Models\Category::class;
+    protected $model        = Category::class;
     protected $icon         = 'fa fa-list-ol';
     protected $objectTrans  = 'category';
 

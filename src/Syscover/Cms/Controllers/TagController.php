@@ -17,7 +17,7 @@ class TagController extends Controller {
     protected $package      = 'cms';
     protected $aColumns     = ['id_038', 'name_002', 'name_038'];
     protected $nameM        = 'name_038';
-    protected $model        = \Syscover\Cms\Models\Tag::class;
+    protected $model        = Tag::class;
     protected $icon         = 'cut-icon-grid';
     protected $objectTrans  = 'tag';
 
