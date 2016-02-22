@@ -3,7 +3,7 @@
         ['id' => 'box_tab2', 'name' => trans_choice('pulsar::pulsar.attachment', 2)]
     ]])
 
-@section('script')
+@section('head')
     @parent
     @include('pulsar::includes.js.delete_translation_record')
     <!-- cms::articles.edit -->

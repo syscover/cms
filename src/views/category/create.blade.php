@@ -1,6 +1,6 @@
 @extends('pulsar::layouts.form', ['action' => 'store'])
 
-@section('script')
+@section('head')
     @parent
     <!-- /cms::category.create -->
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/speakingurl/speakingurl.min.js') }}"></script>

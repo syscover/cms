@@ -68,7 +68,7 @@
             fileUploadParams: {
                 package: 'cms',
                 _token: '{{ csrf_token() }}'
-            },
+            }
         }).on('froalaEditor.image.removed', function (e, editor, $img) {
 
             $.ajax({

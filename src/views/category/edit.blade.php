@@ -1,6 +1,6 @@
 @extends('pulsar::layouts.form', ['action' => 'update'])
 
-@section('script')
+@section('head')
     @parent
     <!-- cms::category.edit -->
     @include('pulsar::includes.js.delete_translation_record')
