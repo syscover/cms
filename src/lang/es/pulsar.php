@@ -12,15 +12,15 @@ return [
     | If you come up with something more exciting, let us know.
     |
     */
-    'package_name'                          => 'CMS',
-    'content'                               => 'Contenido',
-    'write_tag'                             => 'Escribe una etiqueta',
     'article_family'                        => 'Familia de artículo|Familias de artículos',
-    'tags'                                  => 'Etiquetas',
-    'publish'                               => 'Publicar',
     'author'                                => 'Autor',
-    'status'                                => 'Estado',
+    'content'                               => 'Contenido',
     'draft'                                 => 'Borrador',
-    'publish'                               => 'Publicado',
     'field'                                 => 'Campo|Campos',
+    'package_name'                          => 'CMS',
+    'publish'                               => 'Publicar',
+    'published'                             => 'Publicado',
+    'status'                                => 'Estado',
+    'tags'                                  => 'Etiquetas',
+    'write_tag'                             => 'Escribe una etiqueta',
 ];
