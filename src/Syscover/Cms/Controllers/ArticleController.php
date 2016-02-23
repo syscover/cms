@@ -64,6 +64,7 @@ class ArticleController extends Controller {
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
+
         $parameters['attachmentFamilies']   = AttachmentFamily::getAttachmentFamilies(['resource_015' => 'cms-article']);
         $parameters['attachmentsInput']     = json_encode([]);
 
