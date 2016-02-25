@@ -94,12 +94,12 @@ class ArticleController extends Controller {
         // check if there is id
         if($request->has('id'))
         {
-            $id = $request->input('id');
+            $id     = $request->input('id');
             $idLang = $id;
         }
         else
         {
-            $id = Article::max('id_355');
+            $id     = Article::max('id_355');
             $id++;
             $idLang = null;
         }
@@ -112,13 +112,13 @@ class ArticleController extends Controller {
             'family_355'        => $request->has('family')? $request->input('family') : null,
             'status_355'        => $request->input('status'),
             'publish_355'       => $request->has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', $request->input('publish'))->getTimestamp() : (integer)date('U'),
-            'publish_text_355'  => $request->has('publish')?  $request->input('publish'): date(config('pulsar.datePattern') . ' H:i'),
+            'publish_text_355'  => $request->has('publish')?  $request->input('publish') : date(config('pulsar.datePattern') . ' H:i'),
             'date_355'          => $request->has('date')? \DateTime::createFromFormat(config('pulsar.datePattern'), $request->input('date'))->getTimestamp() : null,
             'title_355'         => $request->has('title')? $request->input('title') : null,
-            'slug_355'          => empty($request->has('slug'))? null : $request->input('slug'),
-            'link_355'          => empty($request->has('link'))? null : $request->input('link'),
+            'slug_355'          => $request->has('slug')? $request->input('slug') : null,
+            'link_355'          => $request->has('link')? $request->input('link') : null,
             'blank_355'         => $request->has('blank'),
-            'sorting_355'       => empty($request->input('sorting'))? null : $request->input('sorting'),
+            'sorting_355'       => $request->has('sorting')? $request->input('sorting') : null,
             'article_355'       => $request->input('article'),
             'data_lang_355'     => Article::addLangDataRecord($request->input('lang'), $idLang),
             'data_355'          => null
@@ -225,10 +225,10 @@ class ArticleController extends Controller {
             'publish_text_355'  => $request->has('publish')? $request->input('publish') : date(config('pulsar.datePattern') . ' H:i'),
             'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), $request->input('date'))->getTimestamp(),
             'title_355'         => $request->input('title'),
-            'slug_355'          => $request->input('slug') == "" || !$request->has('slug')? null : $request->input('slug'),
-            'link_355'          => empty($request->has('link'))? null : $request->input('link'),
+            'slug_355'          => $request->has('slug')? $request->input('slug') : null,
+            'link_355'          => $request->has('link')? $request->input('link') : null,
             'blank_355'         => $request->has('blank'),
-            'sorting_355'       => empty($request->input('sorting'))? null : $request->input('sorting'),
+            'sorting_355'       => $request->has('sorting')? $request->input('sorting') : null,
             'article_355'       => $request->input('article'),
             'data_355'          => null
         ]);

@@ -292,14 +292,14 @@
         $.ajax({
             dataType:   'json',
             type:       'POST',
+            headers:  {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
             url:        '{{ route('apiCheckSlugCmsArticle') }}',
             data:       {
                 lang:   '{{ $lang->id_001 }}',
                 slug:   $('[name=slug]').val(),
                 id:     $('[name=id]').val()
-            },
-            headers:  {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             success:  function(data)
             {
