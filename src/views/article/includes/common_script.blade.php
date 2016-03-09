@@ -2,7 +2,7 @@
     $(document).ready(function() {
 
         // type editor to article
-        var contentArticle = null;
+        var contentArticle = null
 
         // tags element, on edit we load values across javascript
         $('[name=tags]').tokenfield({
@@ -23,24 +23,24 @@
                 $.each(autocomplete.source, function (index, object) {
                     if(object.label === event.attrs.label)
                     {
-                        event.preventDefault();
-                        $('[name=tags]').tokenfield('createToken', object);
+                        event.preventDefault()
+                        $('[name=tags]').tokenfield('createToken', object)
                     }
-                });
+                })
             }
 
             $.each(existingTokens, function(index, token)
             {
                 if (event.attrs.value === 'null' && token.label === event.attrs.label)
                 {
-                    event.preventDefault();
+                    event.preventDefault()
                 }
                 else if(event.attrs.value !== 'null' && token.value === event.attrs.value)
                 {
-                    event.preventDefault();
+                    event.preventDefault()
                 }
-            });
-        });
+            })
+        })
 
         $('.wysiwyg').froalaEditor({
             language: '{{ config('app.locale') }}',
@@ -81,19 +81,19 @@
                 }
             })
             .done (function (data) {
-                console.log ('image was deleted');
+                console.log ('image was deleted')
             })
             .fail (function () {
-                console.log ('image delete problem');
+                console.log ('image delete problem')
             })
 
-        });
+        })
 
         // on change section show families
         $("[name=section]").on('change', function(){
             if($("[name=section]").val())
             {
-                var url = '{{ route('apiShowCmsSection', ['id' => '%id%', 'api' => 1]) }}';
+                var url = '{{ route('apiShowCmsSection', ['id' => '%id%', 'api' => 1]) }}'
 
                 $.ajax({
                     dataType:   'json',
@@ -104,22 +104,22 @@
                     {
                         if(data.article_family_350 != null)
                         {
-                            $("[name=family]").select2('val', data.article_family_350);
+                            $("[name=family]").select2('val', data.article_family_350)
                         }
                         else
                         {
-                            $("[name=family]").select2('val', '');
+                            $("[name=family]").select2('val', '')
                         }
                     }
-                });
+                })
             }
-        });
+        })
 
         // on change family show fields and custom fields
         $("[name=family]").on('change', function(){
             if($("[name=family]").val())
             {
-                var url = '{{ route('apiShowCmsArticleFamily', ['id' => '%id%', 'api' => 1]) }}';
+                var url = '{{ route('apiShowCmsArticleFamily', ['id' => '%id%', 'api' => 1]) }}'
 
                 $.ajax({
                     dataType:   'json',
@@ -130,19 +130,19 @@
                     {
                         if(data.editor_type_351 == 1)
                         {
-                            $('.contentbuilder-container').hide();
-                            $('.wysiwyg-container').fadeIn();
-                            contentArticle = 'wysiwyg';
+                            $('.contentbuilder-container').hide()
+                            $('.wysiwyg-container').fadeIn()
+                            contentArticle = 'wysiwyg'
                         }
                         else if(data.editor_type_351 == 2)
                         {
-                            $('.wysiwyg-container').hide();
-                            $('.contentbuilder-container').fadeIn();
-                            contentArticle = 'contentbuilder';
+                            $('.wysiwyg-container').hide()
+                            $('.contentbuilder-container').fadeIn()
+                            contentArticle = 'contentbuilder'
                         }
 
-                        var properties = jQuery.parseJSON(data.data_351);
-                        var hasProperty = false;
+                        var properties = jQuery.parseJSON(data.data_351)
+                        var hasProperty = false
                         if(properties.date){ $('#dateContent').fadeIn();hasProperty=true; } else { $('#dateContent').fadeOut(); }
                         if(properties.title){ $('#titleContent').fadeIn();hasProperty=true; } else { $('#titleContent').fadeOut(); }
                         if(properties.slug){ $('#slugContent').fadeIn();hasProperty=true; } else { $('#slugContent').fadeOut(); }
@@ -150,7 +150,7 @@
                         if(properties.link){ $('#linkContent').fadeIn();hasProperty=true; } else { $('#linkContent').fadeOut(); }
                         if(properties.tags){ $('#tagsContent').fadeIn();hasProperty=true; } else { $('#tagsContent').fadeOut(); }
                         if(properties.categories){ $('#categoriesContent').fadeIn();hasProperty=true; } else { $('#categoriesContent').fadeOut(); }
-                        if(hasProperty){ $('#headerContent').fadeIn(); }
+                        if(hasProperty){ $('#headerContent').fadeIn() }
 
                         // get html doing a request to controller to render the views
                         @if($action == 'edit' || isset($id))
@@ -178,72 +178,72 @@
                                 success:  function(data)
                                 {
                                     // set html custom fields section
-                                    $('#wrapperCustomFields').html(data.html);
+                                    $('#wrapperCustomFields').html(data.html)
 
                                     if(data.html != '')
                                     {
-                                        $(".uniform").uniform();
-                                        $('#headerCustomFields').fadeIn();
-                                        $('#wrapperCustomFields').fadeIn();
+                                        $(".uniform").uniform()
+                                        $('#headerCustomFields').fadeIn()
+                                        $('#wrapperCustomFields').fadeIn()
                                     }
                                }
-                            });
+                            })
                         }
                         else
                         {
-                            $('#headerCustomFields').fadeOut();
-                            $('#wrapperCustomFields').fadeOut();
-                            $('#wrapperCustomFields').html('');
+                            $('#headerCustomFields').fadeOut()
+                            $('#wrapperCustomFields').fadeOut()
+                            $('#wrapperCustomFields').html('')
                         }
                     }
-                });
+                })
             }
             else
             {
-                $('.wysiwyg-container').fadeOut();
-                $('.contentbuilder-container').fadeOut();
-                $('#headerContent').fadeOut();
-                $('#dateContent').fadeOut();
-                $('#titleContent').fadeOut();
-                $('#slugContent').fadeOut();
+                $('.wysiwyg-container').fadeOut()
+                $('.contentbuilder-container').fadeOut()
+                $('#headerContent').fadeOut()
+                $('#dateContent').fadeOut()
+                $('#titleContent').fadeOut()
+                $('#slugContent').fadeOut()
                 $('#linkContent').fadeOut()
-                $('#sortingContent').fadeOut();
-                $('#tagsContent').fadeOut();
-                $('#categoriesContent').fadeOut();
+                $('#sortingContent').fadeOut()
+                $('#tagsContent').fadeOut()
+                $('#categoriesContent').fadeOut()
 
-                $('#headerCustomFields').fadeOut();
-                $('#wrapperCustomFields').fadeOut();
-                $('#wrapperCustomFields').html('');
+                $('#headerCustomFields').fadeOut()
+                $('#wrapperCustomFields').fadeOut()
+                $('#wrapperCustomFields').html('')
             }
-        });
+        })
 
         // launch slug function when change title and slug
         $("[name=title], [name=slug]").on('change', function(){
             $("[name=slug]").val(getSlug($(this).val(),{
                 separator: '-',
                 lang: '{{ $lang->id_001 }}'
-            }));
-            $.checkSlug();
-        });
+            }))
+            $.checkSlug()
+        })
 
         // on submit, get content from article, wysiwyg content builder or textarea
         $("#recordForm").on('submit', function(event) {
 
-            $("[name=jsonTags]").val(JSON.stringify($('[name=tags]').tokenfield('getTokens')));
+            $("[name=jsonTags]").val(JSON.stringify($('[name=tags]').tokenfield('getTokens')))
 
             if(contentArticle == 'wysiwyg')
             {
-                $("[name=article]").val($('[name=wysiwyg]').froalaEditor('html.get'));
+                $("[name=article]").val($('[name=wysiwyg]').froalaEditor('html.get'))
             }
             else if(contentArticle == 'contentbuilder')
             {
-                $("[name=article]").val($('.iframe-contentbuilder').get(0).contentWindow.getContentBuilderHtml().replace(/(\r\n|\n|\r)/gm,""));
+                $("[name=article]").val($('.iframe-contentbuilder').get(0).contentWindow.getContentBuilderHtml().replace(/(\r\n|\n|\r)/gm,""))
             }
             else
             {
-                $("[name=article]").val('');
+                $("[name=article]").val('')
             }
-        });
+        })
 
         // hide every elements
         $('.wysiwyg-container').hide()
@@ -263,29 +263,29 @@
 
         // set tab active
         @if($tab == 0)
-        $('.tabbable li:eq(0) a').tab('show');
+        $('.tabbable li:eq(0) a').tab('show')
         @elseif($tab == 1)
-        $('.tabbable li:eq(1) a').tab('show');
+        $('.tabbable li:eq(1) a').tab('show')
         @endif
 
         // if we have family value, throw event to show or hide elements
         if($("[name=family]").val())
         {
-            $("[name=family]").trigger('change');
+            $("[name=family]").trigger('change')
         }
 
         @if(isset($object->editor_type_351) && $object->editor_type_351 == 1)
         // set HTML wysiwyg component
-        $('.wysiwyg').froalaEditor('html.set', $('[name=article]').val());
+        $('.wysiwyg').froalaEditor('html.set', $('[name=article]').val())
         @endif
 
         @if(isset($object->editor_type_351) && $object->editor_type_351 == 2)
         // set HTML contentbuilder component
         $('.iframe-contentbuilder').load(function() {
-            $(this).get(0).contentWindow.getParentHtml('article');
-        });
+            $(this).get(0).contentWindow.getParentHtml('article')
+        })
         @endif
-    });
+    })
 
     <!-- Check slug -->
     $.checkSlug = function() {
@@ -303,9 +303,9 @@
             },
             success:  function(data)
             {
-                $("[name=slug]").val(data.slug);
+                $("[name=slug]").val(data.slug)
             }
-        });
+        })
     }
     <!-- ./Check slug -->
 </script>
