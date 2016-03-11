@@ -29,7 +29,6 @@
 
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/attachment/js/attachment-library.js') }}"></script>
     @include('pulsar::includes.js.attachment', [
-        'action'            => 'edit',
         'resource'          => 'cms-article',
         'routesConfigFile'  => 'cms',
         'objectId'          => $object->id_355])
