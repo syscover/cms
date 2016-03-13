@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).on('ready', function() {
 
         // type editor to article
         var contentArticle = null
@@ -86,7 +86,6 @@
             .fail (function () {
                 console.log ('image delete problem')
             })
-
         })
 
         // on change section show families
