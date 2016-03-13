@@ -13,7 +13,7 @@
     <!-- cms::article_family.edit -->
     @include('pulsar::includes.html.form_text_group', ['label' => 'ID', 'name' => 'id', 'value' => $object->id_351, 'fieldSize' => 2, 'readOnly' => true])
     @include('pulsar::includes.html.form_text_group', ['label' => trans('pulsar::pulsar.name'), 'name' => 'name', 'value' => $object->name_351, 'maxLength' => '100', 'rangeLength' => '2,100', 'required' => true])
-    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.date'), 'name' => 'date', 'value' => 1, 'checked' => $data->date, 'fieldSize' => 4, 'inputs' => [
+    @include('pulsar::includes.html.form_checkbox_group', ['label' => trans_choice('pulsar::pulsar.date', 1), 'name' => 'date', 'value' => 1, 'checked' => $data->date, 'fieldSize' => 4, 'inputs' => [
         ['label' => trans('pulsar::pulsar.title'), 'name' => 'title', 'value' => 1, 'checked' => $data->title, 'fieldSize' => 4]
     ]])
     @include('pulsar::includes.html.form_checkbox_group', ['label' => trans('pulsar::pulsar.slug'), 'name' => 'slug', 'value' => 1, 'checked' => $data->slug, 'fieldSize' => 4, 'inputs' => [
