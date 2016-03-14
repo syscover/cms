@@ -11,6 +11,9 @@ class CmsTableSeeder extends Seeder
 
         $this->call(CmsPackageTableSeeder::class);
         $this->call(CmsResourceTableSeeder::class);
+        $this->call(CmsAttachmentMimeSeeder::class);
+
+        Model::reguard();
     }
 }
 
