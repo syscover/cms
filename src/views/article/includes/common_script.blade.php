@@ -123,8 +123,9 @@
                 $.ajax({
                     dataType:   'json',
                     type:       'POST',
-                    url:        url.replace('%id%', $("[name=family]").val()),
                     headers:    { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    url:        url.replace('%id%', $("[name=family]").val()),
+
                     success:  function(data)
                     {
                         if(data.editor_type_351 == 1)
