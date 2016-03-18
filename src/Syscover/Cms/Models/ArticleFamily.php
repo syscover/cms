@@ -48,13 +48,6 @@ class ArticleFamily extends Model
         return $this->belongsTo('Syscover\Pulsar\Models\CustomFieldGroup', 'custom_field_group_351');
     }
 
-    public static function addToGetIndexRecords($parameters)
-    {
-        $query =  ArticleFamily::builder();
-
-        return $query;
-    }
-
     public static function showRecord()
     {
         ArticleFamily::builder()

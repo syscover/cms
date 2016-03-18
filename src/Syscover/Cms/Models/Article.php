@@ -88,9 +88,9 @@ class Article extends Model
         return $this->belongsToMany('Syscover\Cms\Models\Tag', '013_359_articles_tags', 'article_359','tag_359');
     }
 
-    public static function addToGetIndexRecords($parameters)
+    public function addToGetIndexRecords($parameters)
     {
-        $query =  Article::builder();
+        $query =  $this->builder();
 
         if(isset($parameters['lang'])) $query->where('lang_355', $parameters['lang']);
 
