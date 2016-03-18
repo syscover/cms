@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    $(document).on('ready', function() {
+    $(document).ready(function() {
 
         // type editor to article
         var contentArticle = null
