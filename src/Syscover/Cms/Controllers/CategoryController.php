@@ -1,6 +1,5 @@
 <?php namespace Syscover\Cms\Controllers;
 
-use Illuminate\Http\Request;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\Category;
@@ -30,12 +29,12 @@ class CategoryController extends Controller {
         return $parameters;
     }
 
-    public function storeCustomRecord($request, $parameters)
+    public function storeCustomRecord($parameters)
     {
         // check if there is id
-        if($request->has('id'))
+        if($this->request->has('id'))
         {
-            $id = $request->input('id');
+            $id = $this->request->input('id');
             $idLang = $id;
         }
         else
@@ -47,32 +46,32 @@ class CategoryController extends Controller {
 
         Category::create([
             'id_352'        => $id,
-            'lang_352'      => $request->input('lang'),
-            'name_352'      => $request->input('name'),
-            'slug_352'      => $request->input('slug'),
-            'sorting_352'   => $request->has('sorting')? $request->input('sorting') : null,
-            'data_lang_352' => Category::addLangDataRecord($request->input('lang'), $idLang)
+            'lang_352'      => $this->request->input('lang'),
+            'name_352'      => $this->request->input('name'),
+            'slug_352'      => $this->request->input('slug'),
+            'sorting_352'   => $this->request->has('sorting')? $this->request->input('sorting') : null,
+            'data_lang_352' => Category::addLangDataRecord($this->request->input('lang'), $idLang)
         ]);
     }
 
-    public function updateCustomRecord($request, $parameters)
+    public function updateCustomRecord($parameters)
     {
-        Category::where('id_352', $parameters['id'])->where('lang_352', $request->input('lang'))->update([
-            'name_352'      => $request->input('name'),
-            'slug_352'      => $request->input('slug'),
-            'sorting_352'   => $request->has('sorting')? $request->input('sorting') : null,
+        Category::where('id_352', $parameters['id'])->where('lang_352', $this->request->input('lang'))->update([
+            'name_352'      => $this->request->input('name'),
+            'slug_352'      => $this->request->input('slug'),
+            'sorting_352'   => $this->request->has('sorting')? $this->request->input('sorting') : null,
         ]);
     }
 
-    public function apiCheckSlug(Request $request)
+    public function apiCheckSlug()
     {
-        $slug = $request->input('slug');
-        $query = Category::where('lang_352', $request->input('lang'))
+        $slug = $this->request->input('slug');
+        $query = Category::where('lang_352', $this->request->input('lang'))
             ->where('slug_352', $slug);
 
-        if($request->input('id'))
+        if($this->request->input('id'))
         {
-            $query->whereNotIn('id_352', [$request->input('id')]);
+            $query->whereNotIn('id_352', [$this->request->input('id')]);
         }
 
         $nObjects = $query->count();
@@ -83,8 +82,8 @@ class CategoryController extends Controller {
             while($nObjects > 0)
             {
                 $suffix++;
-                $slug = $request->input('slug') . '-' . $suffix;
-                $nObjects = Category::where('lang_352', $request->input('lang'))
+                $slug = $this->request->input('slug') . '-' . $suffix;
+                $nObjects = Category::where('lang_352', $this->request->input('lang'))
                     ->where('slug_352', $slug)
                     ->count();
             }

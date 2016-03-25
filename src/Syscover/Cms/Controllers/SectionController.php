@@ -23,35 +23,35 @@ class SectionController extends Controller {
     protected $icon         = 'sys-icon-magnet';
     protected $objectTrans  = 'section';
 
-    public function createCustomRecord($request, $parameters)
+    public function createCustomRecord($parameters)
     {
         $parameters['families']     = ArticleFamily::all();
 
         return $parameters;
     }
 
-    public function storeCustomRecord($request, $parameters)
+    public function storeCustomRecord($parameters)
     {
         Section::create([
-            'id_350'                => $request->input('id'),
-            'name_350'              => $request->input('name'),
-            'article_family_350'    => $request->has('family')? $request->input('family') : null
+            'id_350'                => $this->request->input('id'),
+            'name_350'              => $this->request->input('name'),
+            'article_family_350'    => $this->request->has('family')? $this->request->input('family') : null
         ]);
     }
 
-    public function editCustomRecord($request, $parameters)
+    public function editCustomRecord($parameters)
     {
         $parameters['families']     = ArticleFamily::all();
 
         return $parameters;
     }
     
-    public function updateCustomRecord($request, $parameters)
+    public function updateCustomRecord($parameters)
     {
         Section::where('id_350', $parameters['id'])->update([
-            'id_350'                => $request->input('id'),
-            'name_350'              => $request->input('name'),
-            'article_family_350'    => $request->has('family')? $request->input('family') : null
+            'id_350'                => $this->request->input('id'),
+            'name_350'              => $this->request->input('name'),
+            'article_family_350'    => $this->request->has('family')? $this->request->input('family') : null
         ]);
     }
 }

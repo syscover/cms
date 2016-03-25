@@ -21,18 +21,18 @@ class TagController extends Controller {
     protected $icon         = 'cut-icon-grid';
     protected $objectTrans  = 'tag';
 
-    public function storeCustomRecord($request, $parameters)
+    public function storeCustomRecord($parameters)
     {
         Tag::create([
-            'name_038'      => $request->input('name'),
-            'lang_038'      => $request->input('lang')
+            'name_038'      => $this->request->input('name'),
+            'lang_038'      => $this->request->input('lang')
         ]);
     }
 
-    public function updateCustomRecord($request, $parameters)
+    public function updateCustomRecord($parameters)
     {
         Tag::where('id_038', $parameters['id'])->update([
-            'name_038'      => $request->input('name')
+            'name_038'      => $this->request->input('name')
         ]);
     }
 }

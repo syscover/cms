@@ -1,6 +1,5 @@
 <?php namespace Syscover\Cms\Controllers;
 
-use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\File as FileFacade;
 use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Libraries\Miscellaneous;
@@ -12,9 +11,9 @@ use Syscover\Pulsar\Libraries\Miscellaneous;
 
 class FileController extends Controller {
 
-    public function getFilesWysiwyg(HttpRequest $request)
+    public function getFilesWysiwyg()
     {
-        $parameters     = $request->route()->parameters();
+        $parameters     = $this->request->route()->parameters();
         $uri            = 'packages/syscover/cms/storage/wysiwyg';
         $path           = public_path() . '/' . $uri;
         $response       = [];
@@ -46,14 +45,14 @@ class FileController extends Controller {
         return response()->json($response);
     }
 
-    public function uploadFilesWysiwyg(HttpRequest $request)
+    public function uploadFilesWysiwyg()
     {
-        $parameters     = $request->route()->parameters();
+        $parameters     = $this->request->route()->parameters();
         $uri            = 'packages/syscover/cms/storage/wysiwyg';
         $path           = public_path() . '/' . $uri;
         $types          = $this->getTypes($parameters['type']);
 
-        $file           = $request->file('file');
+        $file           = $this->request->file('file');
         $extension      = $file->getClientOriginalExtension();
         $mime           = $file->getClientMimeType();
 
@@ -70,9 +69,9 @@ class FileController extends Controller {
         }
     }
 
-    public function deleteFilesWysiwyg(HttpRequest $request)
+    public function deleteFilesWysiwyg()
     {
-        $src = $request->input('src');
+        $src = $this->request->input('src');
         $src = public_path() . parse_url($src, PHP_URL_PATH);
         if (file_exists($src))
         {

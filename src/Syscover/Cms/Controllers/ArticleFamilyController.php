@@ -23,7 +23,7 @@ class ArticleFamilyController extends Controller {
     protected $icon         = 'fa fa-align-justify';
     protected $objectTrans  = 'article_family';
 
-    public function createCustomRecord($request, $parameters)
+    public function createCustomRecord($parameters)
     {
         $parameters['editors']              = config('cms.editors');
         $parameters['customFieldGroups']    = CustomFieldGroup::builder()->where('resource_025', 'cms-article-family')->get();
@@ -31,25 +31,25 @@ class ArticleFamilyController extends Controller {
         return $parameters;
     }
 
-    public function storeCustomRecord($request, $parameters)
+    public function storeCustomRecord($parameters)
     {
         ArticleFamily::create([
-            'name_351'                  => $request->input('name'),
-            'editor_type_351'           => $request->input('editor', false),
-            'custom_field_group_351'    => empty($request->input('customFieldGroup'))? null : $request->input('customFieldGroup'),
+            'name_351'                  => $this->request->input('name'),
+            'editor_type_351'           => $this->request->input('editor', false),
+            'custom_field_group_351'    => empty($this->request->input('customFieldGroup'))? null : $this->request->input('customFieldGroup'),
             'data_351'                  => json_encode([
-                'date'                  => $request->has('date'),
-                'title'                 => $request->has('title'),
-                'slug'                  => $request->has('slug'),
-                'link'                  => $request->has('link'),
-                'categories'            => $request->has('categories'),
-                'sorting'               => $request->has('sorting'),
-                'tags'                  => $request->has('tags'),
+                'date'                  => $this->request->has('date'),
+                'title'                 => $this->request->has('title'),
+                'slug'                  => $this->request->has('slug'),
+                'link'                  => $this->request->has('link'),
+                'categories'            => $this->request->has('categories'),
+                'sorting'               => $this->request->has('sorting'),
+                'tags'                  => $this->request->has('tags'),
             ])
         ]);
     }
 
-    public function editCustomRecord($request, $parameters)
+    public function editCustomRecord($parameters)
     {
         $parameters['editors']              = config('cms.editors');
         $parameters['customFieldGroups']    = CustomFieldGroup::builder()->where('resource_025', 'cms-article-family')->get();
@@ -58,20 +58,20 @@ class ArticleFamilyController extends Controller {
         return $parameters;
     }
     
-    public function updateCustomRecord($request, $parameters)
+    public function updateCustomRecord($parameters)
     {
         ArticleFamily::where('id_351', $parameters['id'])->update([
-            'name_351'                  => $request->input('name'),
-            'editor_type_351'           => $request->input('editor'),
-            'custom_field_group_351'    => empty($request->input('customFieldGroup'))? null : $request->input('customFieldGroup'),
+            'name_351'                  => $this->request->input('name'),
+            'editor_type_351'           => $this->request->input('editor'),
+            'custom_field_group_351'    => empty($this->request->input('customFieldGroup'))? null : $this->request->input('customFieldGroup'),
             'data_351'                  => json_encode([
-                'date'                  => $request->has('date'),
-                'title'                 => $request->has('title'),
-                'slug'                  => $request->has('slug'),
-                'link'                  => $request->has('link'),
-                'categories'            => $request->has('categories'),
-                'sorting'               => $request->has('sorting'),
-                'tags'                  => $request->has('tags'),
+                'date'                  => $this->request->has('date'),
+                'title'                 => $this->request->has('title'),
+                'slug'                  => $this->request->has('slug'),
+                'link'                  => $this->request->has('link'),
+                'categories'            => $this->request->has('categories'),
+                'sorting'               => $this->request->has('sorting'),
+                'tags'                  => $this->request->has('tags'),
             ])
         ]);
     }
