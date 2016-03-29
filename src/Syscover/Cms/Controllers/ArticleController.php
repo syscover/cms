@@ -29,7 +29,7 @@ class ArticleController extends Controller {
     protected $icon         = 'fa fa-file-text-o';
     protected $objectTrans  = 'article';
 
-    public function indexCustom($parameters)
+    public function customIndex($parameters)
     {
         $parameters['urlParameters']['lang']    = session('baseLang')->id_001;
         // init record on tap 1
