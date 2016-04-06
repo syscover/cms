@@ -37,14 +37,15 @@
     @include('cms::article.includes.common_script')
 
     @include('pulsar::includes.js.delete_translation_record')
-    <!-- /cms::articles.create -->
+    <!-- /.cms::articles.create -->
 @stop
 
 @section('layoutTabHeader')
-    @include('pulsar::includes.html.form_record_header', ['action' => 'store'])
+    @include('pulsar::includes.html.form_record_header')
 @stop
+
 @section('layoutTabFooter')
-    @include('pulsar::includes.html.form_record_footer', ['action' => 'store'])
+    @include('pulsar::includes.html.form_record_footer')
 @stop
 
 @section('box_tab1')
@@ -263,7 +264,7 @@
         'name' => 'attachments',
         'value' => $attachmentsInput
     ])
-    <!-- /cms::articles.create -->
+    <!-- /.cms::articles.create -->
 @stop
 
 @section('box_tab2')
