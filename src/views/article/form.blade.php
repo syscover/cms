@@ -29,11 +29,14 @@
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/attachment/js/attachment-library.js') }}"></script>
     @include('pulsar::includes.js.attachment', [
         'resource'          => 'cms-article',
-        'routesConfigFile'  => 'cms'])
+        'routesConfigFile'  => 'cms',
+        'objectId'          => isset($object->id_355)? $object->id_355 : null])
 
     @include('pulsar::includes.html.froala_references')
 
-    @include('cms::article.includes.common_script', ['action' => 'create'])
+    @include('cms::article.includes.common_script')
+
+    @include('pulsar::includes.js.delete_translation_record')
     <!-- /cms::articles.create -->
 @stop
 
