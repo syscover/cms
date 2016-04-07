@@ -6,7 +6,7 @@
     <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/speakingurl/speakingurl.min.js') }}"></script>
 
     @include('cms::category.includes.common_script', ['action' => 'create'])
-    <!-- ./cms::category.create -->
+    <!-- /.cms::category.create -->
 @stop
 
 @section('rows')
@@ -51,5 +51,5 @@
         'min' => '0',
         'fieldSize' => 2
     ])
-    <!-- ./cms::category.create -->
+    <!-- /.cms::category.create -->
 @stop

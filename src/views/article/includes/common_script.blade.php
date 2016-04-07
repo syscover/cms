@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
 
         // type editor to article
@@ -307,5 +307,5 @@
             }
         })
     }
-    <!-- ./Check slug -->
+    <!-- /.Check slug -->
 </script>

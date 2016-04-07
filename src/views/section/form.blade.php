@@ -27,5 +27,5 @@
         'idSelect' => 'id_351',
         'nameSelect' => 'name_351'
     ])
-    <!-- ./cms::sections.create -->
+    <!-- /.cms::sections.create -->
 @stop

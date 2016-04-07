@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
         // launch slug function when change title and slug
         $("[name=name], [name=slug]").on('change', function(){
@@ -30,5 +30,5 @@
             }
         });
     }
-    <!-- ./Check slug -->
+    <!-- /.Check slug -->
 </script>

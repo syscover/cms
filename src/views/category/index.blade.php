@@ -3,7 +3,7 @@
 @section('head')
     @parent
     <!-- cms::category.index -->
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
             if ($.fn.dataTable)
             {
