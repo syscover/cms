@@ -4,7 +4,7 @@
     @parent
     <!-- cms::category.edit -->
     @include('pulsar::includes.js.delete_translation_record')
-    <script type="text/javascript" src="{{ asset('packages/syscover/pulsar/vendor/speakingurl/speakingurl.min.js') }}"></script>
+    <script src="{{ asset('packages/syscover/pulsar/vendor/speakingurl/speakingurl.min.js') }}"></script>
 
     @include('cms::category.includes.common_script', ['action' => 'create'])
     <!-- /.cms::category.edit -->
