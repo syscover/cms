@@ -1,7 +1,7 @@
-@extends('pulsar::layouts.form', ['action' => 'store'])
+@extends('pulsar::layouts.form')
 
 @section('head')
-@parent
+    @parent
     <!-- cms::article_family.create -->
     <link rel="stylesheet" href="{{ asset('packages/syscover/pulsar/vendor/jquery.magnific-popup/magnific-popup.css') }}">
     <script src="{{ asset('packages/syscover/pulsar/vendor/jquery.magnific-popup/jquery.magnific-popup.min.js') }}"></script>
@@ -14,13 +14,14 @@
     @include('pulsar::includes.html.form_text_group', [
         'label' => 'ID',
         'name' => 'id',
+        'value' => isset($object->id_351)? $object->id_351 : null,
         'fieldSize' => 2,
         'readOnly' => true
     ])
     @include('pulsar::includes.html.form_text_group', [
         'label' => trans('pulsar::pulsar.name'),
         'name' => 'name',
-        'value' => old('name'),
+        'value' => old('name', isset($object->name_351)? $object->name_351 : null),
         'maxLength' => '100',
         'rangeLength' => '2,100',
         'required' => true
@@ -29,14 +30,14 @@
         'label' => trans_choice('pulsar::pulsar.date', 1),
         'name' => 'date',
         'value' => 1,
-        'checked' => old('date'),
+        'checked' => old('date', isset($data->date)? $data->date : null),
         'fieldSize' => 4,
         'inputs' => [
             [
                 'label' => trans('pulsar::pulsar.title'),
                 'name' => 'title',
                 'value' => 1,
-                'checked' => old('title'),
+                'checked' => old('title', isset($data->title)? $data->title : null),
                 'fieldSize' => 4
             ]
         ]
@@ -45,14 +46,14 @@
         'label' => trans('pulsar::pulsar.slug'),
         'name' => 'slug',
         'value' => 1,
-        'checked' => old('slug'),
+        'checked' => old('slug', isset($data->slug)? $data->slug : null),
         'fieldSize' => 4,
         'inputs' => [
             [
                 'label' => trans_choice('pulsar::pulsar.category', 1),
                 'name' => 'categories',
                 'value' => 1,
-                'checked' => old('categories'),
+                'checked' => old('categories', isset($data->categories)? $data->categories : null),
                 'fieldSize' => 4
             ]
         ]
@@ -61,14 +62,14 @@
         'label' => trans('pulsar::pulsar.sorting'),
         'name' => 'sorting',
         'value' => 1,
-        'checked' => old('sorting'),
+        'checked' => old('sorting', isset($data->sorting)? $data->sorting : null),
         'fieldSize' => 4,
         'inputs' => [
             [
                 'label' => trans('cms::pulsar.tags'),
                 'name' => 'tags',
                 'value' => 1,
-                'checked' => old('tags'),
+                'checked' => old('tags', isset($data->tags)? $data->tags : null),
                 'fieldSize' => 4
             ]
         ]
@@ -77,13 +78,13 @@
         'label' => trans('pulsar::pulsar.link'),
         'name' => 'link',
         'value' => 1,
-        'checked' => old('link'),
+        'checked' => old('link', isset($data->link)? $data->link : null),
         'fieldSize' => 4
     ])
     @include('pulsar::includes.html.form_select_group', [
         'label' => trans('pulsar::pulsar.editor'),
         'name' => 'editor',
-        'value' => old('editor'),
+        'value' => old('editor', isset($object->editor_type_351)? $object->editor_type_351 : null),
         'objects' => $editors,
         'idSelect' => 'id',
         'nameSelect' => 'name',
@@ -92,7 +93,7 @@
     @include('pulsar::includes.html.form_select_group', [
         'label' => trans_choice('pulsar::pulsar.field_group', 1),
         'name' => 'customFieldGroup',
-        'value' => old('customFieldGroup'),
+        'value' => old('customFieldGroup', isset($object->custom_field_group_351)? $object->custom_field_group_351 : null),
         'objects' => $customFieldGroups,
         'idSelect' => 'id_025',
         'nameSelect' => 'name_025',
