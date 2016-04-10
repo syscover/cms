@@ -46,8 +46,8 @@ class CmsCreateTableArticle extends Migration {
             $table->foreign('family_355', 'fk04_013_355_article')->references('id_351')->on('013_351_article_family')
                 ->onDelete('restrict')->onUpdate('cascade');
 
-            $table->primary(['id_355', 'lang_355']);
-            $table->unique(['lang_355','slug_355']);
+            $table->primary(['id_355', 'lang_355'], 'pk01_013_355_article');
+            $table->unique(['lang_355','slug_355'], 'uk01_013_355_article');
         });
     }
 
