@@ -22,7 +22,7 @@ class CmsCreateTableArticle extends Migration {
             $table->integer('family_355')->unsigned()->nullable(); // element to set default article configuration
             $table->tinyInteger('status_355')->unsigned();  // 0 = draft 1 = publish
             $table->integer('publish_355')->unsigned();     // date when will be publish
-            $table->string('publish_text_355', 25);         // date publish in text format
+            $table->string('publish_text_355');             // date publish in text format
             $table->integer('date_355')->unsigned()->nullable(); // date of article
             $table->string('title_355', 510)->nullable();
             $table->string('slug_355')->nullable();
