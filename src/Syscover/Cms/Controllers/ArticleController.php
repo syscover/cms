@@ -20,7 +20,7 @@ class ArticleController extends Controller {
 
     use TraitController;
 
-    protected $routeSuffix  = 'CmsArticle';
+    protected $routeSuffix  = 'cmsArticle';
     protected $folder       = 'article';
     protected $package      = 'cms';
     protected $aColumns     = ['id_355', 'publish_355', 'publish_text_355', 'name_001', 'name_350', 'title_355', 'sorting_355'];

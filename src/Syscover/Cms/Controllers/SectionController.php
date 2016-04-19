@@ -14,7 +14,7 @@ class SectionController extends Controller {
 
     use TraitController;
 
-    protected $routeSuffix  = 'CmsSection';
+    protected $routeSuffix  = 'cmsSection';
     protected $folder       = 'section';
     protected $package      = 'cms';
     protected $aColumns     = ['id_350', 'name_350', 'name_351'];

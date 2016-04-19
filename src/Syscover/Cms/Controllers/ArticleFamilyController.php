@@ -14,7 +14,7 @@ class ArticleFamilyController extends Controller {
 
     use TraitController;
 
-    protected $routeSuffix  = 'CmsArticleFamily';
+    protected $routeSuffix  = 'cmsArticleFamily';
     protected $folder       = 'article_family';
     protected $package      = 'cms';
     protected $aColumns     = ['id_351', 'name_351', 'name_025'];

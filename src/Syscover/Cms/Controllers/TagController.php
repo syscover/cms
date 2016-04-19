@@ -12,7 +12,7 @@ class TagController extends Controller {
 
     use TraitController;
 
-    protected $routeSuffix  = 'CmsTag';
+    protected $routeSuffix  = 'cmsTag';
     protected $folder       = 'tag';
     protected $package      = 'cms';
     protected $aColumns     = ['id_038', 'name_002', 'name_038'];

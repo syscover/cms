@@ -26,7 +26,7 @@ Route::group(['middleware' => ['web', 'pulsar']], function() {
     | ARTICLES
     |--------------------------------------------------------------------------
     */
-    Route::any(config('pulsar.appName') . '/cms/articles/{lang}/{offset?}',                              ['as'=>'CmsArticle',                     'uses'=>'Syscover\Cms\Controllers\ArticleController@index',                      'resource' => 'cms-article',        'action' => 'access']);
+    Route::any(config('pulsar.appName') . '/cms/articles/{lang}/{offset?}',                              ['as'=>'cmsArticle',                     'uses'=>'Syscover\Cms\Controllers\ArticleController@index',                      'resource' => 'cms-article',        'action' => 'access']);
     Route::any(config('pulsar.appName') . '/cms/articles/json/data/{lang}',                              ['as'=>'jsonDataCmsArticle',             'uses'=>'Syscover\Cms\Controllers\ArticleController@jsonData',                   'resource' => 'cms-article',        'action' => 'access']);
     Route::get(config('pulsar.appName') . '/cms/articles/create/{lang}/{offset}/{tab}/{id?}',            ['as'=>'createCmsArticle',               'uses'=>'Syscover\Cms\Controllers\ArticleController@createRecord',               'resource' => 'cms-article',        'action' => 'create']);
     Route::post(config('pulsar.appName') . '/cms/articles/store/{lang}/{offset}/{tab}/{id?}',            ['as'=>'storeCmsArticle',                'uses'=>'Syscover\Cms\Controllers\ArticleController@storeRecord',                'resource' => 'cms-article',        'action' => 'create']);
@@ -42,7 +42,7 @@ Route::group(['middleware' => ['web', 'pulsar']], function() {
     | CATEGORIES
     |--------------------------------------------------------------------------
     */
-    Route::any(config('pulsar.appName') . '/cms/categories/{lang}/{offset?}',                              ['as'=>'CmsCategory',                     'uses'=>'Syscover\Cms\Controllers\CategoryController@index',                      'resource' => 'cms-category',        'action' => 'access']);
+    Route::any(config('pulsar.appName') . '/cms/categories/{lang}/{offset?}',                              ['as'=>'cmsCategory',                     'uses'=>'Syscover\Cms\Controllers\CategoryController@index',                      'resource' => 'cms-category',        'action' => 'access']);
     Route::any(config('pulsar.appName') . '/cms/categories/json/data/{lang}',                              ['as'=>'jsonDataCmsCategory',             'uses'=>'Syscover\Cms\Controllers\CategoryController@jsonData',                   'resource' => 'cms-category',        'action' => 'access']);
     Route::get(config('pulsar.appName') . '/cms/categories/create/{lang}/{offset}/{id?}',                  ['as'=>'createCmsCategory',               'uses'=>'Syscover\Cms\Controllers\CategoryController@createRecord',               'resource' => 'cms-category',        'action' => 'create']);
     Route::post(config('pulsar.appName') . '/cms/categories/store/{lang}/{offset}/{id?}',                  ['as'=>'storeCmsCategory',                'uses'=>'Syscover\Cms\Controllers\CategoryController@storeRecord',                'resource' => 'cms-category',        'action' => 'create']);
@@ -58,7 +58,7 @@ Route::group(['middleware' => ['web', 'pulsar']], function() {
     | ARTICLE FAMILIES
     |--------------------------------------------------------------------------
     */
-    Route::any(config('pulsar.appName') . '/cms/article/families/{offset?}',                          ['as'=>'CmsArticleFamily',                   'uses'=>'Syscover\Cms\Controllers\ArticleFamilyController@index',                      'resource' => 'cms-article-family',        'action' => 'access']);
+    Route::any(config('pulsar.appName') . '/cms/article/families/{offset?}',                          ['as'=>'cmsArticleFamily',                   'uses'=>'Syscover\Cms\Controllers\ArticleFamilyController@index',                      'resource' => 'cms-article-family',        'action' => 'access']);
     Route::any(config('pulsar.appName') . '/cms/article/families/json/data',                          ['as'=>'jsonDataCmsArticleFamily',           'uses'=>'Syscover\Cms\Controllers\ArticleFamilyController@jsonData',                   'resource' => 'cms-article-family',        'action' => 'access']);
     Route::get(config('pulsar.appName') . '/cms/article/families/create/{offset}',                    ['as'=>'createCmsArticleFamily',             'uses'=>'Syscover\Cms\Controllers\ArticleFamilyController@createRecord',               'resource' => 'cms-article-family',        'action' => 'create']);
     Route::post(config('pulsar.appName') . '/cms/article/families/store/{offset}',                    ['as'=>'storeCmsArticleFamily',              'uses'=>'Syscover\Cms\Controllers\ArticleFamilyController@storeRecord',                'resource' => 'cms-article-family',        'action' => 'create']);
@@ -73,7 +73,7 @@ Route::group(['middleware' => ['web', 'pulsar']], function() {
     | SECTIONS
     |--------------------------------------------------------------------------
     */
-    Route::any(config('pulsar.appName') . '/cms/section/{offset?}',                          ['as'=>'CmsSection',                   'uses'=>'Syscover\Cms\Controllers\SectionController@index',                      'resource' => 'cms-section',        'action' => 'access']);
+    Route::any(config('pulsar.appName') . '/cms/section/{offset?}',                          ['as'=>'cmsSection',                   'uses'=>'Syscover\Cms\Controllers\SectionController@index',                      'resource' => 'cms-section',        'action' => 'access']);
     Route::any(config('pulsar.appName') . '/cms/section/json/data',                          ['as'=>'jsonDataCmsSection',           'uses'=>'Syscover\Cms\Controllers\SectionController@jsonData',                   'resource' => 'cms-section',        'action' => 'access']);
     Route::get(config('pulsar.appName') . '/cms/section/create/{offset}',                    ['as'=>'createCmsSection',             'uses'=>'Syscover\Cms\Controllers\SectionController@createRecord',               'resource' => 'cms-section',        'action' => 'create']);
     Route::post(config('pulsar.appName') . '/cms/section/store/{offset}',                    ['as'=>'storeCmsSection',              'uses'=>'Syscover\Cms\Controllers\SectionController@storeRecord',                'resource' => 'cms-section',        'action' => 'create']);

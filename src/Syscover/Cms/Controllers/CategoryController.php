@@ -13,7 +13,7 @@ class CategoryController extends Controller {
 
     use TraitController;
 
-    protected $routeSuffix  = 'CmsCategory';
+    protected $routeSuffix  = 'cmsCategory';
     protected $folder       = 'category';
     protected $package      = 'cms';
     protected $aColumns     = ['id_352', 'name_001', 'name_352'];
