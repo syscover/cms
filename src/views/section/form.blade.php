@@ -3,13 +3,13 @@
 @section('rows')
     <!-- cms::section.create -->
     @include('pulsar::includes.html.form_text_group', [
+        'fieldSize' => 2,
         'label' => 'ID',
         'name' => 'id',
-        'value' => old('id', , isset($object->id_350)? $object->id_350 : null),
+        'value' => old('id', isset($object->id_350)? $object->id_350 : null),
         'maxLength' => '30',
         'rangeLength' => '2,30',
         'required' => true,
-        'fieldSize' => 2
     ])
     @include('pulsar::includes.html.form_text_group', [
         'label' => trans('pulsar::pulsar.name'),
@@ -20,6 +20,7 @@
         'required' => true
     ])
     @include('pulsar::includes.html.form_select_group', [
+        'fieldSize' => 4,
         'label' => trans_choice('pulsar::pulsar.family', 1),
         'name' => 'family',
         'value' => old('family', isset($object->article_family_350)? $object->article_family_350 : null),
