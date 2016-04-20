@@ -1,6 +1,5 @@
 <?php namespace Syscover\Cms\Controllers;
 
-// todo, hace falta que herede de controller?
 use Syscover\Pulsar\Core\Controller;
 use Illuminate\Support\Facades\File as FileFacade;
 use Syscover\Pulsar\Libraries\Miscellaneous;
