@@ -1,10 +1,9 @@
 <?php namespace Syscover\Cms\Models;
 
-use Syscover\Pulsar\Models\Model;
-use Illuminate\Support\Facades\Validator;
-use Syscover\Pulsar\Traits\TraitModel;
+use Syscover\Pulsar\Core\Model;
 use Sofa\Eloquence\Eloquence;
 use Sofa\Eloquence\Mappable;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class ArticleFamily
@@ -17,7 +16,6 @@ use Sofa\Eloquence\Mappable;
 
 class ArticleFamily extends Model
 {
-    use TraitModel;
     use Eloquence, Mappable;
 
 	protected $table        = '013_351_article_family';

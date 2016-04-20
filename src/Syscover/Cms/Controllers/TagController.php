@@ -1,17 +1,15 @@
 <?php namespace Syscover\Cms\Controllers;
 
+use Syscover\Pulsar\Core\Controller;
 use Syscover\Cms\Models\Tag;
-use Syscover\Pulsar\Traits\TraitController;
 
 /**
  * Class TagController
  * @package Syscover\Cms\Controllers
  */
 
-class TagController extends Controller {
-
-    use TraitController;
-
+class TagController extends Controller
+{
     protected $routeSuffix  = 'cmsTag';
     protected $folder       = 'tag';
     protected $package      = 'cms';

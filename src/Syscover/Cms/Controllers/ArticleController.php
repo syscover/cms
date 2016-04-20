@@ -1,8 +1,7 @@
 <?php namespace Syscover\Cms\Controllers;
 
-use Syscover\Pulsar\Controllers\Controller;
+use Syscover\Pulsar\Core\Controller;
 use Syscover\Pulsar\Libraries\CustomFieldResultLibrary;
-use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Pulsar\Models\AttachmentFamily;
 use Syscover\Pulsar\Libraries\AttachmentLibrary;
 use Syscover\Cms\Models\Tag;
@@ -16,10 +15,8 @@ use Syscover\Cms\Models\Article;
  * @package Syscover\Cms\Controllers
  */
 
-class ArticleController extends Controller {
-
-    use TraitController;
-
+class ArticleController extends Controller
+{
     protected $routeSuffix  = 'cmsArticle';
     protected $folder       = 'article';
     protected $package      = 'cms';

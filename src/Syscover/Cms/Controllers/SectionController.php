@@ -1,7 +1,6 @@
 <?php namespace Syscover\Cms\Controllers;
 
-use Syscover\Pulsar\Controllers\Controller;
-use Syscover\Pulsar\Traits\TraitController;
+use Syscover\Pulsar\Core\Controller;
 use Syscover\Cms\Models\ArticleFamily;
 use Syscover\Cms\Models\Section;
 
@@ -10,10 +9,8 @@ use Syscover\Cms\Models\Section;
  * @package Syscover\Cms\Controllers
  */
 
-class SectionController extends Controller {
-
-    use TraitController;
-
+class SectionController extends Controller
+{
     protected $routeSuffix  = 'cmsSection';
     protected $folder       = 'section';
     protected $package      = 'cms';

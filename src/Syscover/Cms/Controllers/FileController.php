@@ -1,7 +1,8 @@
 <?php namespace Syscover\Cms\Controllers;
 
+// todo, hace falta que herede de controller?
+use Syscover\Pulsar\Core\Controller;
 use Illuminate\Support\Facades\File as FileFacade;
-use Syscover\Pulsar\Controllers\Controller;
 use Syscover\Pulsar\Libraries\Miscellaneous;
 
 /**
@@ -9,8 +10,8 @@ use Syscover\Pulsar\Libraries\Miscellaneous;
  * @package Syscover\Cms\Controllers
  */
 
-class FileController extends Controller {
-
+class FileController extends Controller
+{
     public function getFilesWysiwyg()
     {
         $parameters     = $this->request->route()->parameters();

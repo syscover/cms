@@ -1,8 +1,7 @@
 <?php namespace Syscover\Cms\Controllers;
 
-use Syscover\Pulsar\Controllers\Controller;
+use Syscover\Pulsar\Core\Controller;
 use Syscover\Pulsar\Models\CustomFieldGroup;
-use Syscover\Pulsar\Traits\TraitController;
 use Syscover\Cms\Models\ArticleFamily;
 
 /**
@@ -10,10 +9,8 @@ use Syscover\Cms\Models\ArticleFamily;
  * @package Syscover\Cms\Controllers
  */
 
-class ArticleFamilyController extends Controller {
-
-    use TraitController;
-
+class ArticleFamilyController extends Controller
+{
     protected $routeSuffix  = 'cmsArticleFamily';
     protected $folder       = 'article_family';
     protected $package      = 'cms';

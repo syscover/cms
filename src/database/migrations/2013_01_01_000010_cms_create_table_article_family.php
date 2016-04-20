@@ -16,7 +16,7 @@ class CmsCreateTableArticleFamily extends Migration {
         {
             $table->engine = 'InnoDB';
             $table->increments('id_351')->unsigned();
-            $table->string('name_351', 100);
+            $table->string('name_351');
             $table->tinyInteger('editor_type_351')->unsigned(); //wysiwyg = 1 or contentbuilder = 2
             $table->integer('custom_field_group_351')->unsigned()->nullable();
             $table->text('data_351')->nullable();

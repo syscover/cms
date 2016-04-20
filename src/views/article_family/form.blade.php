@@ -22,8 +22,8 @@
         'label' => trans('pulsar::pulsar.name'),
         'name' => 'name',
         'value' => old('name', isset($object->name_351)? $object->name_351 : null),
-        'maxLength' => '100',
-        'rangeLength' => '2,100',
+        'maxLength' => '255',
+        'rangeLength' => '2,255',
         'required' => true
     ])
     @include('pulsar::includes.html.form_checkbox_group', [
