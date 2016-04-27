@@ -8,7 +8,7 @@ class CmsPackageTableSeeder extends Seeder
     public function run()
     {
         Package::insert([
-            ['id_012' => '13', 'name_012' => 'CMS Package', 'folder_012' => 'cms', 'sorting_012' => 13, 'active_012' => '0']
+            ['id_012' => '13', 'name_012' => 'CMS Package', 'folder_012' => 'cms', 'sorting_012' => 13, 'active_012' => false]
         ]);
     }
 }
