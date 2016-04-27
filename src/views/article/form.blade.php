@@ -87,6 +87,7 @@
                 tabSpaces: true,
                 shortcutsEnabled: ['show', 'bold', 'italic', 'underline', 'strikeThrough', 'indent', 'outdent', 'undo', 'redo', 'insertImage', 'createLink'],
                 toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'emoticons', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', 'insertHR', '-', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
+                toolbarButtonsMD: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'emoticons', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', 'insertHR', '-', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
                 heightMin: 250,
                 enter: $.FroalaEditor.ENTER_BR,
                 key: '{{ config('pulsar.froalaEditorKey') }}',
@@ -109,20 +110,20 @@
             }).on('froalaEditor.image.removed', function (e, editor, $img) {
 
                 $.ajax({
-                            method: "POST",
-                            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                            url: '{{ route('froalaDeleteImage') }}',
-                            data: {
-                                package: 'cms',
-                                src: $img.attr('src')
-                            }
-                        })
-                        .done (function (data) {
-                            console.log ('image was deleted')
-                        })
-                        .fail (function () {
-                            console.log ('image delete problem')
-                        })
+                    method: "POST",
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    url: '{{ route('froalaDeleteImage') }}',
+                    data: {
+                        package: 'cms',
+                        src: $img.attr('src')
+                    }
+                })
+                .done (function (data) {
+                    console.log ('image was deleted')
+                })
+                .fail (function () {
+                    console.log ('image delete problem')
+                })
             })
 
             // on change section show families
