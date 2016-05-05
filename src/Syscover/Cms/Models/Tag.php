@@ -34,6 +34,11 @@ class Tag extends Model
         return Validator::make($data, static::$rules);
 	}
 
+    public function scopeBuilder($query)
+    {
+        return $query;
+    }
+
     public function getLang()
     {
         return $this->belongsTo('Syscover\Pulsar\Models\Lang', 'lang_358');

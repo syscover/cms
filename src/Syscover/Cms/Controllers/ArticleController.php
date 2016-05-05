@@ -168,7 +168,7 @@ class ArticleController extends Controller
         $parameters['sections']             = Section::all();
         $parameters['families']             = ArticleFamily::all();
         $parameters['tags']                 = [];
-        $tags                               = Tag::getTranslationsRecords($parameters['object']->lang_id);
+        $tags                               = Tag::builder()->where('lang_358', $parameters['object']->lang_355)->get();
         foreach($tags as $tag)
         {
             $parameters['tags'][] = [
