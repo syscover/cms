@@ -485,6 +485,7 @@
         'required' => true
     ])
     @include('pulsar::includes.html.form_select_group', [
+        'fieldSize' => 10,
         'label' => trans_choice('pulsar::pulsar.category', 2),
         'containerId' => 'categoriesContent',
         'name' => 'categories[]',
@@ -494,7 +495,6 @@
         'nameSelect' => 'name_352',
         'multiple' => true,
         'class' => 'col-md-12 select2',
-        'fieldSize' => 10,
         'data' => [
             'placeholder' => trans('pulsar::pulsar.select_category'),
             'width' => '100%'
