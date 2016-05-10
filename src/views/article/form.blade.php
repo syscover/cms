@@ -516,7 +516,7 @@
                 'label' => trans('pulsar::pulsar.new_window'),
                 'name' => 'blank',
                 'value' => 1,
-                'checked' => old('blank', isset($object->blank_355))
+                'checked' => old('blank', isset($object->blank_355)? $object->blank_355 : false)
             ]
         ]
     ])
