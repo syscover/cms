@@ -12,7 +12,7 @@ class CmsUpdateV4 extends Migration
 	 */
 	public function up()
 	{
-		if(!Schema::hasColumn('013_355_article', 'blank_355'))
+		if(! Schema::hasColumn('013_355_article', 'blank_355'))
 		{
 			Schema::table('013_355_article', function ($table) {
 				$table->string('blank_355')->nullable()->after('link_355');
