@@ -435,12 +435,12 @@
                 'required' => true
             ])
             @include('pulsar::includes.html.form_datetimepicker_group', [
+                'labelSize' => 4,
+                'fieldSize' => 8,
                 'label' => trans('cms::pulsar.publish'),
                 'name' => 'publish',
                 'id' => 'idPublish',
                 'value' => old('publish', isset($object->publish_355)? date(config('pulsar.datePattern') . ' H:i', $object->publish_355) : null),
-                'labelSize' => 4,
-                'fieldSize' => 8,
                 'data' => [
                     'format' => Miscellaneous::convertFormatDate(config('pulsar.datePattern')) . ' HH:mm',
                     'locale' => config('app.locale')
