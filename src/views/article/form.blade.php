@@ -33,6 +33,7 @@
         'objectId'          => isset($object->id_355)? $object->id_355 : null])
 
     @include('pulsar::includes.html.froala_references')
+
     @include('pulsar::includes.js.delete_translation_record')
 
     <script>
@@ -191,19 +192,19 @@
                             if(hasProperty){ $('#headerContent').fadeIn() }
 
                             // get html doing a request to controller to render the views
-                                    @if($action == 'edit' || isset($id))
-                            var request =  {
-                                        customFieldGroup: data.custom_field_group_351,
-                                        lang:   '{{ $lang->id_001 }}',
-                                        object: '{{ $id }}',
-                                        resource: 'cms-article-family',
-                                        action: '{{ $action }}'
-                                    }
-                                    @else
-                            var request =  {
-                                        customFieldGroup: data.custom_field_group_351,
-                                        lang: '{{ $lang->id_001 }}'
-                                    }
+                            @if($action == 'edit' || isset($id))
+                                var request =  {
+                                    customFieldGroup: data.custom_field_group_351,
+                                    lang:   '{{ $lang->id_001 }}',
+                                    object: '{{ $id }}',
+                                    resource: 'cms-article-family',
+                                    action: '{{ $action }}'
+                                };
+                            @else
+                                var request =  {
+                                    customFieldGroup: data.custom_field_group_351,
+                                    lang: '{{ $lang->id_001 }}'
+                                };
                             @endif
 
                             if(data.custom_field_group_351 != null){
@@ -216,22 +217,42 @@
                                     success:  function(data)
                                     {
                                         // set html custom fields section
-                                        $('#wrapperCustomFields').html(data.html)
+                                        $('#wrapperCustomFields').html(data.html);
+
+                                        if ($.fn.select2)
+                                            $('.select2').each(function() {
+                                                var self = $(this)
+                                                $(self).select2(self.data())
+                                            });
+
+                                        if($.fn.froalaEditor)
+                                            $('.wysiwyg').froalaEditor({
+                                                language: '{{ config('app.locale') }}',
+                                                toolbarInline: false,
+                                                toolbarSticky: true,
+                                                tabSpaces: true,
+                                                shortcutsEnabled: ['show', 'bold', 'italic', 'underline', 'strikeThrough', 'indent', 'outdent', 'undo', 'redo', 'insertImage', 'createLink'],
+                                                toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertHR', 'insertLink', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
+                                                toolbarButtonsMD: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertHR', 'insertLink', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
+                                                heightMin: 130,
+                                                enter: $.FroalaEditor.ENTER_BR,
+                                                key: '{{ config('pulsar.froalaEditorKey') }}'
+                                            });
 
                                         if(data.html != '')
                                         {
-                                            $(".uniform").uniform()
-                                            $('#headerCustomFields').fadeIn()
-                                            $('#wrapperCustomFields').fadeIn()
+                                            $(".uniform").uniform();
+                                            $('#headerCustomFields').fadeIn();
+                                            $('#wrapperCustomFields').fadeIn();
                                         }
                                     }
                                 })
                             }
                             else
                             {
-                                $('#headerCustomFields').fadeOut()
-                                $('#wrapperCustomFields').fadeOut()
-                                $('#wrapperCustomFields').html('')
+                                $('#headerCustomFields').fadeOut();
+                                $('#wrapperCustomFields').fadeOut();
+                                $('#wrapperCustomFields').html('');
                             }
                         }
                     })
