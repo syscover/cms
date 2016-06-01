@@ -40,7 +40,7 @@
         $(document).ready(function() {
 
             // type editor to article
-            var contentArticle = null
+            var contentArticle = null;
 
             // tags element, on edit we load values across javascript
             $('[name=tags]').tokenfield({
@@ -49,11 +49,11 @@
                     delay: 100
                 },
                 showAutocompleteOnFocus: true
-            })@if(isset($selectTags)).tokenfield('setTokens', {!! json_encode($selectTags) !!})@endif
+            })@if(isset($selectTags)).tokenfield('setTokens', {!! json_encode($selectTags) !!});@else; @endif
 
             $('[name=tags]').on('tokenfield:createtoken', function (event) {
-                var existingTokens = $(this).tokenfield('getTokens')
-                var autocomplete = $(this).tokenfield('getAutocomplete')
+                var existingTokens = $(this).tokenfield('getTokens');
+                var autocomplete = $(this).tokenfield('getAutocomplete');
 
                 // search if there is a object with the same label
                 if(event.attrs.value === 'null')
@@ -61,8 +61,8 @@
                     $.each(autocomplete.source, function (index, object) {
                         if(object.label === event.attrs.label)
                         {
-                            event.preventDefault()
-                            $('[name=tags]').tokenfield('createToken', object)
+                            event.preventDefault();
+                            $('[name=tags]').tokenfield('createToken', object);
                         }
                     })
                 }
@@ -78,7 +78,7 @@
                         event.preventDefault()
                     }
                 })
-            })
+            });
 
             $('.wysiwyg').froalaEditor({
                 language: '{{ config('app.locale') }}',
@@ -142,22 +142,22 @@
                         {
                             if(data.article_family_350 != null)
                             {
-                                $("[name=family]").select2('val', data.article_family_350)
+                                $("[name=family]").select2('val', data.article_family_350);
                             }
                             else
                             {
-                                $("[name=family]").select2('val', '')
+                                $("[name=family]").select2('val', '');
                             }
                         }
-                    })
+                    });
                 }
-            })
+            });
 
             // on change family show fields and custom fields
             $("[name=family]").on('change', function(){
                 if($("[name=family]").val())
                 {
-                    var url = '{{ route('apiShowCmsArticleFamily', ['id' => '%id%', 'api' => 1]) }}'
+                    var url = '{{ route('apiShowCmsArticleFamily', ['id' => '%id%', 'api' => 1]) }}';
 
                     $.ajax({
                         dataType:   'json',
@@ -169,19 +169,29 @@
                         {
                             if(data.editor_type_351 == 1)
                             {
-                                $('.contentbuilder-container').hide()
-                                $('.wysiwyg-container').fadeIn()
-                                contentArticle = 'wysiwyg'
+                                $('.contentbuilder-container, .textarea-container').hide();
+                                $('.wysiwyg-container').fadeIn();
+                                contentArticle = 'wysiwyg';
                             }
                             else if(data.editor_type_351 == 2)
                             {
-                                $('.wysiwyg-container').hide()
-                                $('.contentbuilder-container').fadeIn()
-                                contentArticle = 'contentbuilder'
+                                $('.wysiwyg-container, .textarea-container').hide();
+                                $('.contentbuilder-container').fadeIn();
+                                contentArticle = 'contentbuilder';
+                            }
+                            else if(data.editor_type_351 == 3)
+                            {
+                                $('.wysiwyg-container, .contentbuilder-container').hide();
+                                $('.textarea-container').fadeIn();
+                                contentArticle = 'textarea';
+                            }
+                            else
+                            {
+                                $('.wysiwyg-container, .contentbuilder-container, .textarea-container').hide();
                             }
 
-                            var properties = jQuery.parseJSON(data.data_351)
-                            var hasProperty = false
+                            var properties = jQuery.parseJSON(data.data_351);
+                            var hasProperty = false;
                             if(properties.date){ $('#dateContent').fadeIn();hasProperty=true; } else { $('#dateContent').fadeOut(); }
                             if(properties.title){ $('#titleContent').fadeIn();hasProperty=true; } else { $('#titleContent').fadeOut(); }
                             if(properties.slug){ $('#slugContent').fadeIn();hasProperty=true; } else { $('#slugContent').fadeOut(); }
@@ -189,7 +199,7 @@
                             if(properties.link){ $('#linkContent').fadeIn();hasProperty=true; } else { $('#linkContent').fadeOut(); }
                             if(properties.tags){ $('#tagsContent').fadeIn();hasProperty=true; } else { $('#tagsContent').fadeOut(); }
                             if(properties.categories){ $('#categoriesContent').fadeIn();hasProperty=true; } else { $('#categoriesContent').fadeOut(); }
-                            if(hasProperty){ $('#headerContent').fadeIn() }
+                            if(hasProperty){ $('#headerContent').fadeIn(); }
 
                             // get html doing a request to controller to render the views
                             @if($action == 'edit' || isset($id))
@@ -221,8 +231,8 @@
 
                                         if ($.fn.select2)
                                             $('.select2').each(function() {
-                                                var self = $(this)
-                                                $(self).select2(self.data())
+                                                var self = $(this);
+                                                $(self).select2(self.data());
                                             });
 
                                         if($.fn.froalaEditor)
@@ -255,35 +265,35 @@
                                 $('#wrapperCustomFields').html('');
                             }
                         }
-                    })
+                    });
                 }
                 else
                 {
-                    $('.wysiwyg-container').fadeOut()
-                    $('.contentbuilder-container').fadeOut()
-                    $('#headerContent').fadeOut()
-                    $('#dateContent').fadeOut()
-                    $('#titleContent').fadeOut()
-                    $('#slugContent').fadeOut()
-                    $('#linkContent').fadeOut()
-                    $('#sortingContent').fadeOut()
-                    $('#tagsContent').fadeOut()
-                    $('#categoriesContent').fadeOut()
+                    $('.wysiwyg-container').fadeOut();
+                    $('.contentbuilder-container').fadeOut();
+                    $('#headerContent').fadeOut();
+                    $('#dateContent').fadeOut();
+                    $('#titleContent').fadeOut();
+                    $('#slugContent').fadeOut();
+                    $('#linkContent').fadeOut();
+                    $('#sortingContent').fadeOut();
+                    $('#tagsContent').fadeOut();
+                    $('#categoriesContent').fadeOut();
 
-                    $('#headerCustomFields').fadeOut()
-                    $('#wrapperCustomFields').fadeOut()
-                    $('#wrapperCustomFields').html('')
+                    $('#headerCustomFields').fadeOut();
+                    $('#wrapperCustomFields').fadeOut();
+                    $('#wrapperCustomFields').html('');
                 }
-            })
+            });
 
             // launch slug function when change title and slug
             $("[name=title], [name=slug]").on('change', function(){
                 $("[name=slug]").val(getSlug($(this).val(),{
                     separator: '-',
                     lang: '{{ $lang->id_001 }}'
-                }))
-                $.checkSlug()
-            })
+                }));
+                $.checkSlug();
+            });
 
             // on submit, get content from article, wysiwyg content builder or textarea
             $("#recordForm").on('submit', function(event) {
@@ -292,33 +302,27 @@
 
                 if(contentArticle == 'wysiwyg')
                 {
-                    $("[name=article]").val($('[name=wysiwyg]').froalaEditor('html.get'))
+                    $("[name=article]").val($('[name=wysiwyg]').froalaEditor('html.get'));
                 }
                 else if(contentArticle == 'contentbuilder')
                 {
-                    $("[name=article]").val($('.iframe-contentbuilder').get(0).contentWindow.getContentBuilderHtml().replace(/(\r\n|\n|\r)/gm,""))
+                    $("[name=article]").val($('.iframe-contentbuilder').get(0).contentWindow.getContentBuilderHtml().replace(/(\r\n|\n|\r)/gm,""));
+                }
+                else if(contentArticle == 'textarea')
+                {
+                    $("[name=article]").val($('[name=textarea]').val());
                 }
                 else
                 {
-                    $("[name=article]").val('')
+                    $("[name=article]").val('');
                 }
-            })
+            });
 
             // hide every elements
-            $('.wysiwyg-container').hide()
-            $('.contentbuilder-container').hide()
-            $('#headerContent').hide()
-            $('#dateContent').hide()
-            $('#titleContent').hide()
-            $('#slugContent').hide()
-            $('#sortingContent').hide()
-            $('#linkContent').hide()
-            $('#tagsContent').hide()
-            $('#categoriesContent').hide()
+            $('.wysiwyg-container, .contentbuilder-container, .textarea-container').hide()
+            $('#headerContent, #dateContent, #titleContent, #slugContent, #sortingContent, #linkContent, #tagsContent, #categoriesContent').hide();
 
-            $('#headerCustomFields').hide()
-            $('#wrapperCustomFields').hide()
-
+            $('#headerCustomFields, #wrapperCustomFields').hide();
 
             // set tab active
             @if($tab == 0)
@@ -342,7 +346,12 @@
             // set HTML contentbuilder component
             $('.iframe-contentbuilder').load(function() {
                 $(this).get(0).contentWindow.getParentHtml('article')
-            })
+            });
+            @endif
+
+            @if(isset($object->editor_type_351) && $object->editor_type_351 == 3)
+            // set textarea component
+            $('[name=textarea]').val($('[name=article]').val());
             @endif
         })
 
@@ -570,6 +579,12 @@
         'package' => 'cms',
         'theme' => 'default',
         'value' => old('article', isset($object->article_355)? $object->article_355 : null),
+        'labelSize' => 2,
+        'fieldSize' => 10
+    ])
+    @include('pulsar::includes.html.form_textarea_group', [
+        'label' => trans_choice('pulsar::pulsar.article', 1),
+        'name' => 'textarea',
         'labelSize' => 2,
         'fieldSize' => 10
     ])

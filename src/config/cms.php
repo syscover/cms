@@ -37,5 +37,6 @@ return [
     'editors'                => [
         (object)['id' => 1, 'name' => 'Wysiwyg'],
         (object)['id' => 2, 'name' => 'Contentbuilder'],
+        (object)['id' => 3, 'name' => 'TextArea'],
     ],
 ];
