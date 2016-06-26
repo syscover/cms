@@ -70,8 +70,8 @@ class Article extends Model
     public function getAttachments()
     {
         return $this->hasMany('Syscover\Pulsar\Models\Attachment','object_016')
-            ->where('001_016_attachment.lang_016', $this->lang_355)
-            ->where('001_016_attachment.resource_016', 'cms-article')
+            ->where('001_016_attachment.lang_id_016', $this->lang_355)
+            ->where('001_016_attachment.resource_id_016', 'cms-article')
             ->leftJoin('001_015_attachment_family', '001_016_attachment.family_016', '=', '001_015_attachment_family.id_015')
             ->orderBy('001_016_attachment.sorting_016');
     }

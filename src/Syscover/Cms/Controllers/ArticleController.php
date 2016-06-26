@@ -61,7 +61,7 @@ class ArticleController extends Controller
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
         ];
 
-        $parameters['attachmentFamilies']   = AttachmentFamily::getAttachmentFamilies(['resource_015' => 'cms-article']);
+        $parameters['attachmentFamilies']   = AttachmentFamily::getAttachmentFamilies(['resource_id_015' => 'cms-article']);
         $parameters['attachmentsInput']     = json_encode([]);
 
         if(isset($parameters['id']))
@@ -196,7 +196,7 @@ class ArticleController extends Controller
         $attachments = AttachmentLibrary::getRecords('cms', 'cms-article', $parameters['object']->id_355, $parameters['object']->lang_id);
 
         // merge parameters and attachments array
-        $parameters['attachmentFamilies']   = AttachmentFamily::getAttachmentFamilies(['resource_015' => 'cms-article']);
+        $parameters['attachmentFamilies']   = AttachmentFamily::getAttachmentFamilies(['resource_id_015' => 'cms-article']);
         $parameters                         = array_merge($parameters, $attachments);
 
         return $parameters;
