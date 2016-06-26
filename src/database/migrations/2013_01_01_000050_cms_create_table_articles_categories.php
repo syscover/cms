@@ -15,10 +15,10 @@ class CmsCreateTableArticlesCategories extends Migration {
         Schema::create('013_356_articles_categories', function(Blueprint $table){
             $table->engine = 'InnoDB';
 			
-            $table->integer('article_356')->unsigned();
-            $table->integer('category_356')->unsigned();
+            $table->integer('article_id_356')->unsigned();
+            $table->integer('category_id_356')->unsigned();
 
-            $table->primary(['article_356', 'category_356']);
+            $table->primary(['article_id_356', 'category_id_356'], 'pk01_013_356_articles_categories');
         });
 	}
 

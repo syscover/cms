@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
  * Class Section
  *
  * Model with properties
- * <br><b>[id, name, article_family]</b>
+ * <br><b>[id, name, article_family_id]</b>
  *
  * @package     Syscover\Cms\Models
  */
@@ -23,7 +23,7 @@ class Section extends Model
     public $incrementing    = false;
     protected $suffix       = '350';
     public $timestamps      = false;
-    protected $fillable     = ['id_350', 'name_350', 'article_family_350'];
+    protected $fillable     = ['id_350', 'name_350', 'article_family_id_350'];
     protected $maps         = [];
     protected $relationMaps = [];
     private static $rules   = [
@@ -40,6 +40,6 @@ class Section extends Model
 
     public function scopeBuilder($query)
     {
-        return $query->leftJoin('013_351_article_family', '013_350_section.article_family_350', '=', '013_351_article_family.id_351');
+        return $query->leftJoin('013_351_article_family', '013_350_section.article_family_id_350', '=', '013_351_article_family.id_351');
     }
 }

@@ -47,7 +47,7 @@ class ArticleController extends Controller
         $parameters['sections']             = Section::all();
         $parameters['families']             = ArticleFamily::all();
         $parameters['tags']                 = [];
-        $tags                               = Tag::builder()->where('lang_358', $parameters['lang']->id_001)->get();
+        $tags                               = Tag::builder()->where('lang_id_358', $parameters['lang']->id_001)->get();
         foreach($tags as $tag)
         {
             $parameters['tags'][] = [
@@ -55,7 +55,7 @@ class ArticleController extends Controller
                 'label' => $tag->name_358
             ];
         }
-        $parameters['categories']           = Category::builder()->where('lang_352', $parameters['lang']->id_001)->get();
+        $parameters['categories']           = Category::builder()->where('lang_id_352', $parameters['lang']->id_001)->get();
         $parameters['statuses']             = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
@@ -78,7 +78,7 @@ class ArticleController extends Controller
 
     public function checkSpecialRulesToStore($parameters)
     {
-        $nArticle = Article::where('lang_355', $this->request->input('lang'))->where('slug_355', $this->request->input('slug'))->count();
+        $nArticle = Article::where('lang_id_355', $this->request->input('lang'))->where('slug_355', $this->request->input('slug'))->count();
 
         if($nArticle > 0) $parameters['specialRules']['slugRule'] = true;
 
@@ -102,11 +102,11 @@ class ArticleController extends Controller
 
         $article = Article::create([
             'id_355'            => $id,
-            'lang_355'          => $this->request->input('lang'),
-            'author_355'        => $this->request->input('author'),
-            'section_355'       => $this->request->input('section'),
-            'family_355'        => $this->request->has('family')? $this->request->input('family') : null,
-            'status_355'        => $this->request->input('status'),
+            'lang_id_355'       => $this->request->input('lang'),
+            'author_id_355'     => $this->request->input('author'),
+            'section_id_355'    => $this->request->input('section'),
+            'family_id_355'     => $this->request->has('family')? $this->request->input('family') : null,
+            'status_id_355'     => $this->request->input('status'),
             'publish_355'       => $this->request->has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', $this->request->input('publish'))->getTimestamp() : (integer)date('U'),
             'publish_text_355'  => $this->request->has('publish')?  $this->request->input('publish') : date(config('pulsar.datePattern') . ' H:i'),
             'date_355'          => $this->request->has('date')? \DateTime::createFromFormat(config('pulsar.datePattern'), $this->request->input('date'))->getTimestamp() : null,
@@ -121,7 +121,7 @@ class ArticleController extends Controller
         ]);
 
         // get object with builder, to get every relations
-        $article = Article::builder()->where('id_355', $article->id_355)->where('lang_355', $article->lang_355)->first();
+        $article = Article::builder()->where('id_355', $article->id_355)->where('lang_id_355', $article->lang_id_355)->first();
 
         // tags
         $tags = json_decode($this->request->input('jsonTags'));
@@ -133,8 +133,8 @@ class ArticleController extends Controller
                 if ($tag->value === 'null')
                 {
                     $tagObj = Tag::create([
-                        'lang_358' => $this->request->input('lang'),
-                        'name_358' => $tag->label
+                        'lang_id_358'   => $this->request->input('lang'),
+                        'name_358'      => $tag->label
                     ]);
 
                     $idTags[] = $tagObj->id_358;
@@ -159,8 +159,8 @@ class ArticleController extends Controller
         AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, $this->request->input('lang'));
 
         // set custom fields
-        if($article->custom_field_group_351 !== null)
-            CustomFieldResultLibrary::storeCustomFieldResults($this->request, $article->custom_field_group_351, 'cms-article-family', $article->id_355, $this->request->input('lang'));
+        if($article->custom_field_group_id_351 !== null)
+            CustomFieldResultLibrary::storeCustomFieldResults($this->request, $article->custom_field_group_id_351, 'cms-article-family', $article->id_355, $this->request->input('lang'));
     }
 
     public function editCustomRecord($parameters)
@@ -168,7 +168,7 @@ class ArticleController extends Controller
         $parameters['sections']             = Section::all();
         $parameters['families']             = ArticleFamily::all();
         $parameters['tags']                 = [];
-        $tags                               = Tag::builder()->where('lang_358', $parameters['object']->lang_355)->get();
+        $tags                               = Tag::builder()->where('lang_id_358', $parameters['object']->lang_id_355)->get();
         foreach($tags as $tag)
         {
             $parameters['tags'][] = [
@@ -186,7 +186,7 @@ class ArticleController extends Controller
             ];
         }
 
-        $parameters['categories']           = Category::builder()->where('lang_352', $parameters['object']->lang_id)->get();
+        $parameters['categories']           = Category::builder()->where('lang_id_352', $parameters['object']->lang_id)->get();
         $parameters['statuses']             = [
             (object)['id' => 0, 'name' => trans('cms::pulsar.draft')],
             (object)['id' => 1, 'name' => trans('cms::pulsar.publish')]
@@ -204,7 +204,7 @@ class ArticleController extends Controller
 
     public function checkSpecialRulesToUpdate($parameters)
     {
-        $nArticle = Article::where('lang_355', $this->request->input('lang'))->where('slug_355', $this->request->input('slug'))->whereNotIn('id_355', [$parameters['id']])->count();
+        $nArticle = Article::where('lang_id_355', $this->request->input('lang'))->where('slug_355', $this->request->input('slug'))->whereNotIn('id_355', [$parameters['id']])->count();
 
         if($nArticle > 0) $parameters['specialRules']['slugRule'] = true;
 
@@ -213,10 +213,10 @@ class ArticleController extends Controller
 
     public function updateCustomRecord($parameters)
     {
-        Article::where('id_355', $parameters['id'])->where('lang_355', $this->request->input('lang'))->update([
-            'section_355'       => $this->request->input('section'),
-            'family_355'        => $this->request->has('family')? $this->request->input('family') : null,
-            'status_355'        => $this->request->input('status'),
+        Article::where('id_355', $parameters['id'])->where('lang_id_355', $this->request->input('lang'))->update([
+            'section_id_355'    => $this->request->input('section'),
+            'family_id_355'     => $this->request->has('family')? $this->request->input('family') : null,
+            'status_id_355'     => $this->request->input('status'),
             'publish_355'       => $this->request->has('publish')? \DateTime::createFromFormat(config('pulsar.datePattern') . ' H:i', $this->request->input('publish'))->getTimestamp() : (integer)date('U'),
             'publish_text_355'  => $this->request->has('publish')? $this->request->input('publish') : date(config('pulsar.datePattern') . ' H:i'),
             'date_355'          => \DateTime::createFromFormat(config('pulsar.datePattern'), $this->request->input('date'))->getTimestamp(),
@@ -229,7 +229,7 @@ class ArticleController extends Controller
             'data_355'          => null
         ]);
 
-        $article = Article::builder()->where('id_355', $parameters['id'])->where('lang_355', $parameters['lang'])->first();
+        $article = Article::builder()->where('id_355', $parameters['id'])->where('lang_id_355', $parameters['lang'])->first();
 
         // tags
         $tags = json_decode($this->request->input('jsonTags'));
@@ -241,8 +241,8 @@ class ArticleController extends Controller
                 if ($tag->value === 'null')
                 {
                     $tagObj = Tag::create([
-                        'lang_358' => $this->request->input('lang'),
-                        'name_358' => $tag->label
+                        'lang_id_358'   => $this->request->input('lang'),
+                        'name_358'      => $tag->label
                     ]);
 
                     $idTags[] = $tagObj->id_358;
@@ -267,10 +267,10 @@ class ArticleController extends Controller
         }
 
         // set custom fields
-        if($article->custom_field_group_351 !== null)
+        if($article->custom_field_group_id_351 !== null)
         {
             CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $article->id_355, $this->request->input('lang'));
-            CustomFieldResultLibrary::storeCustomFieldResults($this->request, $article->custom_field_group_351, 'cms-article-family', $article->id_355, $this->request->input('lang'));
+            CustomFieldResultLibrary::storeCustomFieldResults($this->request, $article->custom_field_group_id_351, 'cms-article-family', $article->id_355, $this->request->input('lang'));
         }
     }
 
@@ -287,8 +287,8 @@ class ArticleController extends Controller
     public function deleteCustomTranslationRecord($object)
     {
         // delete all attachments from lang object
-        AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $object->id_355, $object->lang_355);
-        CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $object->id_355, $object->lang_355);
+        AttachmentLibrary::deleteAttachment($this->package, 'cms-article', $object->id_355, $object->lang_id_355);
+        CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $object->id_355, $object->lang_id_355);
     }
 
     public function deleteCustomRecordsSelect($ids)
@@ -307,7 +307,7 @@ class ArticleController extends Controller
     public function apiCheckSlug()
     {
         $slug = $this->request->input('slug');
-        $query = Article::where('lang_355', $this->request->input('lang'))
+        $query = Article::where('lang_id_355', $this->request->input('lang'))
             ->where('slug_355', $slug);
 
         if($this->request->input('id'))
@@ -324,7 +324,7 @@ class ArticleController extends Controller
             {
                 $suffix++;
                 $slug = $this->request->input('slug') . '-' . $suffix;
-                $nObjects = Article::where('lang_355', $this->request->input('lang'))
+                $nObjects = Article::where('lang_id_355', $this->request->input('lang'))
                     ->where('slug_355', $slug)
                     ->count();
             }

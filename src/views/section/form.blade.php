@@ -23,7 +23,7 @@
         'fieldSize' => 4,
         'label' => trans_choice('pulsar::pulsar.family', 1),
         'name' => 'family',
-        'value' => old('family', isset($object->article_family_350)? $object->article_family_350 : null),
+        'value' => old('family', isset($object->article_family_id_350)? $object->article_family_id_350 : null),
         'objects' => $families,
         'idSelect' => 'id_351',
         'nameSelect' => 'name_351'

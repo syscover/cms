@@ -32,7 +32,7 @@ class SectionController extends Controller
         Section::create([
             'id_350'                => $this->request->input('id'),
             'name_350'              => $this->request->input('name'),
-            'article_family_350'    => $this->request->has('family')? $this->request->input('family') : null
+            'article_family_id_350' => $this->request->has('family')? $this->request->input('family') : null
         ]);
     }
 
@@ -48,7 +48,7 @@ class SectionController extends Controller
         Section::where('id_350', $parameters['id'])->update([
             'id_350'                => $this->request->input('id'),
             'name_350'              => $this->request->input('name'),
-            'article_family_350'    => $this->request->has('family')? $this->request->input('family') : null
+            'article_family_id_350' => $this->request->has('family')? $this->request->input('family') : null
         ]);
     }
 }

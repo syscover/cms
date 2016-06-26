@@ -43,7 +43,7 @@ class CategoryController extends Controller
 
         Category::create([
             'id_352'        => $id,
-            'lang_352'      => $this->request->input('lang'),
+            'lang_id_352'   => $this->request->input('lang'),
             'name_352'      => $this->request->input('name'),
             'slug_352'      => $this->request->input('slug'),
             'sorting_352'   => $this->request->has('sorting')? $this->request->input('sorting') : null,
@@ -53,7 +53,7 @@ class CategoryController extends Controller
 
     public function updateCustomRecord($parameters)
     {
-        Category::where('id_352', $parameters['id'])->where('lang_352', $this->request->input('lang'))->update([
+        Category::where('id_352', $parameters['id'])->where('lang_id_352', $this->request->input('lang'))->update([
             'name_352'      => $this->request->input('name'),
             'slug_352'      => $this->request->input('slug'),
             'sorting_352'   => $this->request->has('sorting')? $this->request->input('sorting') : null,
@@ -63,7 +63,7 @@ class CategoryController extends Controller
     public function apiCheckSlug()
     {
         $slug = $this->request->input('slug');
-        $query = Category::where('lang_352', $this->request->input('lang'))
+        $query = Category::where('lang_id_352', $this->request->input('lang'))
             ->where('slug_352', $slug);
 
         if($this->request->input('id'))
@@ -80,7 +80,7 @@ class CategoryController extends Controller
             {
                 $suffix++;
                 $slug = $this->request->input('slug') . '-' . $suffix;
-                $nObjects = Category::where('lang_352', $this->request->input('lang'))
+                $nObjects = Category::where('lang_id_352', $this->request->input('lang'))
                     ->where('slug_352', $slug)
                     ->count();
             }

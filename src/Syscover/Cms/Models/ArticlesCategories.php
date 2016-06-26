@@ -19,10 +19,10 @@ class ArticlesCategories extends Model
     use Eloquence, Mappable;
 
 	protected $table        = '013_356_articles_categories';
-    protected $primaryKey   = 'article_356';
+    protected $primaryKey   = 'article_id_356';
     protected $suffix       = '356';
     public $timestamps      = false;
-    protected $fillable     = ['article_356', 'category_356'];
+    protected $fillable     = ['article_id_356', 'category_id_356'];
     protected $maps         = [];
     protected $relationMaps = [
         'category'  => \Syscover\Cms\Models\Category::class
@@ -36,6 +36,6 @@ class ArticlesCategories extends Model
 
     public function scopeBuilder($query)
     {
-        return $query->join('013_352_category', '013_356_articles_categories.category_356', '=', '013_352_category.id_352');
+        return $query->join('013_352_category', '013_356_articles_categories.category_id_356', '=', '013_352_category.id_352');
     }
 }

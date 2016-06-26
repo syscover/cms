@@ -140,9 +140,9 @@
                         headers:    { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                         success:  function(data)
                         {
-                            if(data.article_family_350 != null)
+                            if(data.article_family_id_350 != null)
                             {
-                                $("[name=family]").select2('val', data.article_family_350);
+                                $("[name=family]").select2('val', data.article_family_id_350);
                             }
                             else
                             {
@@ -167,19 +167,19 @@
 
                         success:  function(data)
                         {
-                            if(data.editor_type_351 == 1)
+                            if(data.editor_id_351 == 1)
                             {
                                 $('.contentbuilder-container, .textarea-container').hide();
                                 $('.wysiwyg-container').fadeIn();
                                 contentArticle = 'wysiwyg';
                             }
-                            else if(data.editor_type_351 == 2)
+                            else if(data.editor_id_351 == 2)
                             {
                                 $('.wysiwyg-container, .textarea-container').hide();
                                 $('.contentbuilder-container').fadeIn();
                                 contentArticle = 'contentbuilder';
                             }
-                            else if(data.editor_type_351 == 3)
+                            else if(data.editor_id_351 == 3)
                             {
                                 $('.wysiwyg-container, .contentbuilder-container').hide();
                                 $('.textarea-container').fadeIn();
@@ -204,7 +204,7 @@
                             // get html doing a request to controller to render the views
                             @if($action == 'edit' || isset($id))
                                 var request =  {
-                                    customFieldGroup: data.custom_field_group_351,
+                                    customFieldGroup: data.custom_field_group_id_351,
                                     lang:   '{{ $lang->id_001 }}',
                                     object: '{{ $id }}',
                                     resource: 'cms-article-family',
@@ -212,12 +212,12 @@
                                 };
                             @else
                                 var request =  {
-                                    customFieldGroup: data.custom_field_group_351,
+                                    customFieldGroup: data.custom_field_group_id_351,
                                     lang: '{{ $lang->id_001 }}'
                                 };
                             @endif
 
-                            if(data.custom_field_group_351 != null){
+                            if(data.custom_field_group_id_351 != null){
                                 $.ajax({
                                     dataType:   'json',
                                     type:       'POST',
@@ -337,19 +337,19 @@
                 $("[name=family]").trigger('change')
             }
 
-            @if(isset($object->editor_type_351) && $object->editor_type_351 == 1)
+            @if(isset($object->editor_id_351) && $object->editor_id_351 == 1)
             // set HTML wysiwyg component
             $('.wysiwyg').froalaEditor('html.set', $('[name=article]').val())
             @endif
 
-            @if(isset($object->editor_type_351) && $object->editor_type_351 == 2)
+            @if(isset($object->editor_id_351) && $object->editor_id_351 == 2)
             // set HTML contentbuilder component
             $('.iframe-contentbuilder').load(function() {
                 $(this).get(0).contentWindow.getParentHtml('article')
             });
             @endif
 
-            @if(isset($object->editor_type_351) && $object->editor_type_351 == 3)
+            @if(isset($object->editor_id_351) && $object->editor_id_351 == 3)
             // set textarea component
             $('[name=textarea]').val($('[name=article]').val());
             @endif
@@ -411,7 +411,7 @@
                 'label' => trans_choice('pulsar::pulsar.section', 1),
                 'id' => 'section',
                 'name' => 'section',
-                'value' => old('section', isset($object->section_355)? $object->section_355 : null),
+                'value' => old('section', isset($object->section_id_355)? $object->section_id_355 : null),
                 'objects' => $sections,
                 'idSelect' => 'id_350',
                 'nameSelect' => 'name_350',
@@ -429,7 +429,7 @@
                 'label' => trans_choice('pulsar::pulsar.family', 1),
                 'id' => 'family',
                 'name' => 'family',
-                'value' => old('family', isset($object->family_355)? $object->family_355 : null),
+                'value' => old('family', isset($object->family_id_355)? $object->family_id_355 : null),
                 'objects' => $families,
                 'idSelect' => 'id_351',
                 'nameSelect' => 'name_351',
@@ -456,7 +456,7 @@
             @include('pulsar::includes.html.form_select_group', [
                 'label' => trans('cms::pulsar.status'),
                 'name' => 'status',
-                'value' => old('status', isset($object->status_355)? $object->status_355 : null),
+                'value' => old('status', isset($object->status_id_355)? $object->status_id_355 : null),
                 'objects' => $statuses,
                 'idSelect' => 'id',
                 'nameSelect' => 'name',

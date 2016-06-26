@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
  * Class Tag
  *
  * Model with properties
- * <br><b>[id, lang, name]</b>
+ * <br><b>[id, lang_id, name]</b>
  *
  * @package     Syscover\Cms\Models
  */
@@ -22,11 +22,11 @@ class Tag extends Model
     protected $primaryKey   = 'id_358';
     protected $suffix       = '358';
     public $timestamps      = false;
-    protected $fillable     = ['id_358', 'lang_358', 'name_358'];
+    protected $fillable     = ['id_358', 'lang_id_358', 'name_358'];
     protected $maps         = [];
     protected $relationMaps = [];
     private static $rules   = [
-        'name'  => 'required|between:1,100'
+        'name'  => 'required|between:1,255'
     ];
 
     public static function validate($data)
@@ -41,6 +41,6 @@ class Tag extends Model
 
     public function getLang()
     {
-        return $this->belongsTo('Syscover\Pulsar\Models\Lang', 'lang_358');
+        return $this->belongsTo('Syscover\Pulsar\Models\Lang', 'lang_id_358');
     }
 }

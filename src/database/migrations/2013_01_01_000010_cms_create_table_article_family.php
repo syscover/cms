@@ -17,11 +17,15 @@ class CmsCreateTableArticleFamily extends Migration {
             $table->engine = 'InnoDB';
             $table->increments('id_351')->unsigned();
             $table->string('name_351');
-            $table->tinyInteger('editor_type_351')->unsigned(); //wysiwyg = 1 or contentbuilder = 2
-            $table->integer('custom_field_group_351')->unsigned()->nullable();
+
+            // 1 - Wysiwyg
+            // 2 - Contentbuilder
+            // 3 - TextArea
+            $table->tinyInteger('editor_id_351')->unsigned(); //wysiwyg = 1 or contentbuilder = 2
+            $table->integer('custom_field_group_id_351')->unsigned()->nullable();
             $table->text('data_351')->nullable();
 
-            $table->foreign('custom_field_group_351', 'fk01_013_351_article_family')->references('id_025')->on('001_025_field_group')
+            $table->foreign('custom_field_group_id_351', 'fk01_013_351_article_family')->references('id_025')->on('001_025_field_group')
                 ->onDelete('restrict')->onUpdate('cascade');
         });
     }

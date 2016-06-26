@@ -14,10 +14,10 @@ class CmsCreateTableArticlesTags extends Migration {
 	{
         Schema::create('013_359_articles_tags', function(Blueprint $table){
             $table->engine = 'InnoDB';
-            $table->integer('article_359')->unsigned();
-            $table->integer('tag_359')->unsigned();
+            $table->integer('article_id_359')->unsigned();
+            $table->integer('tag_id_359')->unsigned();
 
-            $table->primary(['article_359', 'tag_359']);
+            $table->primary(['article_id_359', 'tag_id_359'], 'pk01_013_359_articles_tags');
         });
 	}
 

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
  * Class Category
  *
  * Model with properties
- * <br><b>[id, lang, name, slug, sorting, data_lang, data]</b>
+ * <br><b>[id, lang_id, name, slug, sorting, data_lang, data]</b>
  *
  * @package     Syscover\Cms\Models
  */
@@ -22,7 +22,7 @@ class Category extends Model
     protected $primaryKey   = 'id_352';
     protected $suffix       = '352';
     public $timestamps      = false;
-    protected $fillable     = ['id_352', 'lang_352', 'name_352', 'slug_352', 'sorting_352', 'data_lang_352', 'data_352'];
+    protected $fillable     = ['id_352', 'lang_id_352', 'name_352', 'slug_352', 'sorting_352', 'data_lang_352', 'data_352'];
     protected $maps         = [];
     protected $relationMaps = [
         'lang'  => \Syscover\Pulsar\Models\Lang::class
@@ -38,25 +38,25 @@ class Category extends Model
 
     public function scopeBuilder($query)
     {
-        return $query->join('001_001_lang', '013_352_category.lang_352', '=', '001_001_lang.id_001');
+        return $query->join('001_001_lang', '013_352_category.lang_id_352', '=', '001_001_lang.id_001');
     }
 
     public function getLang()
     {
-        return $this->belongsTo('Syscover\Pulsar\Models\Lang', 'lang_352');
+        return $this->belongsTo('Syscover\Pulsar\Models\Lang', 'lang_id_352');
     }
 
     public function addToGetIndexRecords($request, $parameters)
     {
         $query =  $this->builder();
 
-        if(isset($parameters['lang'])) $query->where('lang_352', $parameters['lang']);
+        if(isset($parameters['lang'])) $query->where('lang_id_352', $parameters['lang']);
 
         return $query;
     }
 
     public static function customCount($request, $parameters)
     {
-        return Category::where('lang_352', $parameters['lang'])->getQuery();
+        return Category::where('lang_id_352', $parameters['lang'])->getQuery();
     }
 }

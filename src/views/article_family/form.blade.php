@@ -84,7 +84,7 @@
     @include('pulsar::includes.html.form_select_group', [
         'label' => trans('pulsar::pulsar.editor'),
         'name' => 'editor',
-        'value' => old('editor', isset($object->editor_type_351)? $object->editor_type_351 : null),
+        'value' => old('editor', isset($object->editor_id_351)? $object->editor_id_351 : null),
         'objects' => $editors,
         'idSelect' => 'id',
         'nameSelect' => 'name',
@@ -93,7 +93,7 @@
     @include('pulsar::includes.html.form_select_group', [
         'label' => trans_choice('pulsar::pulsar.field_group', 1),
         'name' => 'customFieldGroup',
-        'value' => old('customFieldGroup', isset($object->custom_field_group_351)? $object->custom_field_group_351 : null),
+        'value' => old('customFieldGroup', isset($object->custom_field_group_id_351)? $object->custom_field_group_id_351 : null),
         'objects' => $customFieldGroups,
         'idSelect' => 'id_025',
         'nameSelect' => 'name_025',
