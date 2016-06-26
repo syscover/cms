@@ -15,6 +15,7 @@ class CmsCreateTableArticle extends Migration {
         Schema::create('013_355_article', function(Blueprint $table)
         {
             $table->engine = 'InnoDB';
+            
             $table->integer('id_355')->unsigned();
             $table->string('lang_id_355', 2);
             $table->integer('author_id_355')->unsigned();
@@ -30,9 +31,8 @@ class CmsCreateTableArticle extends Migration {
             $table->boolean('blank_355')->nullable();
             $table->integer('sorting_355')->unsigned()->nullable(); // article sort
             $table->longText('article_355');
-
-
             $table->text('data_lang_355')->nullable();
+            
             // extract property inside data_355
             // SEO properties inside data_355
             $table->text('data_355')->nullable();

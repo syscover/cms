@@ -14,6 +14,7 @@ class CmsCreateTableArticlesTags extends Migration {
 	{
         Schema::create('013_359_articles_tags', function(Blueprint $table){
             $table->engine = 'InnoDB';
+			
             $table->integer('article_id_359')->unsigned();
             $table->integer('tag_id_359')->unsigned();
 

@@ -15,15 +15,15 @@ class CmsCreateTableSection extends Migration {
         Schema::create('013_350_section', function(Blueprint $table)
         {
             $table->engine = 'InnoDB';
+            
             $table->string('id_350', 30);
             $table->string('name_350');
             $table->integer('article_family_id_350')->unsigned()->nullable();
 
             $table->foreign('article_family_id_350', 'fk01_013_350_section')->references('id_351')->on('013_351_article_family')
                 ->onDelete('restrict')->onUpdate('cascade');
+            
             $table->primary('id_350', 'pk01_013_350_section');
-            
-            
         });
     }
 

@@ -93,7 +93,7 @@
     @include('pulsar::includes.html.form_select_group', [
         'label' => trans_choice('pulsar::pulsar.field_group', 1),
         'name' => 'customFieldGroup',
-        'value' => old('customFieldGroup', isset($object->custom_field_group_id_351)? $object->custom_field_group_id_351 : null),
+        'value' => old('customFieldGroup', isset($object->field_group_id_351)? $object->field_group_id_351 : null),
         'objects' => $customFieldGroups,
         'idSelect' => 'id_025',
         'nameSelect' => 'name_025',

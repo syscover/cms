@@ -15,7 +15,7 @@ class CmsUpdateV6 extends Migration
 	public function up()
 	{
 		// change custom_field_group_351
-		DBLibrary::renameColumnWithForeignKey('013_351_article_family', 'custom_field_group_351', 'custom_field_group_id_351', 'INT', 10, true, true, 'fk01_013_351_article_family', '001_025_field_group', 'id_025');
+		DBLibrary::renameColumnWithForeignKey('013_351_article_family', 'custom_field_group_351', 'field_group_id_351', 'INT', 10, true, true, 'fk01_013_351_article_family', '001_025_field_group', 'id_025');
 
 		// change article_family_350
 		DBLibrary::renameColumnWithForeignKey('013_350_section', 'article_family_350', 'article_family_id_350', 'INT', 10, true, true, 'fk01_013_350_section', '013_351_article_family', 'id_351');

@@ -204,7 +204,7 @@
                             // get html doing a request to controller to render the views
                             @if($action == 'edit' || isset($id))
                                 var request =  {
-                                    customFieldGroup: data.custom_field_group_id_351,
+                                    customFieldGroup: data.field_group_id_351,
                                     lang:   '{{ $lang->id_001 }}',
                                     object: '{{ $id }}',
                                     resource: 'cms-article-family',
@@ -212,12 +212,12 @@
                                 };
                             @else
                                 var request =  {
-                                    customFieldGroup: data.custom_field_group_id_351,
+                                    customFieldGroup: data.field_group_id_351,
                                     lang: '{{ $lang->id_001 }}'
                                 };
                             @endif
 
-                            if(data.custom_field_group_id_351 != null){
+                            if(data.field_group_id_351 != null){
                                 $.ajax({
                                     dataType:   'json',
                                     type:       'POST',

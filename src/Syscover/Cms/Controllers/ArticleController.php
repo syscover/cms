@@ -159,8 +159,8 @@ class ArticleController extends Controller
         AttachmentLibrary::storeAttachments($attachments, 'cms', 'cms-article', $id, $this->request->input('lang'));
 
         // set custom fields
-        if($article->custom_field_group_id_351 !== null)
-            CustomFieldResultLibrary::storeCustomFieldResults($this->request, $article->custom_field_group_id_351, 'cms-article-family', $article->id_355, $this->request->input('lang'));
+        if($article->field_group_id_351 !== null)
+            CustomFieldResultLibrary::storeCustomFieldResults($this->request, $article->field_group_id_351, 'cms-article-family', $article->id_355, $this->request->input('lang'));
     }
 
     public function editCustomRecord($parameters)
@@ -267,10 +267,10 @@ class ArticleController extends Controller
         }
 
         // set custom fields
-        if($article->custom_field_group_id_351 !== null)
+        if($article->field_group_id_351 !== null)
         {
             CustomFieldResultLibrary::deleteCustomFieldResults('cms-article-family', $article->id_355, $this->request->input('lang'));
-            CustomFieldResultLibrary::storeCustomFieldResults($this->request, $article->custom_field_group_id_351, 'cms-article-family', $article->id_355, $this->request->input('lang'));
+            CustomFieldResultLibrary::storeCustomFieldResults($this->request, $article->field_group_id_351, 'cms-article-family', $article->id_355, $this->request->input('lang'));
         }
     }
 
