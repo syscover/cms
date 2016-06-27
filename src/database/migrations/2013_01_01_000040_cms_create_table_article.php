@@ -37,14 +37,26 @@ class CmsCreateTableArticle extends Migration {
             // SEO properties inside data_355
             $table->text('data_355')->nullable();
 
-            $table->foreign('lang_id_355', 'fk01_013_355_article')->references('id_001')->on('001_001_lang')
-                ->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('author_id_355', 'fk02_013_355_article')->references('id_010')->on('001_010_user')
-                ->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('section_id_355', 'fk03_013_355_article')->references('id_350')->on('013_350_section')
-                ->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('family_id_355', 'fk04_013_355_article')->references('id_351')->on('013_351_article_family')
-                ->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('lang_id_355', 'fk01_013_355_article')
+                ->references('id_001')
+                ->on('001_001_lang')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+            $table->foreign('author_id_355', 'fk02_013_355_article')
+                ->references('id_010')
+                ->on('001_010_user')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+            $table->foreign('section_id_355', 'fk03_013_355_article')
+                ->references('id_350')
+                ->on('013_350_section')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+            $table->foreign('family_id_355', 'fk04_013_355_article')
+                ->references('id_351')
+                ->on('013_351_article_family')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
 
             $table->primary(['id_355', 'lang_id_355'], 'pk01_013_355_article');
             $table->unique(['lang_id_355','slug_355'], 'uk01_013_355_article');
@@ -60,5 +72,4 @@ class CmsCreateTableArticle extends Migration {
     {
         Schema::drop('013_355_article');
     }
-
 }

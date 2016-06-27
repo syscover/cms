@@ -26,8 +26,11 @@ class CmsCreateTableArticleFamily extends Migration {
             $table->integer('field_group_id_351')->unsigned()->nullable();
             $table->text('data_351')->nullable();
 
-            $table->foreign('field_group_id_351', 'fk01_013_351_article_family')->references('id_025')->on('001_025_field_group')
-                ->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('field_group_id_351', 'fk01_013_351_article_family')
+                ->references('id_025')
+                ->on('001_025_field_group')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
         });
     }
 

@@ -20,8 +20,11 @@ class CmsCreateTableTag extends Migration {
             $table->string('lang_id_358', 2);
             $table->string('name_358')->nullable();
 
-            $table->foreign('lang_id_358', 'fk01_013_358_tag')->references('id_001')->on('001_001_lang')
-                ->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('lang_id_358', 'fk01_013_358_tag')
+                ->references('id_001')
+                ->on('001_001_lang')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
         });
     }
 

@@ -24,8 +24,11 @@ class CmsCreateTableCategory extends Migration {
             $table->text('data_lang_352')->nullable();
             $table->text('data_352')->nullable();
             
-            $table->foreign('lang_id_352', 'fk01_013_352_category')->references('id_001')->on('001_001_lang')
-                ->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('lang_id_352', 'fk01_013_352_category')
+                ->references('id_001')
+                ->on('001_001_lang')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
             
             $table->primary(['id_352', 'lang_id_352'], 'pk01_013_352_category');
         });
