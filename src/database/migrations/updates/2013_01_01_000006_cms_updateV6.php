@@ -4,7 +4,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Syscover\Pulsar\Libraries\DBLibrary;
 
-
 class CmsUpdateV6 extends Migration
 {
 	/**
