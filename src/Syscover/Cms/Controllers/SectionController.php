@@ -14,7 +14,7 @@ class SectionController extends Controller
     protected $routeSuffix  = 'cmsSection';
     protected $folder       = 'section';
     protected $package      = 'cms';
-    protected $aColumns     = ['id_350', 'name_350', 'name_351'];
+    protected $indexColumns     = ['id_350', 'name_350', 'name_351'];
     protected $nameM        = 'name_350';
     protected $model        = Section::class;
     protected $icon         = 'sys-icon-magnet';

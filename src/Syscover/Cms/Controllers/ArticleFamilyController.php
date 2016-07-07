@@ -14,7 +14,7 @@ class ArticleFamilyController extends Controller
     protected $routeSuffix  = 'cmsArticleFamily';
     protected $folder       = 'article_family';
     protected $package      = 'cms';
-    protected $aColumns     = ['id_351', 'name_351', 'name_025'];
+    protected $indexColumns     = ['id_351', 'name_351', 'name_025'];
     protected $nameM        = 'name_351';
     protected $model        = ArticleFamily::class;
     protected $icon         = 'fa fa-align-justify';

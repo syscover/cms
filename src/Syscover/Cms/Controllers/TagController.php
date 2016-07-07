@@ -13,7 +13,7 @@ class TagController extends Controller
     protected $routeSuffix  = 'cmsTag';
     protected $folder       = 'tag';
     protected $package      = 'cms';
-    protected $aColumns     = ['id_038', 'name_002', 'name_038'];
+    protected $indexColumns     = ['id_038', 'name_002', 'name_038'];
     protected $nameM        = 'name_038';
     protected $model        = Tag::class;
     protected $icon         = 'cut-icon-grid';
