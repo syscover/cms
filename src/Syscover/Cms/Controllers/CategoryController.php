@@ -13,7 +13,7 @@ class CategoryController extends Controller
     protected $routeSuffix  = 'cmsCategory';
     protected $folder       = 'category';
     protected $package      = 'cms';
-    protected $indexColumns     = ['id_352', 'name_001', 'name_352'];
+    protected $indexColumns = ['id_352', 'name_001', 'name_352'];
     protected $nameM        = 'name_352';
     protected $model        = Category::class;
     protected $icon         = 'fa fa-list-ol';

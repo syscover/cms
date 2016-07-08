@@ -20,7 +20,7 @@ class ArticleController extends Controller
     protected $routeSuffix  = 'cmsArticle';
     protected $folder       = 'article';
     protected $package      = 'cms';
-    protected $indexColumns     = ['id_355', 'publish_355', 'publish_text_355', 'name_001', 'name_350', 'title_355', 'sorting_355'];
+    protected $indexColumns = ['id_355', 'publish_355', 'publish_text_355', 'name_001', 'name_350', 'title_355', 'sorting_355'];
     protected $nameM        = 'name_355';
     protected $model        = Article::class;
     protected $icon         = 'fa fa-file-text-o';
