@@ -1,9 +1,7 @@
 {
     "name": "syscover/cms",
-    "version": "5.2",
     "description": "CMS package",
     "keywords": ["syscover","pulsar","laravel","cms"],
-    "license": "MIT",
     "authors": [
         {
             "name": "SYSCOVER SL",
