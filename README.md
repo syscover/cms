@@ -1,15 +1,16 @@
-# CMS to Laravel 5
+# CMS to Laravel 5.2
+
+[![Total Downloads](https://poser.pugx.org/syscover/cms/downloads)](https://packagist.org/packages/syscover/cms)
 
 ## Installation
 
 **1 - After install Laravel framework, insert on file composer.json, inside require object this value**
 ```
-"syscover/cms": "dev-master"
-
+"syscover/cms": "~1.0"
 ```
 and execute on console:
 ```
-composer update
+composer install
 ```
 
 **2 - Register service provider, on file config/app.php add to providers array**
