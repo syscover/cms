@@ -51,9 +51,10 @@
                 showAutocompleteOnFocus: true
             })@if(isset($selectTags)).tokenfield('setTokens', {!! json_encode($selectTags) !!});@else; @endif
 
+            // rutine to avoid introduce a repeat token
             $('[name=tags]').on('tokenfield:createtoken', function (event) {
-                var existingTokens = $(this).tokenfield('getTokens');
-                var autocomplete = $(this).tokenfield('getAutocomplete');
+                var existingTokens  = $(this).tokenfield('getTokens');
+                var autocomplete    = $(this).tokenfield('getAutocomplete');
 
                 // search if there is a object with the same label
                 if(event.attrs.value === 'null')
@@ -64,20 +65,20 @@
                             event.preventDefault();
                             $('[name=tags]').tokenfield('createToken', object);
                         }
-                    })
+                    });
                 }
 
                 $.each(existingTokens, function(index, token)
                 {
                     if (event.attrs.value === 'null' && token.label === event.attrs.label)
                     {
-                        event.preventDefault()
+                        event.preventDefault();
                     }
                     else if(event.attrs.value !== 'null' && token.value === event.attrs.value)
                     {
-                        event.preventDefault()
+                        event.preventDefault();
                     }
-                })
+                });
             });
 
             $('.wysiwyg').froalaEditor({
@@ -120,12 +121,12 @@
                     }
                 })
                 .done (function (data) {
-                    console.log ('image was deleted')
+                    console.log ('image was deleted');
                 })
                 .fail (function () {
-                    console.log ('image delete problem')
-                })
-            })
+                    console.log ('image delete problem');
+                });
+            });
 
             // on change section show families
             $("[name=section]").on('change', function(){
@@ -298,7 +299,7 @@
             // on submit, get content from article, wysiwyg content builder or textarea
             $("#recordForm").on('submit', function(event) {
 
-                $("[name=jsonTags]").val(JSON.stringify($('[name=tags]').tokenfield('getTokens')))
+                $("[name=jsonTags]").val(JSON.stringify($('[name=tags]').tokenfield('getTokens')));
 
                 if(contentArticle == 'wysiwyg')
                 {
