@@ -1,4 +1,4 @@
-# CMS to Laravel 5.2
+# CMS to Laravel 5.3
 
 [![Total Downloads](https://poser.pugx.org/syscover/cms/downloads)](https://packagist.org/packages/syscover/cms)
 
@@ -6,7 +6,7 @@
 
 **1 - Once installed Laravel framework, insert in composer.json, inside require object this value**
 ```
-"syscover/cms": "~1.0"
+"syscover/cms": "~2.0"
 ```
 and execute on console:
 ```
