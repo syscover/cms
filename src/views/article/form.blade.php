@@ -376,7 +376,7 @@
             })
         }
     </script>
-    <!-- /.cms::articles.create -->
+    <!-- /cms::articles.create -->
 @stop
 
 @section('layoutTabHeader')
@@ -609,7 +609,7 @@
         'name' => 'attachments',
         'value' => $attachmentsInput
     ])
-    <!-- /.cms::articles.create -->
+    <!-- /cms::articles.create -->
 @stop
 
 @section('box_tab2')

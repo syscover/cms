@@ -37,7 +37,7 @@
             })
         }
     </script>
-    <!-- /.cms::category.create -->
+    <!-- /cms::category.create -->
 @stop
 
 @section('rows')
@@ -82,5 +82,5 @@
         'min' => '0',
         'fieldSize' => 2
     ])
-    <!-- /.cms::category.create -->
+    <!-- /cms::category.create -->
 @stop
