@@ -327,9 +327,9 @@
 
             // set tab active
             @if($tab == 0)
-            $('.tabbable li:eq(0) a').tab('show')
+                $('.tabbable li:eq(0) a').tab('show')
             @elseif($tab == 1)
-            $('.tabbable li:eq(1) a').tab('show')
+                $('.tabbable li:eq(1) a').tab('show')
             @endif
 
             // if we have family value, throw event to show or hide elements
@@ -339,20 +339,20 @@
             }
 
             @if(isset($object->editor_id_351) && $object->editor_id_351 == 1)
-            // set HTML wysiwyg component
-            $('.wysiwyg').froalaEditor('html.set', $('[name=article]').val())
+                // set HTML wysiwyg component
+                $('.wysiwyg').froalaEditor('html.set', $('[name=article]').val())
             @endif
 
             @if(isset($object->editor_id_351) && $object->editor_id_351 == 2)
-            // set HTML contentbuilder component
-            $('.iframe-contentbuilder').load(function() {
-                $(this).get(0).contentWindow.getParentHtml('article')
-            });
+                // set HTML contentbuilder component
+                $('.iframe-contentbuilder').load(function() {
+                    $(this).get(0).contentWindow.getParentHtml('article')
+                });
             @endif
 
             @if(isset($object->editor_id_351) && $object->editor_id_351 == 3)
-            // set textarea component
-            $('[name=textarea]').val($('[name=article]').val());
+                // set textarea component
+                $('[name=textarea]').val($('[name=article]').val());
             @endif
         })
 
