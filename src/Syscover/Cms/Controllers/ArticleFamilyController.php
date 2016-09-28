@@ -33,7 +33,7 @@ class ArticleFamilyController extends Controller
     {
         ArticleFamily::create([
             'name_351'                  => $this->request->input('name'),
-            'editor_id_351'             => $this->request->input('editor', false),
+            'editor_id_351'             => $this->request->has('editor')? $this->request->input('editor') : null,
             'field_group_id_351'        => $this->request->has('customFieldGroup')? $this->request->input('customFieldGroup') : null,
             'data_351'                  => json_encode([
                 'date'                  => $this->request->has('date'),
@@ -60,7 +60,7 @@ class ArticleFamilyController extends Controller
     {
         ArticleFamily::where('id_351', $parameters['id'])->update([
             'name_351'                  => $this->request->input('name'),
-            'editor_id_351'             => $this->request->input('editor'),
+            'editor_id_351'             => $this->request->has('editor')? $this->request->input('editor') : null,
             'field_group_id_351'        => $this->request->has('customFieldGroup')? $this->request->input('customFieldGroup') : null,
             'data_351'                  => json_encode([
                 'date'                  => $this->request->has('date'),
