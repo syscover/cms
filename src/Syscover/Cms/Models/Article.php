@@ -1,4 +1,4 @@
-<?php namespace Syscover\Cms\Models;
+<?php namespace Syscover\Cms\Old\Models;
 
 use Syscover\Pulsar\Core\Model;
 use Sofa\Eloquence\Eloquence;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
  * Model with properties
  * <br><b>[id, lang_id, section_id, family_id, author_id, date, publish, publish_text, status_id, title, slug, link, blank, sorting, article, data_lan, data]</b>
  *
- * @package     Syscover\Cms\Models
+ * @package     Syscover\Cms\Old\Models
  */
 
 class Article extends Model
@@ -28,8 +28,8 @@ class Article extends Model
     protected $relationMaps = [
         'lang'      => \Syscover\Pulsar\Models\Lang::class,
         'author'    => \Syscover\Pulsar\Models\User::class,
-        'section'   => \Syscover\Cms\Models\Section::class,
-        'family'    => \Syscover\Cms\Models\ArticleFamily::class,
+        'section'   => \Syscover\Cms\Old\Models\Section::class,
+        'family'    => \Syscover\Cms\Old\Models\ArticleFamily::class,
     ];
     private static $rules   = [
         'title'     => 'between:2,510',
@@ -64,7 +64,7 @@ class Article extends Model
 
     public function getFamily()
     {
-        return $this->belongsTo('Syscover\Cms\Models\ArticleFamily', 'family_id_355');
+        return $this->belongsTo('Syscover\Cms\Old\Models\ArticleFamily', 'family_id_355');
     }
 
     public function getAttachments()
@@ -78,12 +78,12 @@ class Article extends Model
 
     public function getCategories()
     {
-        return $this->belongsToMany('Syscover\Cms\Models\Category', '013_356_articles_categories', 'article_id_356', 'category_id_356');
+        return $this->belongsToMany('Syscover\Cms\Old\Models\Category', '013_356_articles_categories', 'article_id_356', 'category_id_356');
     }
 
     public function getTags()
     {
-        return $this->belongsToMany('Syscover\Cms\Models\Tag', '013_359_articles_tags', 'article_id_359', 'tag_id_359');
+        return $this->belongsToMany('Syscover\Cms\Old\Models\Tag', '013_359_articles_tags', 'article_id_359', 'tag_id_359');
     }
 
     public function addToGetIndexRecords($request, $parameters)

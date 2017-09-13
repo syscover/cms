@@ -4,11 +4,11 @@ use Syscover\Pulsar\Core\Controller;
 use Syscover\Pulsar\Libraries\CustomFieldResultLibrary;
 use Syscover\Pulsar\Models\AttachmentFamily;
 use Syscover\Pulsar\Libraries\AttachmentLibrary;
-use Syscover\Cms\Models\Tag;
-use Syscover\Cms\Models\Category;
-use Syscover\Cms\Models\Section;
-use Syscover\Cms\Models\ArticleFamily;
-use Syscover\Cms\Models\Article;
+use Syscover\Cms\Old\Models\Tag;
+use Syscover\Cms\Old\Models\Category;
+use Syscover\Cms\Old\Models\Section;
+use Syscover\Cms\Old\Models\ArticleFamily;
+use Syscover\Cms\Old\Models\Article;
 
 /**
  * Class ArticleController

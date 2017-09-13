@@ -2,7 +2,7 @@
 
 use Syscover\Pulsar\Core\Controller;
 use Syscover\Pulsar\Models\CustomFieldGroup;
-use Syscover\Cms\Models\ArticleFamily;
+use Syscover\Cms\Old\Models\ArticleFamily;
 
 /**
  * Class ArticleFamilyController

@@ -1,4 +1,4 @@
-<?php namespace Syscover\Cms\Models;
+<?php namespace Syscover\Cms\Old\Models;
 
 use Syscover\Pulsar\Core\Model;
 use Sofa\Eloquence\Eloquence;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
  * Model with properties
  * <br><b>[id, lang_id, name]</b>
  *
- * @package     Syscover\Cms\Models
+ * @package     Syscover\Cms\Old\Models
  */
 
 class Tag extends Model

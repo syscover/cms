@@ -1,8 +1,8 @@
 <?php namespace Syscover\Cms\Controllers;
 
 use Syscover\Pulsar\Core\Controller;
-use Syscover\Cms\Models\ArticleFamily;
-use Syscover\Cms\Models\Section;
+use Syscover\Cms\Old\Models\ArticleFamily;
+use Syscover\Cms\Old\Models\Section;
 
 /**
  * Class SectionController

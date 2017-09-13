@@ -1,4 +1,4 @@
-<?php namespace Syscover\Cms\Models;
+<?php namespace Syscover\Cms\Old\Models;
 
 use Syscover\Pulsar\Core\Model;
 use Sofa\Eloquence\Eloquence;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
  * Model with properties
  * <br><b>[article, category]</b>
  *
- * @package     Syscover\Cms\Models
+ * @package     Syscover\Cms\Old\Models
  */
 
 class ArticlesCategories extends Model
@@ -25,7 +25,7 @@ class ArticlesCategories extends Model
     protected $fillable     = ['article_id_356', 'category_id_356'];
     protected $maps         = [];
     protected $relationMaps = [
-        'category'  => \Syscover\Cms\Models\Category::class
+        'category'  => \Syscover\Cms\Old\Models\Category::class
     ];
     private static $rules   = [];
 

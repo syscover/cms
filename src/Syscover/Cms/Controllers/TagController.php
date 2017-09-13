@@ -1,7 +1,7 @@
 <?php namespace Syscover\Cms\Controllers;
 
 use Syscover\Pulsar\Core\Controller;
-use Syscover\Cms\Models\Tag;
+use Syscover\Cms\Old\Models\Tag;
 
 /**
  * Class TagController

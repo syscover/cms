@@ -1,7 +1,7 @@
 <?php namespace Syscover\Cms\Controllers;
 
 use Syscover\Pulsar\Core\Controller;
-use Syscover\Cms\Models\Category;
+use Syscover\Cms\Old\Models\Category;
 
 /**
  * Class CategoryController
