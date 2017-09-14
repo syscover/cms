@@ -41,7 +41,7 @@ class Article extends Model
     {
         if(isset($specialRules['slugRule']) && $specialRules['slugRule'])
         {
-            //static::$rules['slug'] = 'mysql2.unique:013_355_article,slug_355,NULL,013_355_article,lang_id_355,' . $data['lang'];
+            //static::$rules['slug'] = 'unique:mysql2.013_355_article,slug_355,NULL,013_355_article,lang_id_355,' . $data['lang'];
             static::$rules['slug'] =
                 Rule::unique('mysql2.013_355_article', 'slug_355')
                     ->ignore($data['id'], 'id_355');
