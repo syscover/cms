@@ -27,7 +27,7 @@ class Section extends Model
     protected $maps         = [];
     protected $relationMaps = [];
     private static $rules   = [
-        'id'    => 'required|between:2,30|unique:013_350_section,id_350',
+        'id'    => 'required|between:2,30|mysql2.unique:013_350_section,id_350',
         'name'  => 'required|between:2,255'
     ];
 
