@@ -1,5 +1,6 @@
 <?php namespace Syscover\Cms\Old\Models;
 
+use Illuminate\Validation\Rule;
 use Syscover\Pulsar\Core\Model;
 use Sofa\Eloquence\Eloquence;
 use Sofa\Eloquence\Mappable;
@@ -32,14 +33,19 @@ class Article extends Model
         'family'    => \Syscover\Cms\Old\Models\ArticleFamily::class,
     ];
     private static $rules   = [
-        'title'     => 'between:2,510',
         'section'   => 'required',
         'status'    => 'required'
     ];
 
     public static function validate($data, $specialRules = [])
     {
-        if(isset($specialRules['slugRule']) && $specialRules['slugRule']) static::$rules['slug'] = 'unique:013_355_article,slug_355,NULL,013_355_article,lang_id_355,' . $data['lang'];
+        if(isset($specialRules['slugRule']) && $specialRules['slugRule'])
+        {
+            //static::$rules['slug'] = 'unique:013_355_article,slug_355,NULL,013_355_article,lang_id_355,' . $data['lang'];
+            static::$rules['slug'] =
+                Rule::unique('mysql2.013_355_article', 'slug_355')
+                    ->ignore($data['id'], 'id_355');
+        }
 
         return Validator::make($data, static::$rules);
 	}
