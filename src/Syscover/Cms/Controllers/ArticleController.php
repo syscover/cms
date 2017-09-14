@@ -204,12 +204,15 @@ class ArticleController extends Controller
 
     public function checkSpecialRulesToUpdate($parameters)
     {
-        $nArticle = Article::where('lang_id_355', $this->request->input('lang'))
-            ->where('slug_355', $this->request->input('slug'))
-            ->whereNotIn('id_355', [$parameters['id']])
-            ->count();
+        if($this->request->input('slug') !== null)
+        {
+            $nArticle = Article::where('lang_id_355', $this->request->input('lang'))
+                ->where('slug_355', $this->request->input('slug'))
+                ->whereNotIn('id_355', [$parameters['id']])
+                ->count();
 
-        if ($nArticle > 0) $parameters['specialRules']['slugRule'] = true;
+            if ($nArticle > 0) $parameters['specialRules']['slugRule'] = true;
+        }
 
         return $parameters;
     }
