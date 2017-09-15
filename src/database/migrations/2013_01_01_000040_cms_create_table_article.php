@@ -30,7 +30,7 @@ class CmsCreateTableArticle extends Migration {
             $table->string('link_355')->nullable();
             $table->boolean('blank_355')->nullable();
             $table->integer('sorting_355')->unsigned()->nullable(); // article sort
-            $table->longText('article_355');
+            $table->longText('article_355')->nullable();
             $table->text('data_lang_355')->nullable();
             
             // extract property inside data_355
