@@ -28,7 +28,7 @@ class ArticleController extends Controller
 
     public function customIndex($parameters)
     {
-        $parameters['urlParameters']['lang']    = base_lang()->id_001;
+        $parameters['urlParameters']['lang']    = base_lang2()->id_001;
         // init record on tap 1
         $parameters['urlParameters']['tab']     = 1;
 
@@ -67,7 +67,7 @@ class ArticleController extends Controller
         if(isset($parameters['id']))
         {
             // get attachments from base lang
-            $attachments = AttachmentLibrary::getRecords($this->package, 'cms-article', $parameters['id'], base_lang()->id_001, true);
+            $attachments = AttachmentLibrary::getRecords($this->package, 'cms-article', $parameters['id'], base_lang2()->id_001, true);
 
             // merge parameters and attachments array
             $parameters  = array_merge($parameters, $attachments);
