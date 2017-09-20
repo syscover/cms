@@ -11,11 +11,11 @@ use Syscover\Cms\Old\Models\ArticleFamily;
 use Syscover\Cms\Old\Models\Article;
 
 /**
- * Class ArticleController
+ * Class Article2Controller
  * @package Syscover\Cms\Controllers
  */
 
-class ArticleController extends Controller
+class Article2Controller extends Controller
 {
     protected $routeSuffix  = 'cmsArticle';
     protected $folder       = 'article';

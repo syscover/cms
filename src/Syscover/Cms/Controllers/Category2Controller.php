@@ -4,11 +4,11 @@ use Syscover\Pulsar\Core\Controller;
 use Syscover\Cms\Old\Models\Category;
 
 /**
- * Class CategoryController
+ * Class Category2Controller
  * @package Syscover\Cms\Controllers
  */
 
-class CategoryController extends Controller
+class Category2Controller extends Controller
 {
     protected $routeSuffix  = 'cmsCategory';
     protected $folder       = 'category';

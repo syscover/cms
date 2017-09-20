@@ -5,11 +5,11 @@ use Syscover\Cms\Old\Models\ArticleFamily;
 use Syscover\Cms\Old\Models\Section;
 
 /**
- * Class SectionController
+ * Class Section2Controller
  * @package Syscover\Cms\Controllers
  */
 
-class SectionController extends Controller
+class Section2Controller extends Controller
 {
     protected $routeSuffix  = 'cmsSection';
     protected $folder       = 'section';
