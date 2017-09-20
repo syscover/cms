@@ -2,7 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class CmsServiceProvider extends ServiceProvider
+class Cms2ServiceProvider extends ServiceProvider
 {
 	/**
 	 * Bootstrap the application services.
