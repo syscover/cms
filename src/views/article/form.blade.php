@@ -448,12 +448,12 @@
             @include('pulsar::includes.html.form_text_group', [
                 'label' => trans('cms::pulsar.author'),
                 'name' => 'authorName',
-                'value' =>  auth('pulsar')->user()->name_010 . ' ' . auth('pulsar')->user()->surname_010,
+                'value' =>  auth()->guard('pulsar')->user()->name_010 . ' ' . auth()->guard('pulsar')->user()->surname_010,
                 'readOnly' => true,
                 'labelSize' => 4,
                 'fieldSize' => 8
             ])
-            <input type="hidden" name="author" value="{{ auth('pulsar')->user()->id_010 }}">
+            <input type="hidden" name="author" value="{{ auth()->guard('pulsar')->user()->id_010 }}">
             @include('pulsar::includes.html.form_select_group', [
                 'label' => trans('cms::pulsar.status'),
                 'name' => 'status',
